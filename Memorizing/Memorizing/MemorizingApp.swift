@@ -7,12 +7,14 @@
 
 import FirebaseCore
 import SwiftUI
-  
+
 @main
 struct MemorizingApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            VStack {
+                
+            }
         }
     }
 }
