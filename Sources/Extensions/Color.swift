@@ -1,0 +1,25 @@
+import SwiftUI
+
+public extension Color {
+    static let economy = Color("EconomyColor", bundle: .module)
+    static let english = Color("EnglishColor", bundle: .module)
+    static let etc = Color("EtcColor", bundle: .module)
+    static let gray1 = Color("Gray1", bundle: .module)
+    static let gray2 = Color("Gray2", bundle: .module)
+    static let gray3 = Color("Gray3", bundle: .module)
+    static let gray4 = Color("Gray4", bundle: .module)
+    static let gray5 = Color("Gray5", bundle: .module)
+    static let gray6 = Color("Gray6", bundle: .module)
+    static let gray7 = Color("Gray7", bundle: .module)
+    static let gray8 = Color("Gray8", bundle: .module)
+    static let history = Color("HistoryColor", bundle: .module)
+    static let it = Color("ItColor", bundle: .module)
+    static let kakaoBackground = Color("KakaoYellow", bundle: .module)
+    static let knowledge = Color("KnowledgeColor", bundle: .module)
+    static let loginBackground = Color("LoginViewBackgroundColor", bundle: .module)
+    static let mainBlack = Color("MainBlack", bundle: .module)
+    static let mainBlue = Color("MainBlue", bundle: .module)
+    static let mainDarkBlue = Color("MainDarkBlue", bundle: .module)
+    static let mainRed = Color("MainRed", bundle: .module)
+    static let mainWhite = Color("MainWhite", bundle: .module)
+}
