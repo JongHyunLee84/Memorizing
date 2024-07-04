@@ -1,13 +1,78 @@
+import CommonUI
+import ComposableArchitecture
 import SwiftUI
 
-struct LoginView: View {
-    var body: some View {
+@ViewAction(for: LoginFeature.self)
+public struct LoginView: View {
+    
+    public let store: StoreOf<LoginFeature>
+    
+    public init(store: StoreOf<LoginFeature>) {
+        self.store = store
+    }
+    
+    public var body: some View {
         VStack {
+            Image.loginTitle
+                .padding(.top, 100)
             
+            Spacer()
+            
+            VStack(spacing: 10) {
+                OauthButton(
+                    image: .appleIcon,
+                    title: "Apple로 로그인",
+                    textColor: .white,
+                    backgroundColor: .mainBlack
+                ) {
+                    send(.appleLoginButtonTapped)
+                }
+                OauthButton(
+                    image: .kakaoIcon,
+                    title: "Kakao로 로그인",
+                    textColor: .mainBlack,
+                    backgroundColor: .kakaoBackground
+                ) {
+                    send(.kakaoLoginButtonTapped)
+                }
+                OauthButton(
+                    image: .googleIcon,
+                    title: "Google로 로그인",
+                    textColor: .mainBlack,
+                    backgroundColor: .mainWhite
+                ) {
+                    send(.googleLoginButtonTapped)
+                }
+                .border(.gray4, radius: 20)
+            }
+            .padding(.horizontal, 50)
+            
+            Spacer()
+        }
+        .allowsHitTesting(!store.loginProcessInFlight)
+        .overlay {
+            if store.loginProcessInFlight {
+                ProgressView()
+            }
         }
     }
 }
 
 #Preview {
-    LoginView()
+    LoginView(store: 
+            .init(
+                initialState: .init(),
+                reducer: {
+                    LoginFeature()
+                        ._printChanges()
+                },
+                withDependencies: { dependency in
+                    dependency.authClient = .testValue
+                    dependency.authClient.appleSignIn = {
+                        try await Task.sleep(nanoseconds: 2_000_000_000)
+                        return .mock
+                    }
+                }
+            )
+    )
 }

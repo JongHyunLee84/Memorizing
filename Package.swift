@@ -8,13 +8,13 @@ let package = Package(
     platforms: [.iOS(.v15)],
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
-        .library(name: "Extensions", targets: ["Extensions"]),
-        .library(name: "LoginFeature", targets: ["LoginFeature"]),
-        .library(name: "CommonUI", targets: ["CommonUI"]),
         .library(name: "AuthClient", targets: ["AuthClient"]),
         .library(name: "AuthClientLive", targets: ["AuthClientLive"]),
+        .library(name: "CommonUI", targets: ["CommonUI"]),
+        .library(name: "Extensions", targets: ["Extensions"]),
+        .library(name: "LoginFeature", targets: ["LoginFeature"]),
         .library(name: "Models", targets: ["Models"]),
-
+        .library(name: "Shared", targets: ["Shared"]),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -28,22 +28,6 @@ let package = Package(
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
-        .target(
-            name: "Extensions"
-        ),
-        .target(
-            name: "LoginFeature",
-            dependencies: [
-                "Extensions",
-                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
-            ]
-        ),
-        .target(
-            name: "CommonUI",
-            dependencies: [
-                "Extensions",
-            ]
-        ),
         .target(
             name: "AuthClient",
             dependencies: [
@@ -65,6 +49,24 @@ let package = Package(
             ]
         ),
         .target(
+            name: "CommonUI",
+            dependencies: [
+                "Extensions",
+            ]
+        ),
+        .target(
+            name: "Extensions"
+        ),
+        .target(
+            name: "LoginFeature",
+            dependencies: [
+                "AuthClient",
+                "CommonUI",
+                "Shared",
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+            ]
+        ),
+        .target(
             name: "Models",
             dependencies: [
                 .product(name: "Dependencies", package: "swift-dependencies"),
@@ -72,6 +74,13 @@ let package = Package(
         ),
         .testTarget(
             name: "MemorizingTests"
+        ),
+        .target(
+            name: "Shared",
+            dependencies: [
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+                "Models",
+            ]
         ),
     ]
 )

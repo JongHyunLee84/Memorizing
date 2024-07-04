@@ -13,6 +13,7 @@ public struct AuthClient {
     public var appleSignIn: @Sendable () async throws -> CurrentUser
     public var appleDeleteUser: @Sendable () async throws -> Void
     public var getUserInfo: @Sendable () async throws -> CurrentUser
+    public var incrementUserCoin: @Sendable (_ point: Int) async throws -> Void
 }
 
 public extension DependencyValues {
@@ -32,6 +33,7 @@ extension AuthClient: TestDependencyKey {
         kakaoSignIn: { .mock },
         appleSignIn: { .mock },
         appleDeleteUser: { },
-        getUserInfo: { .mock }
+        getUserInfo: { .mock },
+        incrementUserCoin: { _ in }
     )
 }

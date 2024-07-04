@@ -61,10 +61,10 @@ extension AuthClient: DependencyKey {
                     accessToken: googleUser.accessToken.tokenString
                 )
                 let user = try await Auth.auth().signIn(with: credential).user
-                if let currentUser = try? await getUserInfo(uid: user.uid) {
+                if let currentUser = try? await _getUserInfo(uid: user.uid) {
                     return currentUser
                 } else {
-                    return try await setUserInfo(user: user)
+                    return try await setUserInfo(user: user, platform: .google)
                 }
             },
             kakaoSignIn: {
@@ -108,12 +108,12 @@ extension AuthClient: DependencyKey {
                 let password = String(userID)
                 do {
                     let userInfo = try await singUp(email, password)
-                    return try await setUserInfo(user: userInfo)
+                    return try await setUserInfo(user: userInfo, platform: .kakao)
                 } catch {
                     if let error = error as NSError?,
                        error.code == AuthErrorCode.emailAlreadyInUse.rawValue {
                         let userInfo = try await singIn(email, password)
-                        return try await getUserInfo(uid: userInfo.uid)
+                        return try await _getUserInfo(uid: userInfo.uid)
                     } else {
                         throw error
                     }
@@ -122,10 +122,10 @@ extension AuthClient: DependencyKey {
             appleSignIn: {
                 do {
                     let user = try await oauthManager.appleSignIn()
-                    if let currentUser = try? await getUserInfo(uid: user.uid) {
+                    if let currentUser = try? await _getUserInfo(uid: user.uid) {
                         return currentUser
                     } else {
-                        let userInfo = try await setUserInfo(user: user)
+                        let userInfo = try await setUserInfo(user: user, platform: .apple)
                         return userInfo
                     }
                 } catch {
@@ -139,7 +139,13 @@ extension AuthClient: DependencyKey {
             },
             getUserInfo: {
                 guard let currentUser = Auth.auth().currentUser else { throw AuthError.noUser }
-                return getUserInfo(uid: currentUser.uid)
+                return try await _getUserInfo(uid: currentUser.uid)
+            },
+            incrementUserCoin: { point in
+                guard let currentUser = Auth.auth().currentUser else { throw AuthError.noUser }
+                try await database.collection("users").document(currentUser.uid).updateData(
+                    ["coin": FieldValue.increment(Double(point))]
+                )
             }
         )
     }()
@@ -147,12 +153,12 @@ extension AuthClient: DependencyKey {
 
 fileprivate let database = Firestore.firestore()
 
-fileprivate func getUserInfo(uid: String) async throws -> CurrentUser {
+fileprivate func _getUserInfo(uid: String) async throws -> CurrentUser {
     try await database.collection("users").document(uid).getDocument(as: CurrentUser.self)
 }
 
-fileprivate func setUserInfo(user: UserInfo) async throws -> CurrentUser {
-    let currentUser: CurrentUser = .init(user: user)
+fileprivate func setUserInfo(user: UserInfo, platform: CurrentUser.Platform) async throws -> CurrentUser {
+    let currentUser: CurrentUser = .init(user: user, platform: platform)
     try database.collection("users").document(user.uid).setData(from: currentUser)
     return currentUser
 }
