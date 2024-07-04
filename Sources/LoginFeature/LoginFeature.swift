@@ -62,11 +62,12 @@ public struct LoginFeature {
             case .view(.kakaoLoginButtonTapped):
                 state.loginProcessInFlight = true
                 return .run { send in
-                    if let currentUser = try? await authClient.kakaoSignIn() {
-                        await send(.loginSuccessResponse(currentUser))
-                    } else {
-                        await send(.loginFailResponse)
-                    }
+//                    if let currentUser = try? await authClient.kakaoSignIn() {
+//                        await send(.loginSuccessResponse(currentUser))
+//                    } else {
+//                        await send(.loginFailResponse)
+//                    }
+                    await send(.loginSuccessResponse(try await authClient.kakaoSignIn()))
                 }
                 
             case let .loginSuccessResponse(currentUser):

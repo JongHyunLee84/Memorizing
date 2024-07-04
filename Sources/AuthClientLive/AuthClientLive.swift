@@ -45,7 +45,10 @@ extension AuthClient: DependencyKey {
                 _ = try await (user.delete(),
                                deleteUserInfo(user.uid))
             },
-            googleSignIn: { @MainActor [presentingViewController = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController] in
+            googleSignIn: {
+                let presentingViewController = await MainActor.run {
+                    (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController
+                }
                 guard let presentingViewController else { throw AuthError.noRootViewController }
                 guard let clientID = FirebaseApp.app()?.options.clientID else { throw  AuthError.noClientID }
                 
@@ -107,19 +110,19 @@ extension AuthClient: DependencyKey {
                       let userID = kakaoUser.id else { throw AuthError.noKakaoInfo }
                 let password = String(userID)
                 do {
-                    let userInfo = try await singUp(email, password)
+                    let userInfo = try await singUp("kakao_" + email, password)
                     return try await setUserInfo(user: userInfo, platform: .kakao)
                 } catch {
                     if let error = error as NSError?,
                        error.code == AuthErrorCode.emailAlreadyInUse.rawValue {
-                        let userInfo = try await singIn(email, password)
+                        let userInfo = try await singIn("kakao_" + email, password)
                         return try await _getUserInfo(uid: userInfo.uid)
                     } else {
                         throw error
                     }
                 }
             },
-            appleSignIn: { @MainActor in
+            appleSignIn: {
                 do {
                     let user = try await oauthManager.appleSignIn()
                     if let currentUser = try? await _getUserInfo(uid: user.uid) {
@@ -132,7 +135,7 @@ extension AuthClient: DependencyKey {
                     throw error
                 }
             },
-            appleDeleteUser: { @MainActor in
+            appleDeleteUser: {
                 guard let currentUser = Auth.auth().currentUser else { throw AuthError.noUser }
                 _ = try await (oauthManager.deleteAccount(),
                                deleteUserInfo(currentUser.uid))
