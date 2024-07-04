@@ -1,11 +1,11 @@
-// swift-tools-version: 5.5
+// swift-tools-version: 5.9
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
 
 let package = Package(
     name: "Memorizing",
-    platforms: [.iOS(.v15)],
+    platforms: [.iOS(.v17)],
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(name: "AuthClient", targets: ["AuthClient"]),
@@ -24,6 +24,7 @@ let package = Package(
         .package(url: "https://github.com/kakao/kakao-ios-sdk", from: "2.22.3"),
         .package(url: "https://github.com/pointfreeco/swift-composable-architecture", from: "1.11.2"),
         .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "1.3.1"),
+        .package(url: "https://github.com/exyte/PopupView", from: "3.0.3"),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -52,6 +53,7 @@ let package = Package(
             name: "CommonUI",
             dependencies: [
                 "Extensions",
+                .product(name: "PopupView", package: "PopupView"),
             ]
         ),
         .target(
@@ -64,6 +66,12 @@ let package = Package(
                 "CommonUI",
                 "Shared",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+            ]
+        ),
+        .testTarget(
+            name: "LoginFeatureTest",
+            dependencies: [
+                "LoginFeature",
             ]
         ),
         .target(

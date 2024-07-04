@@ -5,7 +5,7 @@ import SwiftUI
 @ViewAction(for: LoginFeature.self)
 public struct LoginView: View {
     
-    public let store: StoreOf<LoginFeature>
+    @Bindable public var store: StoreOf<LoginFeature>
     
     public init(store: StoreOf<LoginFeature>) {
         self.store = store
@@ -55,6 +55,7 @@ public struct LoginView: View {
                 ProgressView()
             }
         }
+        .toastMessage(messsage: $store.toastMessage)
     }
 }
 
@@ -71,6 +72,11 @@ public struct LoginView: View {
                     dependency.authClient.appleSignIn = {
                         try await Task.sleep(nanoseconds: 2_000_000_000)
                         return .mock
+                    }
+                    dependency.authClient.kakaoSignIn = {
+                        try await Task.sleep(nanoseconds: 2_000_000_000)
+                        enum PreViewError: Error { case error }
+                        throw PreViewError.error
                     }
                 }
             )
