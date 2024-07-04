@@ -45,7 +45,7 @@ extension AuthClient: DependencyKey {
                 _ = try await (user.delete(),
                                deleteUserInfo(user.uid))
             },
-            googleSignIn: { [presentingViewController = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController] in
+            googleSignIn: { @MainActor [presentingViewController = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController] in
                 guard let presentingViewController else { throw AuthError.noRootViewController }
                 guard let clientID = FirebaseApp.app()?.options.clientID else { throw  AuthError.noClientID }
                 
@@ -67,7 +67,7 @@ extension AuthClient: DependencyKey {
                     return try await setUserInfo(user: user, platform: .google)
                 }
             },
-            kakaoSignIn: {
+            kakaoSignIn: { @MainActor in
                 try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
                     if UserApi.isKakaoTalkLoginAvailable() {
                         UserApi.shared.loginWithKakaoTalk { _, error in
@@ -119,7 +119,7 @@ extension AuthClient: DependencyKey {
                     }
                 }
             },
-            appleSignIn: {
+            appleSignIn: { @MainActor in
                 do {
                     let user = try await oauthManager.appleSignIn()
                     if let currentUser = try? await _getUserInfo(uid: user.uid) {
@@ -132,7 +132,7 @@ extension AuthClient: DependencyKey {
                     throw error
                 }
             },
-            appleDeleteUser: {
+            appleDeleteUser: { @MainActor in
                 guard let currentUser = Auth.auth().currentUser else { throw AuthError.noUser }
                 _ = try await (oauthManager.deleteAccount(),
                                deleteUserInfo(currentUser.uid))
