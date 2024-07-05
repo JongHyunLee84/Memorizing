@@ -36,4 +36,6 @@ extension AuthClient: TestDependencyKey {
         getUserInfo: { .mock },
         incrementUserCoin: { _ in }
     )
+    
+    public static var previewValue = testValue
 }

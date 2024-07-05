@@ -14,6 +14,8 @@ let package = Package(
         .library(name: "Extensions", targets: ["Extensions"]),
         .library(name: "LoginFeature", targets: ["LoginFeature"]),
         .library(name: "Models", targets: ["Models"]),
+        .library(name: "NoteClient", targets: ["NoteClient"]),
+        .library(name: "NoteClientLive", targets: ["NoteClientLive"]),
         .library(name: "Shared", targets: ["Shared"]),
     ],
     dependencies: [
@@ -56,9 +58,7 @@ let package = Package(
                 .product(name: "PopupView", package: "PopupView"),
             ]
         ),
-        .target(
-            name: "Extensions"
-        ),
+        .target(name: "Extensions"),
         .target(
             name: "LoginFeature",
             dependencies: [
@@ -81,8 +81,21 @@ let package = Package(
                 .product(name: "Dependencies", package: "swift-dependencies"),
             ]
         ),
-        .testTarget(
-            name: "MemorizingTests"
+        .testTarget(name: "MemorizingTests"),
+        .target(
+            name: "NoteClient",
+            dependencies: [
+                "Models",
+                .product(name: "Dependencies", package: "swift-dependencies"),
+                .product(name: "DependenciesMacros", package: "swift-dependencies"),
+            ]
+        ),
+        .target(
+            name: "NoteClientLive",
+            dependencies: [
+                "NoteClient",
+                .product(name: "FirebaseFirestore", package: "firebase-ios-sdk"),
+            ]
         ),
         .target(
             name: "Shared",

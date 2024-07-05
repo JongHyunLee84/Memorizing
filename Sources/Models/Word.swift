@@ -40,7 +40,7 @@ extension Word {
 }
 
 extension WordList {
-    static let mock = Self([
+    public static let mock = Self([
         .mock,
         .mock2
     ])
