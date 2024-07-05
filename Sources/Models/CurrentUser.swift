@@ -3,10 +3,10 @@ import Foundation
 
 public struct CurrentUser: Codable, Equatable {
     public let id: String
-    public let email: String
-    public let nickname: String
-    public let coin: Int
-    public let signInPlatform: String
+    public var email: String
+    public var nickname: String
+    public var coin: Int
+    public var signInPlatform: String
     
     public init(id: String, email: String, nickname: String, coin: Int, signInPlatform: Platform) {
         self.id = id

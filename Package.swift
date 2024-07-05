@@ -77,6 +77,7 @@ let package = Package(
         .target(
             name: "Models",
             dependencies: [
+                "Extensions",
                 .product(name: "Dependencies", package: "swift-dependencies"),
             ]
         ),
