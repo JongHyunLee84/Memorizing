@@ -17,6 +17,7 @@ let package = Package(
         .library(name: "NoteClient", targets: ["NoteClient"]),
         .library(name: "NoteClientLive", targets: ["NoteClientLive"]),
         .library(name: "Shared", targets: ["Shared"]),
+        .library(name: "StudyFeature", targets: ["StudyFeature"]),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -54,7 +55,6 @@ let package = Package(
         .target(
             name: "CommonUI",
             dependencies: [
-                "Extensions",
                 .product(name: "PopupView", package: "PopupView"),
             ]
         ),
@@ -77,7 +77,7 @@ let package = Package(
         .target(
             name: "Models",
             dependencies: [
-                "Extensions",
+                "CommonUI",
                 .product(name: "Dependencies", package: "swift-dependencies"),
             ]
         ),
@@ -102,6 +102,14 @@ let package = Package(
             dependencies: [
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
                 "Models",
+            ]
+        ),
+        .target(
+            name: "StudyFeature",
+            dependencies: [
+                "CommonUI",
+                "NoteClient",
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
             ]
         ),
     ]

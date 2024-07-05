@@ -1,4 +1,3 @@
-import Extensions
 import SwiftUI
 
 public struct OauthButton: View {
@@ -43,6 +42,7 @@ public struct OauthButton: View {
                 .clipShape(.rect(cornerRadius: 20))
             }
         )
+        .buttonStyle(PlainButtonStyle())
     }
 }
 

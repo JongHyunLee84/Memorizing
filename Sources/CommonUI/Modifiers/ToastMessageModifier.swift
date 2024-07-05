@@ -1,14 +1,16 @@
 import SwiftUI
 import PopupView
 
-public struct ToastMessageModifier: ViewModifier {
+struct ToastMessageModifier: ViewModifier {
     @Binding private var toastMessage: String?
     
-    public init(toastMessage: Binding<String?>) {
+    init(
+        toastMessage: Binding<String?>
+    ) {
         self._toastMessage = toastMessage
     }
     
-    public func body(content: Content) -> some View {
+    func body(content: Content) -> some View {
         content
             .popup(
                 item: $toastMessage,

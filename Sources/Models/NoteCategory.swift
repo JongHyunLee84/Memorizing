@@ -1,5 +1,4 @@
-import Extensions
-import Foundation
+import CommonUI
 import SwiftUI
 
 public enum NoteCategory: String, CaseIterable {
@@ -10,7 +9,7 @@ public enum NoteCategory: String, CaseIterable {
     case knowledge = "시사"
     case etc = "기타"
     
-    var noteColor: Color {
+    public var noteColor: Color {
         switch self {
         case .english: .english
         case .history: .history
@@ -22,12 +21,12 @@ public enum NoteCategory: String, CaseIterable {
     }
 }
 
-protocol CategoryProtocol {
+public protocol CategoryProtocol {
     var noteCategory: String { get }
 }
 
 extension CategoryProtocol {
-    var category: NoteCategory {
+    public var category: NoteCategory {
         NoteCategory(rawValue: noteCategory) ?? .etc
     }
 }

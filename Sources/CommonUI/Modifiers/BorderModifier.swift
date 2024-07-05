@@ -1,10 +1,10 @@
 import SwiftUI
 
-public struct BorderModifier: ViewModifier {
+struct BorderModifier: ViewModifier {
     let borderColor: Color
     let radius: CGFloat
     
-    public init(
+    init(
         borderColor: Color = .black,
         radius: CGFloat = 10
     ) {
@@ -12,7 +12,7 @@ public struct BorderModifier: ViewModifier {
         self.radius = radius
     }
     
-    public func body(content: Content) -> some View {
+    func body(content: Content) -> some View {
         content
             .overlay(
                 RoundedRectangle(cornerRadius: radius)
@@ -22,7 +22,7 @@ public struct BorderModifier: ViewModifier {
 }
 
 extension View {
-    public func border(_ color: Color = .black, radius: CGFloat = 10) -> some View {
+    public func border(_ color: Color = .black, _ radius: CGFloat = 10) -> some View {
         modifier(BorderModifier(borderColor: color, radius: radius))
     }
 }
