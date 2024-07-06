@@ -109,6 +109,7 @@ let package = Package(
             dependencies: [
                 "CommonUI",
                 "NoteClient",
+                "Shared",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
             ]
         ),

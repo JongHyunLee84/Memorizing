@@ -49,6 +49,13 @@ public struct MainButton: View {
 }
 
 #Preview {
-    MainButton(title: "확인") {}
-        .frame(width: 200)
+    VStack {
+        MainButton(title: "확인",
+                   isAvailable: true) {}
+            .frame(width: 200)
+        MainButton(title: "확인",
+                   isAvailable: false) {}
+            .frame(width: 200)
+    }
+
 }

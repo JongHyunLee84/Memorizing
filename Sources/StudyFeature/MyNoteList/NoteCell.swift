@@ -19,20 +19,30 @@ public struct NoteCell: View {
                         .frame(width: 10)
                         .cornerRadius(12, corners: [.topLeft, .bottomLeft])
                     VStack(alignment: .leading) {
-                        Text(note.noteCategory)
-                            .font(.caption2)
-                            .textColor(.gray3)
-                            .padding(.all, 4)
-                            .border(note.noteColor)
-                        Spacer()
-                        Text(note.noteName)
-                            .textStyler(font: .callout,
-                                        weight: .semibold)
+                        HStack {
+                            Text(note.noteCategory)
+                                .font(.caption2)
+                                .textColor(.gray3)
+                                .padding(.all, 4)
+                                .border(note.noteColor)
+                                .padding(.bottom, 10)
+                            Spacer()
+                            ButtonView()
+                        }
+                        HStack {
+                            Text(note.noteName)
+                                .textStyler(font: .callout,
+                                            weight: .semibold)
+                            Spacer()
+                            if note.wordList.isEmpty {
+                                Image(systemName: "chevron.right")
+                                    .foregroundStyle(Color.gray4)
+                                    .fontWeight(.semibold)
+                                    .frame(width: 44)
+                            }
+                        }
                         Spacer()
                         CellBottomView()
-                    }
-                    .overlay(alignment: .topTrailing) {
-                        ButtonView()
                     }
                     .padding(.vertical, 12)
                     .padding(.horizontal, 10)
@@ -175,6 +185,7 @@ public struct NoteCell: View {
     VStack {
         NoteCell(note: .mock)
         NoteCell(note: .mock2)
+        NoteCell(note: .mock3)
     }
     .padding(.horizontal, 16)
 }

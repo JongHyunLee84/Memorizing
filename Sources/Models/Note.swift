@@ -5,7 +5,7 @@ import SwiftUI
 public typealias NoteList = [Note]
 
 // MARK: WordNote - 암기장
-public struct Note: Codable, Identifiable, CategoryProtocol {
+public struct Note: Codable, Identifiable, Equatable, CategoryProtocol {
     public let id: String
     public var noteName: String
     public var noteCategory: String
@@ -152,14 +152,25 @@ extension Note {
         noteCategory: "기타",
         enrollmentUser: "58TIlLOAjhsglkXaOsgaCfb8nHA2",
         repeatCount: 4,
+        firstTestResult: 100,
+        lastTestResult: 100
+    )
+    
+    public static let mock3 = Self(
+        noteName: "토익 필수 문제",
+        noteCategory: "영어",
+        enrollmentUser: "58TIlLOAjhsglasdfkXaOsgaCfb8nHA2",
+        repeatCount: 0,
         firstTestResult: 0,
-        lastTestResult: 0
+        lastTestResult: 0,
+        wordList: []
     )
 }
 
 
 extension NoteList {
     public static let mock = Self([
+        .mock3,
         .mock,
         .mock2
     ])

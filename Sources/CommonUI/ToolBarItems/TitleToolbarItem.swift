@@ -15,3 +15,13 @@ public struct TitleToolbarItem: ToolbarContent {
         }
     }
 }
+
+#Preview {
+    NavigationStack {
+        Color.clear
+            .toolbar {
+                TitleToolbarItem(title: "새로운 암기장 만들기")
+            }
+    }
+}
+

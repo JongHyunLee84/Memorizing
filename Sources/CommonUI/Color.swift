@@ -13,7 +13,7 @@ public extension Color {
     static let gray7 = Color("Gray7", bundle: .module)
     static let gray8 = Color("Gray8", bundle: .module)
     static let history = Color("HistoryColor", bundle: .module)
-    static let it = Color("ItColor", bundle: .module)
+    static let it = Color("ITColor", bundle: .module)
     static let kakaoBackground = Color("KakaoYellow", bundle: .module)
     static let knowledge = Color("KnowledgeColor", bundle: .module)
     static let loginBackground = Color("LoginViewBackgroundColor", bundle: .module)

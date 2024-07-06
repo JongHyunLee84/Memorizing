@@ -43,4 +43,6 @@ extension NoteClient: TestDependencyKey {
         resetRepeatCount: { _, _ in },
         updateWordLevel: { _, _, _, _ in }
     )
+    
+    public static var previewValue = testValue
 }

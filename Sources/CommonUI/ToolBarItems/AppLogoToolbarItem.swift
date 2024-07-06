@@ -23,3 +23,12 @@ public struct AppLogoToolbarItem: ToolbarContent {
         }
     }
 }
+
+#Preview {
+    NavigationStack {
+        Color.clear
+            .toolbar {
+                AppLogoToolbarItem(placement: .topBarLeading)
+            }
+    }
+}

@@ -17,8 +17,7 @@ public struct LoginFeature {
     }
     
     public enum Action: ViewAction {
-        case loginSuccessResponse(CurrentUser)
-        case loginFailResponse
+        case loginResponse(Result<CurrentUser, Error>)
         case view(View)
         
         @CasePathable
@@ -42,40 +41,45 @@ public struct LoginFeature {
             case .view(.appleLoginButtonTapped):
                 state.loginProcessInFlight = true
                 return .run { send in
-                    if let currentUser = try? await authClient.appleSignIn() {
-                        await send(.loginSuccessResponse(currentUser))
-                    } else {
-                        await send(.loginFailResponse)
-                    }
+                    await send(
+                        .loginResponse(
+                            Result {
+                                try await authClient.appleSignIn()
+                            }
+                        )
+                    )
                 }
                 
             case .view(.googleLoginButtonTapped):
                 state.loginProcessInFlight = true
                 return .run { send in
-                    if let currentUser = try? await authClient.googleSignIn() {
-                        await send(.loginSuccessResponse(currentUser))
-                    } else {
-                        await send(.loginFailResponse)
-                    }
+                    await send(
+                        .loginResponse(
+                            Result {
+                                try await authClient.googleSignIn()
+                            }
+                        )
+                    )
                 }
                 
             case .view(.kakaoLoginButtonTapped):
                 state.loginProcessInFlight = true
                 return .run { send in
-//                    if let currentUser = try? await authClient.kakaoSignIn() {
-//                        await send(.loginSuccessResponse(currentUser))
-//                    } else {
-//                        await send(.loginFailResponse)
-//                    }
-                    await send(.loginSuccessResponse(try await authClient.kakaoSignIn()))
+                    await send(
+                        .loginResponse(
+                            Result {
+                                try await authClient.kakaoSignIn()
+                            }
+                        )
+                    )
                 }
                 
-            case let .loginSuccessResponse(currentUser):
+            case let .loginResponse(.success(currentUser)):
                 state.currentUser = currentUser
                 state.loginProcessInFlight = false
                 return .none
                 
-            case .loginFailResponse:
+            case .loginResponse(.failure):
                 state.toastMessage = "로그인에 실패했어요"
                 state.loginProcessInFlight = false
                 return .none
