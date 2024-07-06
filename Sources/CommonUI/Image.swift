@@ -10,7 +10,7 @@ public extension Image {
 // MARK: - Icons
 public extension Image {
     static let badFace = Image("BadFace", bundle: .module)
-    static let checkmark = Image("Checkmark", bundle: .module)
+    static let checkmark = Image("CheckMark", bundle: .module)
     static let failIcon = Image("FailIcon", bundle: .module)
     static let goodFace = Image("GoodFace", bundle: .module)
     static let goodIcon = Image("GoodIcon", bundle: .module)

@@ -1,5 +1,6 @@
 import Dependencies
 import Foundation
+import SwiftUI
 
 public typealias NoteList = [Note]
 
@@ -89,18 +90,8 @@ public struct Note: Codable, Identifiable, CategoryProtocol {
     
     public var wordList: WordList
     
-    // 학습 횟수에 따른 프로그래스바 길이 매칭
-    public var progressbarWitdh: Double {
-        switch repeatCount {
-        case 0, 1:
-            return 0.0
-        case 2:
-            return 97.0
-        case 3:
-            return 185.0
-        default:
-            return 260.0
-        }
+    public var noteColor: Color {
+        category.noteColor
     }
     
     /// marketPurchaseDate 날짜 형식 변경
@@ -151,7 +142,7 @@ extension Note {
         noteName: "이건 알아야해! 속담 모음집",
         noteCategory: "한국사",
         enrollmentUser: "58TIlLKwJWOAjhsglkXaOsgaCfb8nHA2",
-        repeatCount: 3,
+        repeatCount: 2,
         firstTestResult: 0.6,
         lastTestResult: 0
     )

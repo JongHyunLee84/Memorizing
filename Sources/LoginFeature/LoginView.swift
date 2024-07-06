@@ -43,7 +43,7 @@ public struct LoginView: View {
                 ) {
                     send(.googleLoginButtonTapped)
                 }
-                .border(.gray4, radius: 20)
+                .border(.gray4, 20)
             }
             .padding(.horizontal, 50)
             

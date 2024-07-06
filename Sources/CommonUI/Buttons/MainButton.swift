@@ -6,7 +6,7 @@ public struct MainButton: View {
     let textColor: Color
     let backgroundColor: Color
     let radius: CGFloat
-    let height: CGFloat
+    let height: CGFloat?
     let isAvailable: Bool
     let action: () -> Void
     
@@ -15,7 +15,7 @@ public struct MainButton: View {
         textColor: Color = .white,
         backgroundColor: Color = .mainBlue,
         radius: CGFloat = 10,
-        height: CGFloat = 24,
+        height: CGFloat? = nil,
         isAvailable: Bool = true,
         action: @escaping () -> Void
     ) {
@@ -38,7 +38,7 @@ public struct MainButton: View {
                                 font: .caption2,
                                 weight: .semibold)
                     .frame(height: height)
-                    .frame(maxWidth: .infinity)
+                    .frame(maxWidth: .infinity, maxHeight: 40)
                     .background(backgroundColor)
                     .cornerRadius(radius)
             }
