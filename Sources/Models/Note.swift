@@ -70,6 +70,34 @@ public struct Note: Codable, Identifiable, Equatable, CategoryProtocol {
         self.wordList = wordList
     }
     
+    public init(
+        noteName: String,
+        noteCategory: NoteCategory,
+        enrollmentUser: String,
+        repeatCount: Int = 0,
+        firstTestResult: Double = 0,
+        lastTestResult: Double = 0,
+        wordList: WordList
+    ) {
+        @Dependency(\.uuid) var uuid
+        @Dependency(\.date) var date
+        self.init(
+            id: uuid().uuidString,
+            noteName: noteName,
+            noteCategory: noteCategory.rawValue,
+            enrollmentUser: enrollmentUser,
+            repeatCount: repeatCount,
+            firstTestResult: firstTestResult,
+            lastTestResult: lastTestResult,
+            updateDate: date(),
+            nextStudyDate: nil,
+            marketPurchaseDate: nil,
+            notePrice: nil,
+            reviewDate: nil,
+            wordList: wordList
+        )
+    }
+    
     public init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.init(
@@ -109,61 +137,35 @@ public struct Note: Codable, Identifiable, Equatable, CategoryProtocol {
 // MARK: - Mocking
 
 extension Note {
-    private init(
-        noteName: String,
-        noteCategory: String,
-        enrollmentUser: String,
-        repeatCount: Int,
-        firstTestResult: Double,
-        lastTestResult: Double,
-        notePrice: Int? = nil,
-        wordList: WordList = .mock
-    ) {
-        @Dependency(\.uuid) var uuid
-        @Dependency(\.date) var date
-        self.init(
-            id: uuid().uuidString,
-            noteName: noteName,
-            noteCategory: noteCategory,
-            enrollmentUser: enrollmentUser,
-            repeatCount: repeatCount,
-            firstTestResult: firstTestResult,
-            lastTestResult: lastTestResult,
-            updateDate: date(),
-            nextStudyDate: date(),
-            marketPurchaseDate: date(),
-            notePrice: notePrice,
-            reviewDate: date(),
-            wordList: wordList
-        )
-    }
     
     public static let mock = Self(
         noteName: "이건 알아야해! 속담 모음집",
-        noteCategory: "한국사",
+        noteCategory: .history,
         enrollmentUser: "58TIlLKwJWOAjhsglkXaOsgaCfb8nHA2",
         repeatCount: 2,
         firstTestResult: 0.6,
-        lastTestResult: 0
+        lastTestResult: 0,
+        wordList: [.mock, .mock2]
     )
     
     public static let mock2 = Self(
         noteName: "WSET 2단계 와인 인증 과정 연습문제",
-        noteCategory: "기타",
+        noteCategory: .etc,
         enrollmentUser: "58TIlLOAjhsglkXaOsgaCfb8nHA2",
         repeatCount: 4,
         firstTestResult: 100,
-        lastTestResult: 100
+        lastTestResult: 100,
+        wordList: [.mock, .mock2]
     )
     
     public static let mock3 = Self(
         noteName: "토익 필수 문제",
-        noteCategory: "영어",
+        noteCategory: .english,
         enrollmentUser: "58TIlLOAjhsglasdfkXaOsgaCfb8nHA2",
         repeatCount: 0,
         firstTestResult: 0,
         lastTestResult: 0,
-        wordList: []
+        wordList: [.mock, .mock2]
     )
 }
 

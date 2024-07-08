@@ -1,14 +1,12 @@
 import ComposableArchitecture
 import Foundation
 import Models
-import NoteClient
 import Shared
 
 @Reducer
 public struct AddNoteFeature {
     @ObservableState
     public struct State: Equatable {
-        @SharedReader(.currentUser) public var currentUser
         @Shared(.toastMessage) public var toastMessage
         public var noteName: String
         public var noteCategory: NoteCategory
@@ -36,7 +34,8 @@ public struct AddNoteFeature {
     
     public enum Action: ViewAction {
         case view(View)
-        case sendTextLimitMessage
+        case sendToastMessage(String)
+        case addNoteDelegate
         
         public enum View: BindableAction {
             case binding(BindingAction<State>)
@@ -50,7 +49,6 @@ public struct AddNoteFeature {
     
     public init() {}
     
-    @Dependency(\.noteClient) var noteClient
     @Dependency(\.continuousClock) var clock
     @Dependency(\.dismiss) var dismiss
     
@@ -62,8 +60,18 @@ public struct AddNoteFeature {
         BindingReducer(action: \.view)
         Reduce { state, action in
             switch action {
-                // client의 작업을 기다렸다가 dismiss 해야하기 때문에 parent view에서 save 작업 실행
-            case .view(.xButtonTapped), .view(.saveButtonTapped):
+            // client의 작업을 기다렸다가 dismiss 해야하기 때문에 parent view에서 save 작업 실행
+            case .view(.saveButtonTapped):
+                if !state.noteName.isEmpty {
+                    return .run { send in
+                        await send(.addNoteDelegate)
+                        await dismiss()
+                    }
+                } else {
+                    return sendToastMessageEffect("암기장 이름을 입력해주세요")
+                }
+
+            case .view(.xButtonTapped):
                 return .run { _ in
                     await dismiss()
                 }
@@ -86,39 +94,42 @@ public struct AddNoteFeature {
             case .view(.binding(\.noteName)):
                 if state.noteName.count > 50 {
                     state.noteName = String(state.noteName.prefix(50))
-                    return textLimitEffect()
+                    return sendToastMessageEffect("최대 50글자까지만 입력해주세요.")
                 }
                 return .none
                 
             case .view(.binding(\.wordName)):
                 if state.wordName.count > 50 {
                     state.wordName = String(state.wordName.prefix(50))
-                    return textLimitEffect()
+                    return sendToastMessageEffect("최대 50글자까지만 입력해주세요.")
                 }
                 return .none
                 
             case .view(.binding(\.wordMeaning)):
                 if state.wordMeaning.count > 50 {
                     state.wordMeaning = String(state.wordMeaning.prefix(50))
-                    return textLimitEffect()
+                    return sendToastMessageEffect("최대 50글자까지만 입력해주세요.")
                 }
                 return .none
                 
-            case .sendTextLimitMessage:
-                state.toastMessage = "최대 50글자까지만 입력해주세요."
+            case let .sendToastMessage(message):
+                state.toastMessage = message
                 return .none
                 
             case .view(.binding):
+                return .none
+                
+            case .addNoteDelegate:
                 return .none
 
             }
         }
     }
     
-    private func textLimitEffect() -> Effect<Action> {
+    private func sendToastMessageEffect(_ message: String) -> Effect<Action> {
         .run { send in
             try await clock.sleep(for: .seconds(0.3))
-            await send(.sendTextLimitMessage)
+            await send(.sendToastMessage(message))
         }
         .cancellable(id: CancelID.message, cancelInFlight: true)
     }
