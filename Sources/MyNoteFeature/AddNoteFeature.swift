@@ -150,6 +150,7 @@ public struct AddNoteFeature {
     }
 }
 
+// TODO: 코드 정리
 @ViewAction(for: AddNoteFeature.self)
 public struct AddNoteView: View {
     @Bindable public var store: StoreOf<AddNoteFeature>
@@ -181,7 +182,7 @@ public struct AddNoteView: View {
                                     .padding(.vertical, 6)
                                     .frame(width: 65)
                                     .background((isSame ? category.noteColor : .white))
-                                    .border(!isSame ? Color.gray4 : Color.clear, 20)
+                                    .border(!isSame ? Color.gray4 : Color.clear, radius: 20)
                                     .onTapGesture {
                                         send(.categoryButtonTapped(category))
                                     }
@@ -235,7 +236,7 @@ public struct AddNoteView: View {
                     List {
                         ForEach(store.wordList) {
                             word in
-                            HStack {
+                            HStack(alignment: .top) {
                                 Group {
                                     Text(word.wordString)
                                     Text("|")

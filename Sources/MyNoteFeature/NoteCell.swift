@@ -18,7 +18,7 @@ public struct NoteCell: View {
         Rectangle()
             .fill(.white)
             .cornerRadius(12)
-            .border(.gray5, 12)
+            .border(.gray5, radius: 12)
             .frame(height: 120)
             .overlay {
                 HStack {

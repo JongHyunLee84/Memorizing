@@ -5,6 +5,8 @@ public struct MainButton: View {
     let title: String
     let textColor: Color
     let backgroundColor: Color
+    let font: Font
+    let weight: Font.Weight
     let radius: CGFloat
     let height: CGFloat?
     let isAvailable: Bool
@@ -14,6 +16,8 @@ public struct MainButton: View {
         title: String,
         textColor: Color = .white,
         backgroundColor: Color = .mainBlue,
+        font: Font = .caption2,
+        weight: Font.Weight = .semibold,
         radius: CGFloat = 10,
         height: CGFloat? = nil,
         isAvailable: Bool = true,
@@ -22,6 +26,8 @@ public struct MainButton: View {
         self.title = title
         self.textColor = textColor
         self.backgroundColor = backgroundColor
+        self.font = font
+        self.weight = weight
         self.radius = radius
         self.height = height
         self.isAvailable = isAvailable
@@ -35,8 +41,8 @@ public struct MainButton: View {
             }, label: {
                 Text(title)
                     .textStyler(color: textColor,
-                                font: .caption2,
-                                weight: .semibold)
+                                font: font,
+                                weight: weight)
                     .frame(height: height)
                     .frame(maxWidth: .infinity, maxHeight: 40)
                     .background(backgroundColor)

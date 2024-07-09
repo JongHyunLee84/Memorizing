@@ -165,8 +165,13 @@ public struct MyNoteListView: View {
     private func NoteCellView(_ note: Note) -> some View {
         NoteCell(
             note: note,
-            studyButtonTapped: {}
+            studyButtonTapped: {
+                send(.studyButtonTapped(note))
+            }
         )
+        .onTapGesture {
+            send(.noteTapped(note))
+        }
     }
 }
 

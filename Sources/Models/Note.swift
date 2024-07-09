@@ -118,10 +118,6 @@ public struct Note: Codable, Identifiable, Equatable, CategoryProtocol {
     
     public var wordList: WordList
     
-    public var noteColor: Color {
-        category.noteColor
-    }
-    
     /// marketPurchaseDate 날짜 형식 변경
 //    var marketPurchaseDateStr: String? {
 //        let dateFormatter = DateFormatter()

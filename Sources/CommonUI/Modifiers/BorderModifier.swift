@@ -23,7 +23,7 @@ struct BorderModifier: ViewModifier {
 }
 
 extension View {
-    public func border(_ color: Color = .black, _ radius: CGFloat = 10) -> some View {
+    public func border(_ color: Color = .black, radius: CGFloat = 10) -> some View {
         modifier(BorderModifier(borderColor: color, radius: radius))
     }
 }

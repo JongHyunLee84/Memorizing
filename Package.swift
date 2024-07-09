@@ -55,6 +55,7 @@ let package = Package(
         .target(
             name: "CommonUI",
             dependencies: [
+                "Models",
                 .product(name: "PopupView", package: "PopupView"),
             ]
         ),
@@ -75,11 +76,21 @@ let package = Package(
         .target(
             name: "Models",
             dependencies: [
-                "CommonUI",
                 "Extensions",
                 .product(name: "Dependencies", package: "swift-dependencies"),
             ]
         ),
+        .target(
+            name: "MyNoteFeature",
+            dependencies: [
+                "CommonUI",
+                "NoteClient",
+                "Models",
+                "Shared",
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+            ]
+        ),
+
         .target(
             name: "NoteClient",
             dependencies: [
@@ -106,8 +117,8 @@ let package = Package(
             name: "StudyFeature",
             dependencies: [
                 "CommonUI",
-                "NoteClient",
-                "Shared",
+                "Extensions",
+                "Models",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
             ]
         ),
@@ -119,9 +130,15 @@ let package = Package(
             ]
         ),
         .testTarget(
-            name: "StudyFeatureTest",
+            name: "MyNoteFeatureTest",
             dependencies: [
                 "Extensions",
+                "MyNoteFeature",
+            ]
+        ),
+        .testTarget(
+            name: "StudyFeatureTest",
+            dependencies: [
                 "StudyFeature",
             ]
         ),
