@@ -4,8 +4,15 @@ import SwiftUI
 
 public struct NoteCell: View {
     let note: Note
-    let goToAddWordButtonTapped: () -> Void = {}
-    let studyButtonTapped: () -> Void = {}
+    let studyButtonTapped: () -> Void
+    
+    public init(
+        note: Note,
+        studyButtonTapped: @escaping () -> Void = {}
+    ) {
+        self.note = note
+        self.studyButtonTapped = studyButtonTapped
+    }
     
     public var body: some View {
         Rectangle()
@@ -42,7 +49,8 @@ public struct NoteCell: View {
                             }
                         }
                         Spacer()
-                        CellBottomView()
+                        RepeatCountView()
+                            .frame(height: 24)
                     }
                     .padding(.vertical, 12)
                     .padding(.horizontal, 10)
@@ -78,21 +86,6 @@ public struct NoteCell: View {
                 )
                 .buttonStyle(PlainButtonStyle())
             }
-    }
-    
-    @ViewBuilder
-    private func CellBottomView() -> some View {
-        Group {
-            if note.wordList.isEmpty {
-                MainButton(title: "단어 등록하러 가기",
-                           backgroundColor: note.noteColor) {
-                    goToAddWordButtonTapped()
-                }
-            } else {
-                RepeatCountView()
-            }
-        }
-        .frame(height: 24)
     }
     
     private func RepeatCountView() -> some View {
@@ -173,7 +166,7 @@ public struct NoteCell: View {
             image
                 .resizable()
                 .frame(width: 20, height: 20)
-                .background{
+                .background {
                     Circle()
                         .frame(width: 24, height: 24)
                         .foregroundStyle(note.noteColor)

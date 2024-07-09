@@ -1,4 +1,5 @@
 import Dependencies
+import Extensions
 import Foundation
 
 public struct CurrentUser: Codable, Equatable {
@@ -8,7 +9,13 @@ public struct CurrentUser: Codable, Equatable {
     public var coin: Int
     public var signInPlatform: String
     
-    public init(id: String, email: String, nickname: String, coin: Int, signInPlatform: Platform) {
+    public init(
+        id: String,
+        email: String,
+        nickname: String,
+        coin: Int,
+        signInPlatform: Platform
+    ) {
         self.id = id
         self.email = email
         self.nickname = nickname
@@ -16,7 +23,13 @@ public struct CurrentUser: Codable, Equatable {
         self.signInPlatform = signInPlatform.rawValue
     }
     
-    public init(id: String, email: String, nickname: String, coin: Int, signInPlatform: String) {
+    public init(
+        id: String,
+        email: String,
+        nickname: String,
+        coin: Int,
+        signInPlatform: String
+    ) {
         self.id = id
         self.email = email
         self.nickname = nickname
@@ -42,9 +55,8 @@ public struct CurrentUser: Codable, Equatable {
 
 public extension CurrentUser {
     static let mock = {
-        @Dependency(\.uuid) var uuid
         return Self(
-            id: uuid().uuidString,
+            id: UUID.zero.uuidString,
             email: "abc@gmail.com",
             nickname: "테스트계정",
             coin: 1000,

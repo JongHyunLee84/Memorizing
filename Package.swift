@@ -58,7 +58,11 @@ let package = Package(
                 .product(name: "PopupView", package: "PopupView"),
             ]
         ),
-        .target(name: "Extensions"),
+        .target(name: "Extensions",
+                dependencies: [
+                    .product(name: "Dependencies", package: "swift-dependencies"),            
+                ]
+               ),
         .target(
             name: "LoginFeature",
             dependencies: [
@@ -68,20 +72,14 @@ let package = Package(
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
             ]
         ),
-        .testTarget(
-            name: "LoginFeatureTest",
-            dependencies: [
-                "LoginFeature",
-            ]
-        ),
         .target(
             name: "Models",
             dependencies: [
                 "CommonUI",
+                "Extensions",
                 .product(name: "Dependencies", package: "swift-dependencies"),
             ]
         ),
-        .testTarget(name: "MemorizingTests"),
         .target(
             name: "NoteClient",
             dependencies: [
@@ -111,6 +109,20 @@ let package = Package(
                 "NoteClient",
                 "Shared",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+            ]
+        ),
+        // MARK: - Test Target
+        .testTarget(
+            name: "LoginFeatureTest",
+            dependencies: [
+                "LoginFeature",
+            ]
+        ),
+        .testTarget(
+            name: "StudyFeatureTest",
+            dependencies: [
+                "Extensions",
+                "StudyFeature",
             ]
         ),
     ]

@@ -16,7 +16,7 @@ final class LoginFeatureTest: XCTestCase {
         await store.send(\.view.appleLoginButtonTapped) {
             $0.loginProcessInFlight = true
         }
-        await store.receive(\.loginSuccessResponse) {
+        await store.receive(\.loginResponse) {
             $0.currentUser = .mock
             $0.loginProcessInFlight = false
         }
@@ -25,7 +25,7 @@ final class LoginFeatureTest: XCTestCase {
         await store.send(\.view.kakaoLoginButtonTapped) {
             $0.loginProcessInFlight = true
         }
-        await store.receive(\.loginSuccessResponse) {
+        await store.receive(\.loginResponse) {
             $0.currentUser = .mock
             $0.loginProcessInFlight = false
         }
@@ -34,7 +34,7 @@ final class LoginFeatureTest: XCTestCase {
         await store.send(\.view.googleLoginButtonTapped) {
             $0.loginProcessInFlight = true
         }
-        await store.receive(\.loginSuccessResponse) {
+        await store.receive(\.loginResponse) {
             $0.currentUser = .mock
             $0.loginProcessInFlight = false
         }
@@ -68,7 +68,7 @@ final class LoginFeatureTest: XCTestCase {
             $0.loginProcessInFlight = true
         }
         await clock.advance(by: .seconds(1))
-        await store.receive(\.loginFailResponse) {
+        await store.receive(\.loginResponse) {
             $0.loginProcessInFlight = false
             $0.toastMessage = "로그인에 실패했어요"
         }
@@ -81,7 +81,7 @@ final class LoginFeatureTest: XCTestCase {
             $0.loginProcessInFlight = true
         }
         await clock.advance(by: .seconds(1))
-        await store.receive(\.loginFailResponse) {
+        await store.receive(\.loginResponse) {
             $0.loginProcessInFlight = false
             $0.toastMessage = "로그인에 실패했어요"
         }
@@ -95,7 +95,7 @@ final class LoginFeatureTest: XCTestCase {
             $0.loginProcessInFlight = true
         }
         await clock.advance(by: .seconds(1))
-        await store.receive(\.loginFailResponse) {
+        await store.receive(\.loginResponse) {
             $0.loginProcessInFlight = false
             $0.toastMessage = "로그인에 실패했어요"
         }
