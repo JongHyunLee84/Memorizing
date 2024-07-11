@@ -67,6 +67,7 @@ let package = Package(
             name: "CommonUI",
             dependencies: [
                 "Models",
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
                 .product(name: "PopupView", package: "PopupView"),
             ]
         ),
