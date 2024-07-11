@@ -14,17 +14,15 @@ public struct MyNoteFeature {
         @Shared(.currentUser) public var currentUser
         @Presents public var destination: Destination.State?
         @Shared public var noteList: IdentifiedArrayOf<Note>
-        public var showOnlyStudyingNote: Bool
+        @Shared(.showOnlyStudyingNote) public var showOnlyStudyingNote
         public var path: StackState<Path.State>
         public var currentStudyingNoteID: Note.ID?
         
         public init(
             noteList: Shared<IdentifiedArrayOf<Note>> = Shared([]),
-            showOnlyStudyingNote: Bool = false,
             path: StackState<Path.State> = .init()
         ) {
             self._noteList = noteList
-            self.showOnlyStudyingNote = showOnlyStudyingNote
             self.path = path
         }
         
@@ -199,8 +197,12 @@ public struct MyNoteFeature {
 }
 
 @ViewAction(for: MyNoteFeature.self)
-public struct MyNoteListView: View {
+public struct MyNoteView: View {
     @Bindable public var store: StoreOf<MyNoteFeature>
+    
+    public init(store: StoreOf<MyNoteFeature>) {
+        self.store = store
+    }
     
     public var body: some View {
         NavigationStack(
@@ -237,7 +239,7 @@ public struct MyNoteListView: View {
             }
             .padding(.horizontal, 16)
             .onFirstTask {
-                await send(.onFirstAppear).finish()
+                send(.onFirstAppear)
             }
             .onAppear {
                 send(.onAppear)
@@ -277,8 +279,10 @@ public struct MyNoteListView: View {
 
 #Preview {
     @Shared(.currentUser) var currentUser
+    @Shared(.showOnlyStudyingNote) var showOnlyStudyingNote
     currentUser = .mock
-    return MyNoteListView(
+    showOnlyStudyingNote = false
+    return MyNoteView(
         store: .init(
             initialState: .init(),
             reducer: { MyNoteFeature()._printChanges() }
