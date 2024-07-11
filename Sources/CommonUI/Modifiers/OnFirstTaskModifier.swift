@@ -1,26 +1,28 @@
+import ComposableArchitecture
 import SwiftUI
 
+@MainActor
 struct OnFirstTaskModifier: ViewModifier {
     @State private var isFirstTask: Bool = true
-    let action: @Sendable () async -> Void
+    let action: () -> StoreTask
     
-    init(action: @escaping @Sendable () async -> Void) {
+    init(action: @escaping () -> StoreTask) {
         self.action = action
     }
     
     func body(content: Content) -> some View {
         content
             .task {
-                if isFirstTask {
-                    await action()
-                    isFirstTask = false
-                }
+                guard isFirstTask else { return }
+                isFirstTask = false
+                await action().finish()
             }
     }
 }
 
 extension View {
-    public func onFirstTask(_ action: @escaping @Sendable () async -> Void) -> some View {
+    @MainActor 
+    public func onFirstTask(_ action: @escaping () -> StoreTask) -> some View {
         modifier(OnFirstTaskModifier(action: action))
     }
 }
