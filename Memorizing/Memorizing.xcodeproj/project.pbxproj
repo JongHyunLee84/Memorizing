@@ -1,0 +1,647 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		F20EF7322C370ECD00664611 /* LoginFeatureAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20EF7312C370ECD00664611 /* LoginFeatureAppApp.swift */; };
+		F20EF7362C370ECE00664611 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F20EF7352C370ECE00664611 /* Assets.xcassets */; };
+		F20EF7392C370ECE00664611 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F20EF7382C370ECE00664611 /* Preview Assets.xcassets */; };
+		F20EF7412C37109E00664611 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F20EF7402C37109E00664611 /* GoogleService-Info.plist */; };
+		F20EF7422C37109E00664611 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F20EF7402C37109E00664611 /* GoogleService-Info.plist */; };
+		F20EF7462C37110A00664611 /* LoginFeature in Frameworks */ = {isa = PBXBuildFile; productRef = F20EF7452C37110A00664611 /* LoginFeature */; };
+		F20EF7522C3714D500664611 /* AuthClientLive in Frameworks */ = {isa = PBXBuildFile; productRef = F20EF7512C3714D500664611 /* AuthClientLive */; };
+		F20EF7542C3714DE00664611 /* LoginFeature in Frameworks */ = {isa = PBXBuildFile; productRef = F20EF7532C3714DE00664611 /* LoginFeature */; };
+		F20EF7572C37155000664611 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = F20EF7562C37155000664611 /* ComposableArchitecture */; };
+		F22154FF2C36C34300600C48 /* KakaoSDKUser in Frameworks */ = {isa = PBXBuildFile; productRef = F22154FE2C36C34300600C48 /* KakaoSDKUser */; };
+		F22155012C36C34D00600C48 /* KakaoSDKAuth in Frameworks */ = {isa = PBXBuildFile; productRef = F22155002C36C34D00600C48 /* KakaoSDKAuth */; };
+		F22155032C36C35300600C48 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = F22155022C36C35300600C48 /* GoogleSignInSwift */; };
+		F24449792C3599FF0054F265 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = F24449782C3599FF0054F265 /* GoogleSignIn */; };
+		F25ED5A12C34621E00AE5484 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = F25ED5A02C34621E00AE5484 /* FirebaseFirestore */; };
+		F27B68012C32FCA10070C49B /* MemorizingApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27B68002C32FCA10070C49B /* MemorizingApp.swift */; };
+		F2E772FC2C36C98C00B6B8C9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F27B68042C32FCA30070C49B /* Assets.xcassets */; };
+		F2E772FE2C36C9B900B6B8C9 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F27B68072C32FCA30070C49B /* Preview Assets.xcassets */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		F20EF72F2C370ECD00664611 /* LoginFeatureApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LoginFeatureApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F20EF7312C370ECD00664611 /* LoginFeatureAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginFeatureAppApp.swift; sourceTree = "<group>"; };
+		F20EF7352C370ECE00664611 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F20EF7382C370ECE00664611 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		F20EF73D2C37101500664611 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F20EF7402C37109E00664611 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		F27B67FD2C32FCA10070C49B /* Memorizing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Memorizing.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F27B68002C32FCA10070C49B /* MemorizingApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemorizingApp.swift; sourceTree = "<group>"; };
+		F27B68042C32FCA30070C49B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F27B68072C32FCA30070C49B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		F2A2B1272C371FC800C257D7 /* Memorizing.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Memorizing.entitlements; sourceTree = "<group>"; };
+		F2FC9DA92C345897007D335D /* Memorizing */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Memorizing; path = ..; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F20EF72C2C370ECD00664611 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F20EF7462C37110A00664611 /* LoginFeature in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F27B67FA2C32FCA10070C49B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F20EF7542C3714DE00664611 /* LoginFeature in Frameworks */,
+				F22155032C36C35300600C48 /* GoogleSignInSwift in Frameworks */,
+				F22154FF2C36C34300600C48 /* KakaoSDKUser in Frameworks */,
+				F25ED5A12C34621E00AE5484 /* FirebaseFirestore in Frameworks */,
+				F24449792C3599FF0054F265 /* GoogleSignIn in Frameworks */,
+				F22155012C36C34D00600C48 /* KakaoSDKAuth in Frameworks */,
+				F20EF7572C37155000664611 /* ComposableArchitecture in Frameworks */,
+				F20EF7522C3714D500664611 /* AuthClientLive in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		F20EF7302C370ECD00664611 /* LoginFeatureApp */ = {
+			isa = PBXGroup;
+			children = (
+				F20EF7312C370ECD00664611 /* LoginFeatureAppApp.swift */,
+				F20EF7352C370ECE00664611 /* Assets.xcassets */,
+				F20EF7372C370ECE00664611 /* Preview Content */,
+			);
+			path = LoginFeatureApp;
+			sourceTree = "<group>";
+		};
+		F20EF7372C370ECE00664611 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				F20EF7382C370ECE00664611 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		F27B67F42C32FCA10070C49B = {
+			isa = PBXGroup;
+			children = (
+				F2FC9DA92C345897007D335D /* Memorizing */,
+				F27B67FF2C32FCA10070C49B /* Memorizing */,
+				F20EF7302C370ECD00664611 /* LoginFeatureApp */,
+				F27B67FE2C32FCA10070C49B /* Products */,
+				F2FC9D952C33C449007D335D /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		F27B67FE2C32FCA10070C49B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F27B67FD2C32FCA10070C49B /* Memorizing.app */,
+				F20EF72F2C370ECD00664611 /* LoginFeatureApp.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F27B67FF2C32FCA10070C49B /* Memorizing */ = {
+			isa = PBXGroup;
+			children = (
+				F2A2B1272C371FC800C257D7 /* Memorizing.entitlements */,
+				F20EF7402C37109E00664611 /* GoogleService-Info.plist */,
+				F20EF73D2C37101500664611 /* Info.plist */,
+				F27B68002C32FCA10070C49B /* MemorizingApp.swift */,
+				F27B68042C32FCA30070C49B /* Assets.xcassets */,
+				F27B68062C32FCA30070C49B /* Preview Content */,
+			);
+			path = Memorizing;
+			sourceTree = "<group>";
+		};
+		F27B68062C32FCA30070C49B /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				F27B68072C32FCA30070C49B /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		F2FC9D952C33C449007D335D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F20EF72E2C370ECD00664611 /* LoginFeatureApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F20EF73C2C370ECE00664611 /* Build configuration list for PBXNativeTarget "LoginFeatureApp" */;
+			buildPhases = (
+				F20EF72B2C370ECD00664611 /* Sources */,
+				F20EF72C2C370ECD00664611 /* Frameworks */,
+				F20EF72D2C370ECD00664611 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = LoginFeatureApp;
+			packageProductDependencies = (
+				F20EF7452C37110A00664611 /* LoginFeature */,
+			);
+			productName = LoginFeatureApp;
+			productReference = F20EF72F2C370ECD00664611 /* LoginFeatureApp.app */;
+			productType = "com.apple.product-type.application";
+		};
+		F27B67FC2C32FCA10070C49B /* Memorizing */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F27B680B2C32FCA30070C49B /* Build configuration list for PBXNativeTarget "Memorizing" */;
+			buildPhases = (
+				F27B67F92C32FCA10070C49B /* Sources */,
+				F27B67FA2C32FCA10070C49B /* Frameworks */,
+				F27B67FB2C32FCA10070C49B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Memorizing;
+			packageProductDependencies = (
+				F25ED5A02C34621E00AE5484 /* FirebaseFirestore */,
+				F24449782C3599FF0054F265 /* GoogleSignIn */,
+				F22154FE2C36C34300600C48 /* KakaoSDKUser */,
+				F22155002C36C34D00600C48 /* KakaoSDKAuth */,
+				F22155022C36C35300600C48 /* GoogleSignInSwift */,
+				F20EF7512C3714D500664611 /* AuthClientLive */,
+				F20EF7532C3714DE00664611 /* LoginFeature */,
+				F20EF7562C37155000664611 /* ComposableArchitecture */,
+			);
+			productName = Memorizing;
+			productReference = F27B67FD2C32FCA10070C49B /* Memorizing.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F27B67F52C32FCA10070C49B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1540;
+				LastUpgradeCheck = 1540;
+				TargetAttributes = {
+					F20EF72E2C370ECD00664611 = {
+						CreatedOnToolsVersion = 15.4;
+					};
+					F27B67FC2C32FCA10070C49B = {
+						CreatedOnToolsVersion = 15.4;
+					};
+				};
+			};
+			buildConfigurationList = F27B67F82C32FCA10070C49B /* Build configuration list for PBXProject "Memorizing" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = F27B67F42C32FCA10070C49B;
+			packageReferences = (
+				F2FC9D9D2C33C4FD007D335D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				F24449772C3599FF0054F265 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+				F22154F12C36C2A000600C48 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
+				F20EF7552C37155000664611 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
+			);
+			productRefGroup = F27B67FE2C32FCA10070C49B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F27B67FC2C32FCA10070C49B /* Memorizing */,
+				F20EF72E2C370ECD00664611 /* LoginFeatureApp */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		F20EF72D2C370ECD00664611 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F20EF7392C370ECE00664611 /* Preview Assets.xcassets in Resources */,
+				F20EF7362C370ECE00664611 /* Assets.xcassets in Resources */,
+				F20EF7422C37109E00664611 /* GoogleService-Info.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F27B67FB2C32FCA10070C49B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F2E772FE2C36C9B900B6B8C9 /* Preview Assets.xcassets in Resources */,
+				F2E772FC2C36C98C00B6B8C9 /* Assets.xcassets in Resources */,
+				F20EF7412C37109E00664611 /* GoogleService-Info.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F20EF72B2C370ECD00664611 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F20EF7322C370ECD00664611 /* LoginFeatureAppApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F27B67F92C32FCA10070C49B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F27B68012C32FCA10070C49B /* MemorizingApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		F20EF73A2C370ECE00664611 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"LoginFeatureApp/Preview Content\"";
+				DEVELOPMENT_TEAM = 699L8LQSR7;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = LoginFeature;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.codelion.Memorizing.LoginFeatureApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		F20EF73B2C370ECE00664611 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"LoginFeatureApp/Preview Content\"";
+				DEVELOPMENT_TEAM = 699L8LQSR7;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = LoginFeature;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.codelion.Memorizing.LoginFeatureApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		F27B68092C32FCA30070C49B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		F27B680A2C32FCA30070C49B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		F27B680C2C32FCA30070C49B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Memorizing/Memorizing.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Memorizing/Preview Content\"";
+				DEVELOPMENT_TEAM = 699L8LQSR7;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Memorizing/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "메모라이징";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.codelion.Memorizing;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		F27B680D2C32FCA30070C49B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Memorizing/Memorizing.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Memorizing/Preview Content\"";
+				DEVELOPMENT_TEAM = 699L8LQSR7;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Memorizing/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "메모라이징";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.codelion.Memorizing;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F20EF73C2C370ECE00664611 /* Build configuration list for PBXNativeTarget "LoginFeatureApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F20EF73A2C370ECE00664611 /* Debug */,
+				F20EF73B2C370ECE00664611 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F27B67F82C32FCA10070C49B /* Build configuration list for PBXProject "Memorizing" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F27B68092C32FCA30070C49B /* Debug */,
+				F27B680A2C32FCA30070C49B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F27B680B2C32FCA30070C49B /* Build configuration list for PBXNativeTarget "Memorizing" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F27B680C2C32FCA30070C49B /* Debug */,
+				F27B680D2C32FCA30070C49B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		F20EF7552C37155000664611 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.11.2;
+			};
+		};
+		F22154F12C36C2A000600C48 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kakao/kakao-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.22.3;
+			};
+		};
+		F24449772C3599FF0054F265 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.1.0;
+			};
+		};
+		F2FC9D9D2C33C4FD007D335D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.28.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		F20EF7452C37110A00664611 /* LoginFeature */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = LoginFeature;
+		};
+		F20EF7512C3714D500664611 /* AuthClientLive */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = AuthClientLive;
+		};
+		F20EF7532C3714DE00664611 /* LoginFeature */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = LoginFeature;
+		};
+		F20EF7562C37155000664611 /* ComposableArchitecture */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F20EF7552C37155000664611 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
+			productName = ComposableArchitecture;
+		};
+		F22154FE2C36C34300600C48 /* KakaoSDKUser */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F22154F12C36C2A000600C48 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
+			productName = KakaoSDKUser;
+		};
+		F22155002C36C34D00600C48 /* KakaoSDKAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F22154F12C36C2A000600C48 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
+			productName = KakaoSDKAuth;
+		};
+		F22155022C36C35300600C48 /* GoogleSignInSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F24449772C3599FF0054F265 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignInSwift;
+		};
+		F24449782C3599FF0054F265 /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F24449772C3599FF0054F265 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
+		};
+		F25ED5A02C34621E00AE5484 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F2FC9D9D2C33C4FD007D335D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = F27B67F52C32FCA10070C49B /* Project object */;
+}

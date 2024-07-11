@@ -1,7 +1,7 @@
 import ComposableArchitecture
 import Extensions
 import Models
-import StudyFeature
+import MyNoteFeature
 import XCTest
 
 final class LoginFeatureTest: XCTestCase {

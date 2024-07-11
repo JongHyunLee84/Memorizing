@@ -8,12 +8,14 @@ let package = Package(
     platforms: [.iOS(.v17)],
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
+        .library(name: "AddNoteFeature", targets: ["AddNoteFeature"]),
         .library(name: "AuthClient", targets: ["AuthClient"]),
         .library(name: "AuthClientLive", targets: ["AuthClientLive"]),
         .library(name: "CommonUI", targets: ["CommonUI"]),
         .library(name: "Extensions", targets: ["Extensions"]),
         .library(name: "LoginFeature", targets: ["LoginFeature"]),
         .library(name: "Models", targets: ["Models"]),
+        .library(name: "MyNoteFeature", targets: ["MyNoteFeature"]),
         .library(name: "NoteClient", targets: ["NoteClient"]),
         .library(name: "NoteClientLive", targets: ["NoteClientLive"]),
         .library(name: "Shared", targets: ["Shared"]),
@@ -32,6 +34,15 @@ let package = Package(
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
+        .target(
+            name: "AddNoteFeature",
+            dependencies: [
+                "CommonUI",
+                "Models",
+                "Shared",
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+            ]
+        ),
         .target(
             name: "AuthClient",
             dependencies: [
@@ -83,9 +94,11 @@ let package = Package(
         .target(
             name: "MyNoteFeature",
             dependencies: [
+                "AddNoteFeature",
                 "CommonUI",
                 "NoteClient",
                 "Models",
+                "StudyFeature",
                 "Shared",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
             ]
@@ -123,6 +136,12 @@ let package = Package(
             ]
         ),
         // MARK: - Test Target
+        .testTarget(
+            name: "AddNoteFeatureTest",
+            dependencies: [
+                "AddNoteFeature",
+            ]
+        ),
         .testTarget(
             name: "LoginFeatureTest",
             dependencies: [

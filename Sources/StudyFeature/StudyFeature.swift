@@ -8,20 +8,20 @@ import SwiftUI
 public struct StudyFeature {
     @ObservableState
     public struct State: Equatable {
-        public var note: Note
+        @Shared public var note: Note
         public var currentWordIdx: Int
         public var isStudyConverted: Bool
         public var isWordConverted: Bool
         public var isStudyCompleted: Bool
         
         public init(
-            note: Note,
+            note: Shared<Note>,
             currentWordIdx: Int = 0,
             isStudyConverted: Bool = false,
             isWordConverted: Bool = false,
             isStudyCompleted: Bool = false
         ) {
-            self.note = note
+            self._note = note
             self.currentWordIdx = currentWordIdx
             self.isStudyConverted = isStudyConverted
             self.isWordConverted = isWordConverted
@@ -33,7 +33,7 @@ public struct StudyFeature {
         }
         
         public var isFirstOrLastStudy: Bool {
-            note.repeatCount < 1 || note.repeatCount > 3
+            note.repeatCount == 0 || note.repeatCount >= 3
         }
         
         public var testResult: Double {
@@ -69,10 +69,32 @@ public struct StudyFeature {
         BindingReducer(action: \.view)
         Reduce { state, action in
             switch action {
-            case .view(.backButtonTapped),
-                    .view(.endButtonTapped),
-                    .view(.studyFinishButtonTapped),
-                    .view(.studyResetButtonTapped):
+            case .view(.backButtonTapped):
+                return .run { _ in
+                    await dismiss()
+                }
+                
+            case .view(.endButtonTapped):
+                state.note.repeatCount += 1
+                return .run { _ in
+                    await dismiss()
+                }
+                
+            case .view(.studyFinishButtonTapped):
+                if state.note.repeatCount == 0 {
+                    state.note.firstTestResult = state.testResult
+                } else {
+                    state.note.lastTestResult = state.testResult
+                }
+                state.note.repeatCount += 1
+                return .run { _ in
+                    await dismiss()
+                }
+                
+            case .view(.studyResetButtonTapped):
+                state.note.repeatCount = 0
+                state.note.firstTestResult = 0
+                state.note.lastTestResult = 0
                 return .run { _ in
                     await dismiss()
                 }
@@ -123,6 +145,11 @@ public struct StudyFeature {
 @ViewAction(for: StudyFeature.self)
 public struct StudyView: View {
     @Bindable public var store: StoreOf<StudyFeature>
+    
+    public init(store: StoreOf<StudyFeature>) {
+        self.store = store
+    }
+    
     public var body: some View {
         VStack(spacing: 16) {
             StudyProgressBar()
@@ -136,7 +163,7 @@ public struct StudyView: View {
             }
         }
         .padding(.horizontal, 16)
-        .navigationBarTitleDisplayMode(.inline)
+        .navigationSetting()
         .toolbar {
             BackButtonToolbarItem {
                 send(.backButtonTapped)
@@ -340,7 +367,7 @@ struct ButtonInfo {
     return NavigationStack {
         StudyView(
             store: .init(
-                initialState: .init(note: .mock3),
+                initialState: .init(note: Shared(.mock)),
                 reducer: { StudyFeature()._printChanges() }
             )
         )

@@ -15,6 +15,7 @@ public struct AddNoteFeature {
         public var wordName: String
         public var wordMeaning: String
         public var wordList: WordList
+        public var note: Note?
         
         public init(noteName: String = "",
                     noteCategory: NoteCategory = .english,
@@ -30,11 +31,12 @@ public struct AddNoteFeature {
         }
         
         public init(note: Note) {
-            self.init(noteName: note.noteName,
-                      noteCategory: note.category,
-                      wordName: "",
-                      wordMeaning: "",
-                      wordList: note.wordList)
+            self.noteName = note.noteName
+            self.noteCategory = note.category
+            self.wordName = ""
+            self.wordMeaning = ""
+            self.wordList = note.wordList
+            self.note = note
         }
         
         public var isWordContentFilled: Bool {
@@ -45,7 +47,6 @@ public struct AddNoteFeature {
     public enum Action: ViewAction {
         case view(View)
         case sendToastMessage(String)
-        case addNoteDelegate
         
         @CasePathable
         public enum View: BindableAction {
@@ -75,7 +76,6 @@ public struct AddNoteFeature {
             case .view(.saveButtonTapped):
                 if !state.noteName.isEmpty {
                     return .run { send in
-                        await send(.addNoteDelegate)
                         await dismiss()
                     }
                 } else {
@@ -133,10 +133,6 @@ public struct AddNoteFeature {
                 
             case .view(.binding):
                 return .none
-                
-            case .addNoteDelegate:
-                return .none
-
             }
         }
     }
@@ -154,6 +150,10 @@ public struct AddNoteFeature {
 @ViewAction(for: AddNoteFeature.self)
 public struct AddNoteView: View {
     @Bindable public var store: StoreOf<AddNoteFeature>
+    
+    public init(store: StoreOf<AddNoteFeature>) {
+        self.store = store
+    }
     
     public var body: some View {
         ScrollView {

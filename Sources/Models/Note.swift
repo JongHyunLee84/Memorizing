@@ -10,6 +10,7 @@ public struct Note: Codable, Identifiable, Equatable, CategoryProtocol {
     public var noteName: String
     public var noteCategory: String
     public var enrollmentUser: String
+    // 0 : 공부 시작 x, 1 ~ 4 공부 횟수, 4 이상 == 공부 완료
     public var repeatCount: Int
     public var firstTestResult: Double
     public var lastTestResult: Double
@@ -40,7 +41,7 @@ public struct Note: Codable, Identifiable, Equatable, CategoryProtocol {
     }
     
     
-    init(
+    public init(
         id: String,
         noteName: String,
         noteCategory: String,
@@ -118,16 +119,15 @@ public struct Note: Codable, Identifiable, Equatable, CategoryProtocol {
     
     public var wordList: WordList
     
-    /// marketPurchaseDate 날짜 형식 변경
-//    var marketPurchaseDateStr: String? {
-//        let dateFormatter = DateFormatter()
-//        dateFormatter.locale = Locale(identifier: "ko_kr")
-//        dateFormatter.timeZone = TimeZone(abbreviation: "KST")
-//        dateFormatter.dateFormat = "yyyy.MM.dd"
-//        
-//        return dateFormatter.string(from: marketPurchaseDate ?? Date())
-//    }
-    
+}
+
+extension Note: Comparable {
+    public static func < (lhs: Note, rhs: Note) -> Bool {
+        if lhs.repeatCount == rhs.repeatCount {
+            return lhs.updateDate <= rhs.updateDate
+        }
+        return lhs.repeatCount < rhs.repeatCount
+    }
 }
 
 // MARK: - Mocking
@@ -163,13 +163,33 @@ extension Note {
         lastTestResult: 0,
         wordList: [.mock, .mock2]
     )
+    
+    public static let firstStudyMock = Self(
+        noteName: "토익 필수 문제",
+        noteCategory: .english,
+        enrollmentUser: "58TIlLOAjhsglasdfkXaOsgaCfb8nHA2",
+        repeatCount: 0,
+        firstTestResult: 0,
+        lastTestResult: 0,
+        wordList: [.mock, .mock2]
+    )
+    
+    public static let lastStudyMock = Self(
+        noteName: "토익 필수 문제",
+        noteCategory: .english,
+        enrollmentUser: "58TIlLOAjhsglasdfkXaOsgaCfb8nHA2",
+        repeatCount: 2,
+        firstTestResult: 0,
+        lastTestResult: 0,
+        wordList: [.mock, .mock2]
+    )
 }
 
 
 extension NoteList {
     public static let mock = Self([
-        .mock3,
         .mock,
+        .mock3,
         .mock2
     ])
 }

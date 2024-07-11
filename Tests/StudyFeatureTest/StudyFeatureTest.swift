@@ -1,4 +1,5 @@
 import ComposableArchitecture
+import Models
 import StudyFeature
 import XCTest
 
@@ -8,7 +9,7 @@ final class StudyFeatureTest: XCTestCase {
     func test_backButtonTapped() async {
         let isDismissInvoked: LockIsolated<[Bool]> = .init([])
         let store = TestStore(
-            initialState: StudyFeature.State.init(note: .mock),
+            initialState: StudyFeature.State.init(note: Shared(.mock)),
             reducer: { StudyFeature() },
             withDependencies: {
                 $0.dismiss = DismissEffect { isDismissInvoked.withValue { $0.append(true) }}
@@ -25,7 +26,7 @@ final class StudyFeatureTest: XCTestCase {
     func test_endButtonTapped() async {
         let isDismissInvoked: LockIsolated<[Bool]> = .init([])
         let store = TestStore(
-            initialState: StudyFeature.State.init(note: .mock),
+            initialState: StudyFeature.State.init(note: Shared(.mock)),
             reducer: { StudyFeature() },
             withDependencies: {
                 $0.dismiss = DismissEffect { isDismissInvoked.withValue { $0.append(true) }}
@@ -34,15 +35,17 @@ final class StudyFeatureTest: XCTestCase {
             }
         )
         
-        await store.send(\.view.endButtonTapped)
+        await store.send(\.view.endButtonTapped) {
+            $0.note.repeatCount += 1
+        }
         XCTAssertEqual(isDismissInvoked.value, [true])
     }
     
     @MainActor
-    func studyFinishButtonTapped() async {
+    func test_studyFinishButtonTapped_with_first_study() async {
         let isDismissInvoked: LockIsolated<[Bool]> = .init([])
         let store = TestStore(
-            initialState: StudyFeature.State.init(note: .mock),
+            initialState: StudyFeature.State.init(note: Shared(.firstStudyMock)),
             reducer: { StudyFeature() },
             withDependencies: {
                 $0.dismiss = DismissEffect { isDismissInvoked.withValue { $0.append(true) }}
@@ -50,8 +53,35 @@ final class StudyFeatureTest: XCTestCase {
                 $0.uuid = .constant(.zero)
             }
         )
-        
-        await store.send(\.view.studyFinishButtonTapped)
+        store.exhaustivity = .off
+        await store.send(.view(.levelButtonTapped(.easy)))
+        await store.send(.view(.levelButtonTapped(.easy)))
+        await store.send(\.view.studyFinishButtonTapped) {
+            $0.note.firstTestResult = $0.testResult
+            $0.note.repeatCount = 1
+        }
+        XCTAssertEqual(isDismissInvoked.value, [true])
+    }
+    
+    @MainActor
+    func test_studyFinishButtonTapped_with_last_study() async {
+        let isDismissInvoked: LockIsolated<[Bool]> = .init([])
+        let store = TestStore(
+            initialState: StudyFeature.State.init(note: Shared(.lastStudyMock)),
+            reducer: { StudyFeature() },
+            withDependencies: {
+                $0.dismiss = DismissEffect { isDismissInvoked.withValue { $0.append(true) }}
+                $0.date.now = Date(timeIntervalSince1970: 0)
+                $0.uuid = .constant(.zero)
+            }
+        )
+        store.exhaustivity = .off
+        await store.send(.view(.levelButtonTapped(.easy)))
+        await store.send(.view(.levelButtonTapped(.easy)))
+        await store.send(\.view.studyFinishButtonTapped) {
+            $0.note.lastTestResult = $0.testResult
+            $0.note.repeatCount = 3
+        }
         XCTAssertEqual(isDismissInvoked.value, [true])
     }
     
@@ -59,7 +89,7 @@ final class StudyFeatureTest: XCTestCase {
     func test_studyResetButtonTapped() async {
         let isDismissInvoked: LockIsolated<[Bool]> = .init([])
         let store = TestStore(
-            initialState: StudyFeature.State.init(note: .mock),
+            initialState: StudyFeature.State.init(note: Shared(.mock)),
             reducer: { StudyFeature() },
             withDependencies: {
                 $0.dismiss = DismissEffect { isDismissInvoked.withValue { $0.append(true) }}
@@ -68,14 +98,18 @@ final class StudyFeatureTest: XCTestCase {
             }
         )
         
-        await store.send(\.view.studyResetButtonTapped)
+        await store.send(\.view.studyResetButtonTapped) {
+            $0.note.repeatCount = 0
+            $0.note.firstTestResult = 0
+            $0.note.lastTestResult = 0
+        }
         XCTAssertEqual(isDismissInvoked.value, [true])
     }
     
     @MainActor
     func test_wordTapped() async {
         let store = TestStore(
-            initialState: StudyFeature.State.init(note: .mock),
+            initialState: StudyFeature.State.init(note: Shared(.mock)),
             reducer: { StudyFeature() },
             withDependencies: {
                 $0.date.now = Date(timeIntervalSince1970: 0)
@@ -93,7 +127,7 @@ final class StudyFeatureTest: XCTestCase {
     func test_first_or_last_study() async {
         let store = TestStore(
             initialState: StudyFeature.State.init(
-                note: .init(
+                note: Shared(.init(
                     noteName: "영단어 암기장",
                     noteCategory: .english,
                     enrollmentUser: "",
@@ -108,7 +142,7 @@ final class StudyFeatureTest: XCTestCase {
                         )
                     ]
                 )
-            ),
+            )),
             reducer: { StudyFeature() },
             withDependencies: {
                 $0.date.now = Date(timeIntervalSince1970: 0)
@@ -132,7 +166,7 @@ final class StudyFeatureTest: XCTestCase {
     func test_middle_study() async {
         let store = TestStore(
             initialState: StudyFeature.State.init(
-                note: .init(
+                note: Shared(.init(
                     noteName: "영단어 암기장",
                     noteCategory: .english,
                     enrollmentUser: "",
@@ -148,7 +182,7 @@ final class StudyFeatureTest: XCTestCase {
                         )
                     ]
                 )
-            ),
+            )),
             reducer: { StudyFeature() },
             withDependencies: {
                 $0.date.now = Date(timeIntervalSince1970: 0)
@@ -176,9 +210,7 @@ final class StudyFeatureTest: XCTestCase {
     @MainActor
     func test_onChange() async {
         let store = TestStore(
-            initialState: StudyFeature.State.init(
-                note: .mock
-            ),
+            initialState: StudyFeature.State.init(note: Shared(.mock)),
             reducer: { StudyFeature() },
             withDependencies: {
                 $0.date.now = Date(timeIntervalSince1970: 0)

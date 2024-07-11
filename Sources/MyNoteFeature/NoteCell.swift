@@ -62,30 +62,37 @@ public struct NoteCell: View {
     
     @ViewBuilder
     private func ButtonView() -> some View {
-            if note.repeatCount >= 4 {
-                Image.goodIcon
-                    .resizable()
-                    .frame(width: 44, height: 44)
-            } else if !note.wordList.isEmpty {
-                Button(
-                    action: {
-                        studyButtonTapped()
-                    }, label: {
-                        VStack(spacing: 4) {
-                            Image(systemName: "play.circle")
-                            Text("학습 시작")
-                                .font(.system(size: 9, weight: .bold))
-                        }
-                        .foregroundStyle(.white)
-                        .padding(.vertical, 8)
-                        .padding(.horizontal, 4)
-                        .frame(width: 44, height: 44)
-                        .background(note.noteColor)
-                        .cornerRadius(2)
-                    }
-                )
-                .buttonStyle(PlainButtonStyle())
+        if note.repeatCount >= 4 {
+            Group {
+                if note.lastTestResult >= 0.75 {
+                    Image.goodIcon
+                        .resizable()
+                } else {
+                    Image.failIcon
+                        .resizable()
+                }
             }
+            .frame(width: 44, height: 44)
+        } else if !note.wordList.isEmpty {
+            Button(
+                action: {
+                    studyButtonTapped()
+                }, label: {
+                    VStack(spacing: 4) {
+                        Image(systemName: "play.circle")
+                        Text("학습 시작")
+                            .font(.system(size: 9, weight: .bold))
+                    }
+                    .foregroundStyle(.white)
+                    .padding(.vertical, 8)
+                    .padding(.horizontal, 4)
+                    .frame(width: 44, height: 44)
+                    .background(note.noteColor)
+                    .cornerRadius(2)
+                }
+            )
+            .buttonStyle(PlainButtonStyle())
+        }
     }
     
     private func RepeatCountView() -> some View {
@@ -95,7 +102,7 @@ public struct NoteCell: View {
                     HStack {
                         ForEach(1...4, id: \.self) { idx in
                             NumberCircle(idx: idx)
-                            if idx != 4 {
+                            if idx < 4 {
                                 Spacer()
                             }
                         }
@@ -145,7 +152,7 @@ public struct NoteCell: View {
                 }
         } else if idx == 1 {
             ImageView(getTestResultImage(note.firstTestResult))
-        } else if idx == 4 {
+        } else if idx >= 4 {
             ImageView(getTestResultImage(note.lastTestResult))
         } else {
             ImageView(.checkmark)
@@ -155,7 +162,7 @@ public struct NoteCell: View {
     private func getTestResultImage(_ result: Double) -> Image {
         if result > 0 && result <= 0.5 {
             .badFace
-        } else if result > 0.5 && result <= 0.8 {
+        } else if result >= 0.5 && result < 0.75 {
             .normalFace
         } else {
             .goodFace
@@ -163,14 +170,14 @@ public struct NoteCell: View {
     }
     
     private func ImageView(_ image: Image) -> some View {
-            image
-                .resizable()
-                .frame(width: 20, height: 20)
-                .background {
-                    Circle()
-                        .frame(width: 24, height: 24)
-                        .foregroundStyle(note.noteColor)
-                }
+        image
+            .resizable()
+            .frame(width: 20, height: 20)
+            .background {
+                Circle()
+                    .frame(width: 24, height: 24)
+                    .foregroundStyle(note.noteColor)
+            }
     }
 }
 
