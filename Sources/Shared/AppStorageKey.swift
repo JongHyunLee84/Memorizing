@@ -1,8 +1,7 @@
-//
-//  File.swift
-//  
-//
-//  Created by 이종현 on 7/11/24.
-//
+import ComposableArchitecture
 
-import Foundation
+extension PersistenceReaderKey where Self == PersistenceKeyDefault<AppStorageKey<Bool>> {
+  public static var showOnlyStudyingNote: Self {
+      PersistenceKeyDefault(.appStorage("showOnlyStudyingNote"), false)
+  }
+}
