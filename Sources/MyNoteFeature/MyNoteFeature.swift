@@ -118,7 +118,8 @@ public struct MyNoteFeature {
                                      repeatCount: note.repeatCount,
                                      firstTestResult: note.firstTestResult,
                                      lastTestResult: note.lastTestResult,
-                                     updateDate: now)
+                                     updateDate: now,
+                                     wordList: addNote.wordList)
                 } else {
                     saveNote = .init(
                         noteName: addNote.noteName,
@@ -132,6 +133,11 @@ public struct MyNoteFeature {
                     guard let saveNote else { return }
                     try await noteClient.saveNote(userID, saveNote)
                 }
+                
+                // Tree Based Navgation onAppear 작동 안 함.
+            case .destination(.dismiss):
+                state.noteList.sort()
+                return .none
                 
                 // MARK: - StudyFeature
             case let .view(.studyButtonTapped(note)):
@@ -233,8 +239,8 @@ public struct MyNoteListView: View {
             .onFirstTask {
                 await send(.onFirstAppear).finish()
             }
-            .task {
-                await send(.onAppear).finish()
+            .onAppear {
+                send(.onAppear)
             }
             .toolbar {
                 AppLogoToolbarItem(placement: .topBarLeading)
