@@ -12,7 +12,7 @@ let package = Package(
         .library(name: "AuthClient", targets: ["AuthClient"]),
         .library(name: "AuthClientLive", targets: ["AuthClientLive"]),
         .library(name: "CommonUI", targets: ["CommonUI"]),
-        .library(name: "Extensions", targets: ["Extensions"]),
+        .library(name: "Utilities", targets: ["Utilities"]),
         .library(name: "LoginFeature", targets: ["LoginFeature"]),
         .library(name: "Models", targets: ["Models"]),
         .library(name: "MyNoteFeature", targets: ["MyNoteFeature"]),
@@ -74,7 +74,7 @@ let package = Package(
                 .product(name: "PopupView", package: "PopupView"),
             ]
         ),
-        .target(name: "Extensions",
+        .target(name: "Utilities",
                 dependencies: [
                     .product(name: "Dependencies", package: "swift-dependencies"),            
                 ]
@@ -91,7 +91,7 @@ let package = Package(
         .target(
             name: "Models",
             dependencies: [
-                "Extensions",
+                "Utilities",
                 .product(name: "Dependencies", package: "swift-dependencies"),
             ]
         ),
@@ -128,7 +128,7 @@ let package = Package(
         .target(
             name: "MarketClientLive",
             dependencies: [
-                "Extensions",
+                "Utilities",
                 "MarketClient",
                 .product(name: "FirebaseFirestore", package: "firebase-ios-sdk"),
             ]
@@ -144,7 +144,7 @@ let package = Package(
         .target(
             name: "NoteClientLive",
             dependencies: [
-                "Extensions",
+                "Utilities",
                 "NoteClient",
                 .product(name: "FirebaseFirestore", package: "firebase-ios-sdk"),
             ]
@@ -160,7 +160,7 @@ let package = Package(
             name: "StudyFeature",
             dependencies: [
                 "CommonUI",
-                "Extensions",
+                "Utilities",
                 "Models",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
             ]
@@ -181,7 +181,7 @@ let package = Package(
         .testTarget(
             name: "MyNoteFeatureTest",
             dependencies: [
-                "Extensions",
+                "Utilities",
                 "MyNoteFeature",
             ]
         ),
