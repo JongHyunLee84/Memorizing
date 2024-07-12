@@ -9,13 +9,13 @@ extension NoteClient: DependencyKey {
             let snapshot = try await getNoteCollection(userID)
                 .order(by: "repeatCount")
                 .getDocuments()
-            return snapshot.documents.compactMap { try? $0.data(as: Note.self) }
+            return try snapshot.documents.tryMap { try $0.data(as: Note.self) }
         },
         getWordList: { userID, noteID in
             let snapshot = try await getWordCollection(userID, noteID)
                 .order(by: "wordLevel")
                 .getDocuments()
-            return snapshot.documents.compactMap { try? $0.data(as: Word.self) }
+            return try snapshot.documents.tryMap { try $0.data(as: Word.self) }
         },
         saveNote: { userID, note in
             try getNoteDocument(userID, note.id)

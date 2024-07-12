@@ -127,7 +127,9 @@ let package = Package(
         .target(
             name: "MarketClientLive",
             dependencies: [
+                "Extensions",
                 "MarketClient",
+                .product(name: "FirebaseFirestore", package: "firebase-ios-sdk"),
             ]
         ),
         .target(
@@ -141,6 +143,7 @@ let package = Package(
         .target(
             name: "NoteClientLive",
             dependencies: [
+                "Extensions",
                 "NoteClient",
                 .product(name: "FirebaseFirestore", package: "firebase-ios-sdk"),
             ]

@@ -11,4 +11,12 @@ extension Array {
             }
         }
     }
+    
+    public func tryMap<T>(_ transform: (Element) throws -> T) throws -> [T] {
+        var result: [T] = []
+        for element in self {
+            result.append(try transform(element))
+        }
+        return result
+    }
 }

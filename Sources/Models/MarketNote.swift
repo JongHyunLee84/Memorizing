@@ -34,16 +34,16 @@ public struct MarketNote: Codable, Identifiable, CategoryProtocol {
         case reviewCount
     }
     
-    init(
+    public init(
         id: String,
         noteName: String,
         noteCategory: String,
         enrollmentUser: String,
         notePrice: Int,
         updateDate: Date,
-        salesCount: Int,
-        starScoreTotal: Double,
-        reviewCount: Int,
+        salesCount: Int = 0,
+        starScoreTotal: Double = 0,
+        reviewCount: Int = 0,
         wordList: MarketWordList = []
     ) {
         self.id = id
