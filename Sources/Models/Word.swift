@@ -1,5 +1,5 @@
 import Dependencies
-import Extensions
+import Utilities
 import Foundation
 
 public typealias WordList = [Word]

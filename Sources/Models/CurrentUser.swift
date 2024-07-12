@@ -1,5 +1,5 @@
 import Dependencies
-import Extensions
+import Utilities
 import Foundation
 
 public struct CurrentUser: Codable, Equatable {

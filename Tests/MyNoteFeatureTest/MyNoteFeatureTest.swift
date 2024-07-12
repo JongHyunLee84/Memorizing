@@ -1,6 +1,6 @@
 import AddNoteFeature
 import ComposableArchitecture
-import Extensions
+import Utilities
 import Models
 import MyNoteFeature
 import XCTest
