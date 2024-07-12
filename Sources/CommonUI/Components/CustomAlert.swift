@@ -21,7 +21,7 @@ struct CustomAlertModifier<A, M, T>: ViewModifier where A : View, M : View  {
         self.actions = actions
         self.message = message
     }
-    
+    // TODO: UI 수정 필요
     func body(content: Content) -> some View {
         if isPresented {
             content
@@ -101,7 +101,7 @@ extension View {
 fileprivate struct AlertReducer {
     @ObservableState
     struct State {
-        var destination: Destination.State?
+        @Presents var destination: Destination.State?
     }
     
     enum Action: BindableAction {
@@ -133,6 +133,7 @@ fileprivate struct AlertReducer {
                 return .none
             }
         }
+        .ifLet(\.$destination, action: \.destination)
     }
 }
 
@@ -140,7 +141,7 @@ extension AlertState where Action == AlertReducer.Destination.Alert {
     fileprivate static let alert = Self(
         title: { TextState("포인트를 얻는 방법") },
         actions: {
-            ButtonState(role: .cancel, action: .buttonTapped) {
+            ButtonState(role: .destructive, action: .buttonTapped) {
                 TextState("확인")
                     .foregroundColor(.black)
             }
