@@ -1,6 +1,7 @@
 import ComposableArchitecture
 import CommonUI
 import Models
+import MarketClient
 import Shared
 import SwiftUI
 
@@ -9,16 +10,17 @@ public struct MarketFeature {
     @ObservableState
     public struct State: Equatable {
         @Shared(.currentUser) public var currentUser
-        private var noteList: IdentifiedArrayOf<MarketNote>
+        @Presents public var destination: Destination.State?
+        var noteList: IdentifiedArrayOf<MarketNote>
         public var queriedNoteList: IdentifiedArrayOf<MarketNote>
         public var noteQuery: String
         public var marketCategory: MarketCategory
-        public var sortType: SortType?
-        //        public var destination: Destination.State?
+        public var sortType: SortType
+        
         public init(noteList: MarketNoteList = .init(),
                     noteQuery: String = "",
                     marketCategory: MarketCategory = .all,
-                    sortType: SortType? = nil) {
+                    sortType: SortType = .reviewScore) {
             self.noteList = .init(uniqueElements: noteList)
             self.queriedNoteList = .init(uniqueElements: noteList)
             self.noteQuery = noteQuery
@@ -29,6 +31,8 @@ public struct MarketFeature {
     
     public enum Action: ViewAction {
         case view(View)
+        case marketNoteListResponse(MarketNoteList)
+        case destination(PresentationAction<Destination.Action>)
         
         @CasePathable
         public enum View: BindableAction {
@@ -42,17 +46,122 @@ public struct MarketFeature {
             case plusButtonTapped
         }
     }
-    //
-    //    @Reducer
-    //    enum Destination {
-    //        case
-    //    }
+    
+    @Reducer(state: .equatable)
+    public enum Destination {
+        case alert(AlertState<Alert>)
+        
+        @CasePathable
+        public enum Alert {
+            case coinButtonTapped
+        }
+    }
     
     public init() {}
     
+    @Dependency(\.marketClient) var marketClient
+    
     public var body: some ReducerOf<Self> {
         BindingReducer(action: \.view)
+        Reduce { state, action in
+            switch action {
+            case let .marketNoteListResponse(noteList):
+                state.noteList = .init(uniqueElements: noteList)
+                return .none
+            case .view(.onFirstAppear):
+                return .run { send in
+                    await send(.marketNoteListResponse(
+                        try await marketClient.getMarketList()
+                    ))
+                }
+            case .view(.coinButtonTapped):
+                state.destination = .alert(.coin)
+                return .none
+            case .view(.searchButtonTapped):
+                state.queriedNoteList = filtering(state)
+                return .none
+            case let .view(.categoryButtonTapped(category)):
+                state.marketCategory = category
+                state.queriedNoteList = filtering(state)
+                return .none
+            case let .view(.sortButtonTapped(sortType)):
+                guard state.sortType != sortType else {
+                    return .none
+                }
+                state.sortType = sortType
+                state.noteList = sorting(state.noteList, sortType: state.sortType)
+                return .none
+            case .view(.noteTapped(_)):
+                // TODO: Destination
+                return .none
+            case .view(.plusButtonTapped):
+                // TODO: Destination
+                return .none
+            case .view(.binding(\.noteQuery)):
+                if state.noteQuery.isEmpty {
+                    state.queriedNoteList = filtering(state)
+                }
+                return .none
+            case .view(.binding):
+                return .none
+            case .destination:
+                return .none
+            }
+        }
+        .ifLet(\.$destination, action: \.destination)
     }
+    
+    private func filtering(_ state: State) -> IdentifiedArrayOf<MarketNote> {
+        state.noteList
+            .filter {
+                if state.noteQuery.isEmpty { return true }
+                else { return $0.noteName.contains(state.noteQuery)
+                    || $0.noteCategory.contains(state.noteQuery)
+                }
+            }
+            .filter {
+                if state.marketCategory == .all { return true }
+                else {
+                    return $0.noteCategory == state.marketCategory.rawValue
+                }
+            }
+    }
+    
+    private func sorting(_ noteList: IdentifiedArrayOf<MarketNote>, sortType: SortType) -> IdentifiedArrayOf<MarketNote> {
+        return .init(
+            uniqueElements: noteList.sorted {
+                switch sortType {
+                case .reviewScore:
+                    return $0.starScoreTotal >= $0.starScoreTotal
+                case .reviewCount:
+                    return $0.reviewCount >= $1.reviewCount
+                case .sellCount:
+                    return $0.salesCount >= $1.salesCount
+                case .new:
+                    return $0.updateDate >= $1.updateDate
+                }
+            }
+        )
+    }
+}
+
+extension AlertState where Action == MarketFeature.Destination.Alert {
+    static let coin = Self(
+        title: { TextState("포인트를 얻는 방법") },
+        actions: { 
+            ButtonState(role: .destructive, action: .coinButtonTapped) {
+                TextState("확인")
+            }
+        },
+        message: {
+            // TODO: 각 케이스마다 Coin 올려주기
+            TextState("""
+1. 4번의 확습을 완료하고 도장을 받아봐요~!
+2. 사람들에게 나만의 암기장을 판매해봐요~!
+3. 구매한 암기장에 리뷰를 작성해봐요~!
+""")
+        }
+    )
 }
 
 @ViewAction(for: MarketFeature.self)
@@ -73,7 +182,6 @@ public struct MarketView: View {
                         Image(systemName: "magnifyingglass")
                             .foregroundColor(.gray2)
                     })
-                    .disabled(store.noteQuery.isEmpty)
                 }
                 .padding(.horizontal, 20)
                 .frame(height: 40)
@@ -152,6 +260,11 @@ public struct MarketView: View {
             .padding(.bottom, 60)
         }
         .padding(.horizontal, 16)
+        .customAlert($store.scope(state: \.destination?.alert,
+                                  action: \.destination.alert))
+        .onFirstTask {
+            send(.onFirstAppear)
+        }
         .navigationSetting()
         .toolbar {
             AppLogoToolbarItem(placement: .topBarLeading)
