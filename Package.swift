@@ -16,6 +16,9 @@ let package = Package(
         .library(name: "LoginFeature", targets: ["LoginFeature"]),
         .library(name: "Models", targets: ["Models"]),
         .library(name: "MyNoteFeature", targets: ["MyNoteFeature"]),
+        .library(name: "MarketFeature", targets: ["MarketFeature"]),
+        .library(name: "MarketClient", targets: ["MarketClient"]),
+        .library(name: "MarketClientLive", targets: ["MarketClientLive"]),
         .library(name: "NoteClient", targets: ["NoteClient"]),
         .library(name: "NoteClientLive", targets: ["NoteClientLive"]),
         .library(name: "Shared", targets: ["Shared"]),
@@ -104,7 +107,29 @@ let package = Package(
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
             ]
         ),
-
+        .target(
+            name: "MarketFeature",
+            dependencies: [
+                "CommonUI",
+                "Models",
+                "Shared",
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+            ]
+        ),
+        .target(
+            name: "MarketClient",
+            dependencies: [
+                "Models",
+                .product(name: "Dependencies", package: "swift-dependencies"),
+                .product(name: "DependenciesMacros", package: "swift-dependencies"),         
+            ]
+        ),
+        .target(
+            name: "MarketClientLive",
+            dependencies: [
+                "MarketClient",
+            ]
+        ),
         .target(
             name: "NoteClient",
             dependencies: [
