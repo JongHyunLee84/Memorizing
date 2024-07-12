@@ -3,7 +3,7 @@ import Foundation
 
 public typealias MarketWordList = [MarketWord]
 
-public struct MarketWord: Codable, Identifiable {
+public struct MarketWord: Codable, Identifiable, Equatable {
     public let id: String
     public var wordMeaning: String
     public var wordString: String

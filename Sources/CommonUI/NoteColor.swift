@@ -19,3 +19,9 @@ extension Note {
         category.noteColor
     }
 }
+
+extension MarketNote {
+    public var noteColor: Color {
+        category.noteColor
+    }
+}

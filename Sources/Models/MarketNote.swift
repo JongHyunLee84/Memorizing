@@ -1,9 +1,10 @@
 import Dependencies
 import Foundation
+import SwiftUI
 
 public typealias MarketNoteList = [MarketNote]
 
-public struct MarketNote: Codable, Identifiable, CategoryProtocol {
+public struct MarketNote: Codable, Identifiable, CategoryProtocol, Equatable {
     public let id: String
     /// 암기장 이름
     public var noteName: String
