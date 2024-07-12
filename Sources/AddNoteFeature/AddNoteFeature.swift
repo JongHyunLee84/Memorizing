@@ -233,26 +233,10 @@ public struct AddNoteView: View {
                     Text("총 \(wordNumberText)개의 단어") // TODO:
                         .font(.footnote)
                         .frame(maxWidth: .infinity, alignment: .trailing)
-                    List {
-                        ForEach(store.wordList) {
-                            word in
-                            HStack(alignment: .top) {
-                                Group {
-                                    Text(word.wordString)
-                                    Text("|")
-                                    Text(word.wordMeaning)
-                                }
-                                .frame(maxWidth: .infinity)
-                            }
-                            .listRowSeparator(.hidden)
-                        }
-                        .onDelete { indexSet in
-                            send(.deleteWordButtonTapped(indexSet))
-                        }
+                    WordCell(wordList: store.wordList,
+                             height: 100) { indexSet in
+                        send(.deleteWordButtonTapped(indexSet))
                     }
-                    .emptyList(list: store.wordList, title: "등록된 단어가 없어요.")
-                    .listStyle(.plain)
-                    .frame(height: 200)
                 }
             }
             .textStyler(font: .callout, weight: .semibold)
