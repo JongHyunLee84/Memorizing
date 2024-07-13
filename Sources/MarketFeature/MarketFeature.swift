@@ -66,7 +66,9 @@ public struct MarketFeature {
         Reduce { state, action in
             switch action {
             case let .marketNoteListResponse(noteList):
-                state.noteList = .init(uniqueElements: noteList)
+                let noteList: IdentifiedArrayOf<MarketNote> = .init(uniqueElements: noteList)
+                state.noteList = noteList
+                state.queriedNoteList = noteList
                 return .none
             case .view(.onFirstAppear):
                 return .run { send in
@@ -89,7 +91,8 @@ public struct MarketFeature {
                     return .none
                 }
                 state.sortType = sortType
-                state.noteList = sorting(state.noteList, sortType: state.sortType)
+                state.queriedNoteList = sorting(state.queriedNoteList,
+                                                sortType: state.sortType)
                 return .none
             case .view(.noteTapped(_)):
                 // TODO: Destination
