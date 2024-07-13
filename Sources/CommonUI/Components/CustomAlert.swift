@@ -1,4 +1,5 @@
-@_spi(Presentation) import ComposableArchitecture
+import ComposableArchitecture
+import PopupView
 import SwiftUI
 
 struct CustomAlertModifier<A, M, T>: ViewModifier where A : View, M : View  {
@@ -21,33 +22,42 @@ struct CustomAlertModifier<A, M, T>: ViewModifier where A : View, M : View  {
         self.actions = actions
         self.message = message
     }
-    // TODO: UI 수정 필요
+    
     func body(content: Content) -> some View {
-        if isPresented {
-            content
-                .overlay {
-                    Color.black
-                        .opacity(0.3)
-                        .onTapGesture {
-                            isPresented = false
-                        }
-                    VStack {
+        content
+            .overlay {
+                if isPresented {
+                    Color.black.opacity(0.3)
+                        .ignoresSafeArea()
+                }
+            }
+            .popup(isPresented: $isPresented) {
+                    VStack(spacing: 12) {
                         title
+                            .textStyler(font: .title3,
+                                        weight: .semibold)
                         if let data {
                             message(data)
                             actions(data)
                         }
-                        
                     }
-                }
-        } else {
-            content
-        }
+                    .padding(.all, 12)
+                    .background(.white)
+                    .cornerRadius(20)
+                    .padding(.horizontal, 16)
+                } customize: {
+                    $0
+                        .appearFrom(.centerScale)
+                        .closeOnTapOutside(true)
+                        .isOpaque(true) // Navbar 덮기
+                    // MARK: - 이상한 잔상 남는 버그
+//                        .backgroundColor(.black.opacity(0.3))
+            }
     }
 }
 
 extension View {
-    public func customAlert<A: View, M: View, T>(
+    private func customAlert<A: View, M: View, T>(
         _ title: Text,
         isPresented: Binding<Bool>,
         presenting data: T? = nil,
@@ -87,6 +97,12 @@ extension View {
                         }
                     } label: {
                         Text(button.label)
+                            .fontWeight(.semibold)
+                            .foregroundStyle(.white)
+                            .frame(height: 40)
+                            .frame(maxWidth: .infinity)
+                            .background(Color.mainBlue)
+                            .cornerRadius(10)
                     }
                 }
             },
@@ -143,7 +159,6 @@ extension AlertState where Action == AlertReducer.Destination.Alert {
         actions: {
             ButtonState(role: .destructive, action: .buttonTapped) {
                 TextState("확인")
-                    .foregroundColor(.black)
             }
         },
         message: {
