@@ -9,6 +9,7 @@ let package = Package(
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(name: "AddNoteFeature", targets: ["AddNoteFeature"]),
+        .library(name: "AddMarketFeature", targets: ["AddMarketFeature"]),
         .library(name: "AuthClient", targets: ["AuthClient"]),
         .library(name: "AuthClientLive", targets: ["AuthClientLive"]),
         .library(name: "CommonUI", targets: ["CommonUI"]),
@@ -41,6 +42,15 @@ let package = Package(
             name: "AddNoteFeature",
             dependencies: [
                 "CommonUI",
+                "Shared",
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+            ]
+        ),
+        .target(
+            name: "AddMarketFeature",
+            dependencies: [
+                "CommonUI",
+                "MarketClient",
                 "Shared",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
             ]
