@@ -3,7 +3,6 @@ import Dependencies
 import FirebaseCore
 import FirebaseAuth
 import FirebaseFirestore
-import FirebaseFirestore
 import GoogleSignIn
 import GoogleSignInSwift
 import KakaoSDKAuth

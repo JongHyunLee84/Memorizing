@@ -41,7 +41,6 @@ let package = Package(
             name: "AddNoteFeature",
             dependencies: [
                 "CommonUI",
-                "Models",
                 "Shared",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
             ]
@@ -101,7 +100,6 @@ let package = Package(
                 "AddNoteFeature",
                 "CommonUI",
                 "NoteClient",
-                "Models",
                 "StudyFeature",
                 "Shared",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
@@ -111,7 +109,6 @@ let package = Package(
             name: "MarketFeature",
             dependencies: [
                 "CommonUI",
-                "Models",
                 "MarketClient",
                 "Shared",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
@@ -161,7 +158,6 @@ let package = Package(
             dependencies: [
                 "CommonUI",
                 "Utilities",
-                "Models",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
             ]
         ),
