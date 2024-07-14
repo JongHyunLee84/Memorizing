@@ -11,7 +11,7 @@ public struct MarketFeature {
     public struct State: Equatable {
         @Shared(.currentUser) public var currentUser
         @Presents public var destination: Destination.State?
-        var noteList: IdentifiedArrayOf<MarketNote>
+        public var noteList: IdentifiedArrayOf<MarketNote>
         public var queriedNoteList: IdentifiedArrayOf<MarketNote>
         public var noteQuery: String
         public var marketCategory: MarketCategory
@@ -65,27 +65,39 @@ public struct MarketFeature {
         BindingReducer(action: \.view)
         Reduce { state, action in
             switch action {
+                
             case let .marketNoteListResponse(noteList):
                 let noteList: IdentifiedArrayOf<MarketNote> = .init(uniqueElements: noteList)
                 state.noteList = noteList
                 state.queriedNoteList = noteList
                 return .none
+                
             case .view(.onFirstAppear):
                 return .run { send in
                     await send(.marketNoteListResponse(
                         try await marketClient.getMarketList()
                     ))
                 }
+                
             case .view(.coinButtonTapped):
                 state.destination = .alert(.coin)
                 return .none
+                
             case .view(.searchButtonTapped):
                 state.queriedNoteList = filtering(state)
                 return .none
+                
             case let .view(.categoryButtonTapped(category)):
                 state.marketCategory = category
                 state.queriedNoteList = filtering(state)
                 return .none
+                
+            case .view(.binding(\.noteQuery)):
+                if state.noteQuery.isEmpty {
+                    state.queriedNoteList = filtering(state)
+                }
+                return .none
+                
             case let .view(.sortButtonTapped(sortType)):
                 guard state.sortType != sortType else {
                     return .none
@@ -94,17 +106,15 @@ public struct MarketFeature {
                 state.queriedNoteList = sorting(state.queriedNoteList,
                                                 sortType: state.sortType)
                 return .none
+                
             case .view(.noteTapped(_)):
                 // TODO: Destination
                 return .none
+                
             case .view(.plusButtonTapped):
                 // TODO: Destination
                 return .none
-            case .view(.binding(\.noteQuery)):
-                if state.noteQuery.isEmpty {
-                    state.queriedNoteList = filtering(state)
-                }
-                return .none
+                
             case .view(.binding):
                 return .none
             case .destination:
@@ -114,7 +124,7 @@ public struct MarketFeature {
         .ifLet(\.$destination, action: \.destination)
     }
     
-    private func filtering(_ state: State) -> IdentifiedArrayOf<MarketNote> {
+    public func filtering(_ state: State) -> IdentifiedArrayOf<MarketNote> {
         state.noteList
             .filter {
                 if state.noteQuery.isEmpty { return true }
@@ -130,7 +140,7 @@ public struct MarketFeature {
             }
     }
     
-    private func sorting(_ noteList: IdentifiedArrayOf<MarketNote>, sortType: SortType) -> IdentifiedArrayOf<MarketNote> {
+    public func sorting(_ noteList: IdentifiedArrayOf<MarketNote>, sortType: SortType) -> IdentifiedArrayOf<MarketNote> {
         return .init(
             uniqueElements: noteList.sorted {
                 switch sortType {
@@ -149,7 +159,7 @@ public struct MarketFeature {
 }
 
 extension AlertState where Action == MarketFeature.Destination.Alert {
-    static let coin = Self(
+    public static let coin = Self(
         title: { TextState("포인트를 얻는 방법") },
         actions: { 
             ButtonState(role: .destructive, action: .coinButtonTapped) {
