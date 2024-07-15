@@ -26,12 +26,17 @@ public struct AddMarketFeature {
             self.priceStr = priceStr
             self.isInFlight = isInFlight
         }
+        
+        public var isAddButtonAvailable: Bool {
+            selectedNote != nil && !priceStr.isEmpty
+        }
     }
     
     public enum Action: ViewAction {
         case view(View)
         case noteListResponse(NoteList)
-        
+        case editPriceStr
+
         @CasePathable
         public enum View: BindableAction {
             case binding(BindingAction<State>)
@@ -44,7 +49,9 @@ public struct AddMarketFeature {
     
     @Dependency(\.marketClient) var marketClient
     @Dependency(\.dismiss) var dismiss
-    
+    @Dependency(\.continuousClock) var clock
+    private enum CancelID { case price }
+
     public var body: some ReducerOf<Self> {
         BindingReducer(action: \.view)
         Reduce { state, action in
@@ -69,10 +76,24 @@ public struct AddMarketFeature {
                 }
                 
             case let .view(.noteTapped(note)):
-                state.selectedNote = note
+                if state.selectedNote == note {
+                    state.selectedNote = nil
+                } else {
+                    state.selectedNote = note
+                }
                 return .none
                 
             case .view(.binding(\.priceStr)):
+                guard !state.priceStr.isEmpty else { return .cancel(id: CancelID.price) }
+                
+                return .run { send in
+                    try await clock.sleep(for: .seconds(0.5))
+                    await send(.editPriceStr)
+                }
+                .cancellable(id: CancelID.price,
+                             cancelInFlight: true)
+                
+            case .editPriceStr:
                 state.priceStr = state.priceStr.filter { $0.isNumber }
                 state.priceStr += "P"
                 return .none
@@ -98,16 +119,65 @@ public struct AddMarketFeature {
 
 @ViewAction(for: AddMarketFeature.self)
 public struct AddMarketFeatureView: View {
-    public var store: StoreOf<AddMarketFeature>
+    @Bindable public var store: StoreOf<AddMarketFeature>
     
     public init(store: StoreOf<AddMarketFeature>) {
         self.store = store
     }
     
     public var body: some View {
-        VStack(spacing: 0) {
+        GeometryReader { proxy in
+            VStack(spacing: 0) {
+                let height = proxy.size.height
+                Text("내 암기장")
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.top, 32)
+                    .padding(.bottom, 12)
+                    .textStyler(weight: .semibold)
+                
+                ScrollView {
+                    LazyVStack(spacing: 12) {
+                        ForEach(store.noteList) { note in
+                            MyNoteCell(note: note)
+                                .onTapGesture {
+                                    send(.noteTapped(note))
+                                }
+                        }
+                    }
+                }
+                .scrollIndicators(.never)
+                .frame(height: height * 0.7)
+                
+                CustomDivider()
+                    .padding(.vertical, 12)
+                
+                HStack {
+                    Text("포인트 설정")
+                    Spacer()
+                    TextField("100P",
+                              text: $store.priceStr)
+                    .multilineTextAlignment(.center)
+                    .frame(width: 125)
+                    .padding(.vertical, 4)
+                    .background(Color.gray6)
+                    .border(.gray5)
+                }
+                .textStyler(font: .headline,
+                            weight: .semibold)
+                
+                Spacer()
+                
+                MainButton(title: "마켓에 등록하기",
+                           font: .subheadline,
+                           weight: .semibold,
+                           isAvailable: store.isAddButtonAvailable) {
+                    send(.addButtonTapped)
+                }
+                
+            }
             
         }
+        .padding(.horizontal, 16)
         .onFirstTask {
             send(.onFirstAppear)
         }
@@ -119,6 +189,41 @@ public struct AddMarketFeatureView: View {
             }
         }
     }
+    
+    private func MyNoteCell(note: Note) -> some View {
+        let gray4 = note == store.selectedNote
+        ? note.noteColor
+        : .gray4
+        let gray1 = note == store.selectedNote
+        ? note.noteColor
+        : .gray1
+        return Rectangle()
+            .fill(.white)
+            .cornerRadius(12)
+            .frame(height: 80)
+            .overlay {
+                HStack(spacing: 12) {
+                    Rectangle()
+                        .fill(gray4)
+                        .frame(width: 10)
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text(note.noteCategory)
+                            .textStyler(color: gray1,
+                                        font: .caption2)
+                            .border(gray1,
+                                    verticalPadding: 4,
+                                    horizontalPadding: 6)
+                        Text(note.noteName)
+                            .textStyler(color: .gray1,
+                                        font: .headline,
+                                        weight: .semibold)
+                    }
+                    Spacer()
+                }
+            }
+            .border(gray4,
+                    radius: 12)
+    }
 }
 
 #Preview {
@@ -128,8 +233,11 @@ public struct AddMarketFeatureView: View {
         AddMarketFeatureView(
             store: .init(
                 initialState: .init(),
-                reducer: { AddMarketFeature() }
+                reducer: { AddMarketFeature()._printChanges() }
             )
         )
+        .onAppear {
+            UIApplication.shared.hideKeyboard()
+        }
     }
 }
