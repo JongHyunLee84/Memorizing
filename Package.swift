@@ -173,6 +173,12 @@ let package = Package(
         ),
         // MARK: - Test Target
         .testTarget(
+            name: "AddMarketFeatureTest",
+            dependencies: [
+                "AddMarketFeature",
+            ]
+        ),
+        .testTarget(
             name: "AddNoteFeatureTest",
             dependencies: [
                 "AddNoteFeature",
