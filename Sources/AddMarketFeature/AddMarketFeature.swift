@@ -47,6 +47,8 @@ public struct AddMarketFeature {
         }
     }
     
+    public init() {}
+    
     @Dependency(\.marketClient) var marketClient
     @Dependency(\.dismiss) var dismiss
     @Dependency(\.continuousClock) var clock
@@ -95,7 +97,11 @@ public struct AddMarketFeature {
                 
             case .editPriceStr:
                 state.priceStr = state.priceStr.filter { $0.isNumber }
-                state.priceStr += "P"
+                if state.priceStr.isEmpty {
+                    state.priceStr = ""
+                } else {
+                    state.priceStr += "P"
+                }
                 return .none
                 
             case .view(.addButtonTapped):
@@ -151,33 +157,21 @@ public struct AddMarketFeatureView: View {
                 CustomDivider()
                     .padding(.vertical, 12)
                 
-                HStack {
-                    Text("포인트 설정")
-                    Spacer()
-                    TextField("100P",
-                              text: $store.priceStr)
-                    .multilineTextAlignment(.center)
-                    .frame(width: 125)
-                    .padding(.vertical, 4)
-                    .background(Color.gray6)
-                    .border(.gray5)
-                }
-                .textStyler(font: .headline,
-                            weight: .semibold)
+                NotePriceInputView()
                 
                 Spacer()
-                
+
                 MainButton(title: "마켓에 등록하기",
                            font: .subheadline,
                            weight: .semibold,
                            isAvailable: store.isAddButtonAvailable) {
                     send(.addButtonTapped)
                 }
-                
             }
             
         }
         .padding(.horizontal, 16)
+        .isProgressing(store.isInFlight)
         .onFirstTask {
             send(.onFirstAppear)
         }
@@ -224,6 +218,23 @@ public struct AddMarketFeatureView: View {
             .border(gray4,
                     radius: 12)
     }
+    
+    private func NotePriceInputView() -> some View {
+        HStack {
+            Text("포인트 설정")
+            Spacer()
+            TextField("100P",
+                      text: $store.priceStr)
+            .multilineTextAlignment(.center)
+            .frame(width: 125)
+            .padding(.vertical, 4)
+            .background(Color.gray6)
+            .border(.gray5)
+        }
+        .textStyler(font: .headline,
+                    weight: .semibold)
+    }
+    
 }
 
 #Preview {
@@ -232,7 +243,9 @@ public struct AddMarketFeatureView: View {
     return NavigationStack {
         AddMarketFeatureView(
             store: .init(
-                initialState: .init(),
+                initialState: .init(
+//                    isInFlight: true
+                ),
                 reducer: { AddMarketFeature()._printChanges() }
             )
         )

@@ -1,10 +1,10 @@
 import ComposableArchitecture
 import Utilities
 import Models
-import MyNoteFeature
+import AddNoteFeature
 import XCTest
 
-final class LoginFeatureTest: XCTestCase {
+final class AddNoteFeatureTest: XCTestCase {
     @MainActor
     func test_cannot_save_without_noteName() async {
         let isDismissInvoked: LockIsolated<[Bool]> = .init([])
@@ -32,7 +32,6 @@ final class LoginFeatureTest: XCTestCase {
             $0.noteName = "영단어 암기장"
         }
         await store.send(\.view.saveButtonTapped)
-        await store.receive(\.addNoteDelegate)
         
         XCTAssertEqual(isDismissInvoked.value, [true])
     }
@@ -81,7 +80,6 @@ final class LoginFeatureTest: XCTestCase {
             $0.wordMeaning = ""
         }
         await store.send(\.view.saveButtonTapped)
-        await store.receive(\.addNoteDelegate)
         
         XCTAssertEqual(isDismissInvoked.value, [true])
     }
