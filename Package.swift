@@ -118,6 +118,7 @@ let package = Package(
         .target(
             name: "MarketFeature",
             dependencies: [
+                "AddMarketFeature",
                 "CommonUI",
                 "MarketClient",
                 "Shared",
