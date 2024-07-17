@@ -1,3 +1,4 @@
+import AddMarketFeature
 import ComposableArchitecture
 import CommonUI
 import Models
@@ -31,6 +32,7 @@ public struct MarketFeature {
     
     public enum Action: ViewAction {
         case view(View)
+        case marketNoteRequest
         case marketNoteListResponse(MarketNoteList)
         case destination(PresentationAction<Destination.Action>)
         
@@ -50,6 +52,7 @@ public struct MarketFeature {
     @Reducer(state: .equatable)
     public enum Destination {
         case alert(AlertState<Alert>)
+        case addMarket(AddMarketFeature)
         
         @CasePathable
         public enum Alert {
@@ -72,12 +75,15 @@ public struct MarketFeature {
                 state.queriedNoteList = noteList
                 return .none
                 
-            case .view(.onFirstAppear):
+            case .marketNoteRequest:
                 return .run { send in
                     await send(.marketNoteListResponse(
                         try await marketClient.getMarketList()
                     ))
                 }
+
+            case .view(.onFirstAppear):
+                return .send(.marketNoteRequest)
                 
             case .view(.coinButtonTapped):
                 state.destination = .alert(.coin)
@@ -111,9 +117,13 @@ public struct MarketFeature {
                 // TODO: Destination
                 return .none
                 
+                // MARK: - AddMarket
             case .view(.plusButtonTapped):
-                // TODO: Destination
+                state.destination = .addMarket(AddMarketFeature.State())
                 return .none
+                
+            case .destination(.presented(.addMarket(.view(.addButtonTapped)))):
+                return .send(.marketNoteRequest)
                 
             case .view(.binding):
                 return .none
@@ -184,85 +194,10 @@ public struct MarketView: View {
     public var body: some View {
         GeometryReader { proxy in
             LazyVStack {
-                HStack {
-                    TextField("암기장 이름을 검색해보세요!",
-                              text: $store.noteQuery)
-                    .textStyler(color: .gray3, font: .caption)
-                    Spacer()
-                    Button(action: {
-                        send(.searchButtonTapped)
-                    }, label: {
-                        Image(systemName: "magnifyingglass")
-                            .foregroundColor(.gray2)
-                    })
-                }
-                .padding(.horizontal, 20)
-                .frame(height: 40)
-                .background(Color.gray5)
-                .cornerRadius(30)
-                .padding(.top, 30)
-                
-                ScrollView(.horizontal) {
-                    HStack(spacing: 8) {
-                        ForEach(MarketCategory.allCases, id: \.self) { category in
-                            Text(category.rawValue)
-                                .textStyler(color: category == store.marketCategory
-                                            ? .white
-                                            : .gray3,
-                                            font: .caption2)
-                                .frame(width: 30)
-                                .border(category == store.marketCategory
-                                        ? .clear
-                                        : .gray4,
-                                        radius: 15,
-                                        verticalPadding: 4,
-                                        horizontalPadding: 12)
-                                .background(category == store.marketCategory
-                                            ? category.color
-                                            : .clear)
-                                .cornerRadius(15)
-                                .onTapGesture {
-                                    send(.categoryButtonTapped(category))
-                                }
-                        }
-                    }
-                }
-                .padding(.vertical, 12)
-                .scrollIndicators(.never)
-                
-                HStack(spacing: 12) {
-                    Spacer()
-                    ForEach(SortType.allCases, id: \.self) { sortType in
-                        Text("• \(sortType.rawValue)")
-                            .textStyler(color: sortType == store.sortType
-                                        ? .gray1
-                                        : .gray3,
-                                        font: .caption2,
-                                        weight: sortType == store.sortType
-                                        ? .semibold
-                                        : .regular)
-                            .onTapGesture {
-                                send(.sortButtonTapped(sortType))
-                            }
-                    }
-                }
-                
-                ScrollView {
-                    LazyVGrid(columns: Array(repeating: .init(.flexible()),
-                                             count: 2),
-                              spacing: 8) {
-                        ForEach(store.queriedNoteList) { note in
-                            MarketNoteCell(note: note)
-                                .onTapGesture {
-                                    send(.noteTapped(note))
-                                }
-                        }
-                    }
-                    
-                }
-                .scrollIndicators(.never)
-                .emptyList(list: store.queriedNoteList.elements,
-                           title: "마켓에 존재하는 암기장이 없어요.")
+                SearchBar()
+                CategoryList()
+                SortList()
+                NoteList()
                 .frame(height: proxy.size.height - 150)
             }
         }
@@ -275,8 +210,8 @@ public struct MarketView: View {
         .padding(.horizontal, 16)
         .customAlert($store.scope(state: \.destination?.alert,
                                   action: \.destination.alert))
-        .onFirstTask {
-            send(.onFirstAppear)
+        .task {
+            await send(.onFirstAppear).finish()
         }
         .navigationSetting()
         .toolbar {
@@ -295,6 +230,105 @@ public struct MarketView: View {
                     }
             }
         }
+        .fullScreenCover(
+            item: $store.scope(
+                state: \.destination?.addMarket,
+                action: \.destination.addMarket
+            )
+        ) { store in
+            NavigationStack {
+                AddMarketView(store: store)
+            }
+        }
+    }
+    
+    private func SearchBar() -> some View {
+        HStack {
+            TextField("암기장 이름을 검색해보세요!",
+                      text: $store.noteQuery)
+            .textStyler(color: .gray3, font: .caption)
+            Spacer()
+            Button(action: {
+                send(.searchButtonTapped)
+            }, label: {
+                Image(systemName: "magnifyingglass")
+                    .foregroundColor(.gray2)
+            })
+        }
+        .padding(.horizontal, 20)
+        .frame(height: 40)
+        .background(Color.gray5)
+        .cornerRadius(30)
+        .padding(.top, 30)
+    }
+    
+    private func CategoryList() -> some View {
+        ScrollView(.horizontal) {
+            HStack(spacing: 8) {
+                ForEach(MarketCategory.allCases, id: \.self) { category in
+                    Text(category.rawValue)
+                        .textStyler(color: category == store.marketCategory
+                                    ? .white
+                                    : .gray3,
+                                    font: .caption2)
+                        .frame(width: 30)
+                        .border(category == store.marketCategory
+                                ? .clear
+                                : .gray4,
+                                radius: 15,
+                                verticalPadding: 4,
+                                horizontalPadding: 12)
+                        .background(category == store.marketCategory
+                                    ? category.color
+                                    : .clear)
+                        .cornerRadius(15)
+                        .onTapGesture {
+                            send(.categoryButtonTapped(category))
+                        }
+                }
+            }
+        }
+        .padding(.vertical, 12)
+        .scrollIndicators(.never)
+    }
+    
+    private func SortList() -> some View {
+        HStack(spacing: 12) {
+            Spacer()
+            ForEach(SortType.allCases, id: \.self) { sortType in
+                Text("• \(sortType.rawValue)")
+                    .textStyler(color: sortType == store.sortType
+                                ? .gray1
+                                : .gray3,
+                                font: .caption2,
+                                weight: sortType == store.sortType
+                                ? .semibold
+                                : .regular)
+                    .onTapGesture {
+                        send(.sortButtonTapped(sortType))
+                    }
+            }
+        }
+
+    }
+    
+    private func NoteList() -> some View {
+        ScrollView {
+            LazyVGrid(columns: Array(repeating: .init(.flexible()),
+                                     count: 2),
+                      spacing: 8) {
+                ForEach(store.queriedNoteList) { note in
+                    MarketNoteCell(note: note)
+                        .onTapGesture {
+                            send(.noteTapped(note))
+                        }
+                }
+            }
+            
+        }
+        .scrollIndicators(.never)
+        .emptyList(list: store.queriedNoteList.elements,
+                   title: "마켓에 존재하는 암기장이 없어요.")
     }
 }
 
