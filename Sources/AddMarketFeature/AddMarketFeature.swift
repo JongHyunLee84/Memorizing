@@ -85,9 +85,7 @@ public struct AddMarketFeature {
                 }
                 return .none
                 
-            case .view(.binding(\.priceStr)):
-                guard !state.priceStr.isEmpty else { return .cancel(id: CancelID.price) }
-                
+            case .view(.binding(\.priceStr)):                
                 return .run { send in
                     try await clock.sleep(for: .seconds(0.5))
                     await send(.editPriceStr)
@@ -124,7 +122,7 @@ public struct AddMarketFeature {
 }
 
 @ViewAction(for: AddMarketFeature.self)
-public struct AddMarketFeatureView: View {
+public struct AddMarketView: View {
     @Bindable public var store: StoreOf<AddMarketFeature>
     
     public init(store: StoreOf<AddMarketFeature>) {
@@ -178,7 +176,7 @@ public struct AddMarketFeatureView: View {
         .navigationSetting()
         .toolbar {
             TitleToolbarItem(title: "마켓에 등록하기")
-            BackButtonToolbarItem {
+            XToolbarItem {
                 send(.backButtonTapped)
             }
         }
@@ -241,7 +239,7 @@ public struct AddMarketFeatureView: View {
     @Shared(.currentUser) var currentUser
     currentUser = .mock
     return NavigationStack {
-        AddMarketFeatureView(
+        AddMarketView(
             store: .init(
                 initialState: .init(
 //                    isInFlight: true
