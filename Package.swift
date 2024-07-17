@@ -18,6 +18,7 @@ let package = Package(
         .library(name: "Models", targets: ["Models"]),
         .library(name: "MyNoteFeature", targets: ["MyNoteFeature"]),
         .library(name: "MarketFeature", targets: ["MarketFeature"]),
+        .library(name: "MarketNoteDetailFeature", targets: ["MarketNoteDetailFeature"]),
         .library(name: "MarketClient", targets: ["MarketClient"]),
         .library(name: "MarketClientLive", targets: ["MarketClientLive"]),
         .library(name: "NoteClient", targets: ["NoteClient"]),
@@ -119,6 +120,15 @@ let package = Package(
             name: "MarketFeature",
             dependencies: [
                 "AddMarketFeature",
+                "CommonUI",
+                "MarketClient",
+                "Shared",
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+            ]
+        ),
+        .target(
+            name: "MarketNoteDetailFeature",
+            dependencies: [
                 "CommonUI",
                 "MarketClient",
                 "Shared",
