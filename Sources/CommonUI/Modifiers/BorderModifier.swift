@@ -2,17 +2,20 @@ import SwiftUI
 
 struct BorderModifier: ViewModifier {
     let borderColor: Color
+    let backgroundColor: Color
     let radius: CGFloat
     let verticalPadding: CGFloat
     let horizontalPadding: CGFloat
     
     init(
         borderColor: Color = .black,
+        backgroundColor: Color = .clear,
         radius: CGFloat = 10,
         verticalPadding: CGFloat = 0,
         horizontalPadding: CGFloat = 0
     ) {
         self.borderColor = borderColor
+        self.backgroundColor = backgroundColor
         self.radius = radius
         self.verticalPadding = verticalPadding
         self.horizontalPadding = horizontalPadding
@@ -22,6 +25,7 @@ struct BorderModifier: ViewModifier {
         content
             .padding(.vertical, verticalPadding)
             .padding(.horizontal, horizontalPadding)
+            .background(backgroundColor)
             .cornerRadius(radius)
             .overlay(
                 RoundedRectangle(cornerRadius: radius)
@@ -33,6 +37,7 @@ struct BorderModifier: ViewModifier {
 extension View {
     public func border(
         _ color: Color = .black,
+        backgroundColor: Color = .clear,
         radius: CGFloat = 10,
         verticalPadding: CGFloat = 0,
         horizontalPadding: CGFloat = 0
@@ -40,6 +45,7 @@ extension View {
         modifier(
             BorderModifier(
                 borderColor: color,
+                backgroundColor: backgroundColor,
                 radius: radius,
                 verticalPadding: verticalPadding,
                 horizontalPadding: horizontalPadding
