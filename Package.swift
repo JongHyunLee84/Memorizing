@@ -234,6 +234,12 @@ let package = Package(
             ]
         ),
         .testTarget(
+            name: "MarketNoteDetailFeatureTest",
+            dependencies: [
+                "MarketNoteDetailFeature",
+            ]
+        ),
+        .testTarget(
             name: "StudyFeatureTest",
             dependencies: [
                 "StudyFeature",
