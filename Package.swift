@@ -133,7 +133,9 @@ let package = Package(
             dependencies: [
                 "CommonUI",
                 "MarketClient",
+                "ReviewClient",
                 "Shared",
+                "Utilities",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
             ]
         ),
