@@ -80,6 +80,10 @@ public struct MarketNote: Codable, Identifiable, CategoryProtocol, Equatable {
     public var totalSalesAmount: Int {
         salesCount * notePrice
     }
+    
+    public var reviewScoreAverage: Double {
+        starScoreTotal / Double(reviewCount)
+    }
 
 }
 
