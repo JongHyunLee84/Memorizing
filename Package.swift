@@ -23,6 +23,8 @@ let package = Package(
         .library(name: "MarketClientLive", targets: ["MarketClientLive"]),
         .library(name: "NoteClient", targets: ["NoteClient"]),
         .library(name: "NoteClientLive", targets: ["NoteClientLive"]),
+        .library(name: "ReviewClient", targets: ["ReviewClient"]),
+        .library(name: "ReviewClientLive", targets: ["ReviewClientLive"]),
         .library(name: "Shared", targets: ["Shared"]),
         .library(name: "StudyFeature", targets: ["StudyFeature"]),
     ],
@@ -164,6 +166,21 @@ let package = Package(
             dependencies: [
                 "Utilities",
                 "NoteClient",
+                .product(name: "FirebaseFirestore", package: "firebase-ios-sdk"),
+            ]
+        ),
+        .target(
+            name: "ReviewClient",
+            dependencies: [
+                "Models",
+                .product(name: "Dependencies", package: "swift-dependencies"),
+                .product(name: "DependenciesMacros", package: "swift-dependencies"),
+            ]
+        ),
+        .target(
+            name: "ReviewClientLive",
+            dependencies: [
+                "ReviewClient",
                 .product(name: "FirebaseFirestore", package: "firebase-ios-sdk"),
             ]
         ),
