@@ -2,80 +2,187 @@ import ComposableArchitecture
 import CommonUI
 import MarketClient
 import Models
+import ReviewClient
 import SwiftUI
 import Shared
+import Utilities
 
 @Reducer
 public struct MarketNoteDetailFeature {
     @ObservableState
     public struct State: Equatable {
-        //        public var path: StackState<Path.State>
         @Shared(.currentUser) var currentUser
-        public let note: MarketNote
+        public var path: StackState<Path.State>
+        public var note: MarketNote
+        public var isInFlight: Bool
+        public var reviewList: ReviewList
+        public var toastMessage: String?
+        
         public init(
-            note: MarketNote
+            path: StackState<Path.State> = .init(),
+            note: MarketNote,
+            isInFlight: Bool = false,
+            reviewList: ReviewList = [],
+            toastMessage: String? = nil
         ) {
+            self.path = path
             self.note = note
+            self.isInFlight = isInFlight
+            self.reviewList = reviewList
+            self.toastMessage = toastMessage
         }
         
     }
     
     public enum Action: ViewAction {
-        //        case path(StackActionOf<Path>)
         case view(View)
-        
+        case reviewListResponse(ReviewList)
+        case sendToastMessage(String)
+        case isInFlightFinish
+        case path(StackActionOf<Path>)
         @CasePathable
-        public enum View {
+        public enum View: BindableAction {
+            case binding(BindingAction<State>)
+            case onFirstAppear
             case xButtonTapped
             case purchaseButtonTapped
+            case watchMoreReviewsButtonTapped
         }
     }
     
-    //    @Reducer(state: .equatable)
-    //    public enum Path {
-    //        case study(StudyFeature)
-    //    }
+    @Reducer(state: .equatable)
+    public enum Path {
+        case reviewList(ReviewListFeature)
+    }
+    
     
     @Dependency(\.marketClient) var marketClient
+    @Dependency(\.reviewClient) var reviewClient
+    @Dependency(\.dismiss) var dismiss
+    @Dependency(\.continuousClock) var clock
     
     public init() {}
     
+    enum CancelID { case purchaseButton }
+    
     public var body: some ReducerOf<Self> {
+        BindingReducer(action: \.view)
         Reduce { state, action in
             switch action {
             case .view(.xButtonTapped):
-                return .none
+                return .run { _ in
+                    await dismiss()
+                }
             case .view(.purchaseButtonTapped):
+                guard let userID = state.currentUser?.id else { return .none }
+                state.isInFlight = true
+                return .run { [note = state.note] send in
+                    let isBuyable = try await marketClient.getIsBuyable(userID: userID,
+                                                                        price: note.notePrice)
+                    if isBuyable {
+                        try await marketClient.buyNote(userID: userID,
+                                                       note: note)
+                        await send(.sendToastMessage("구매가 완료되었어요."))
+                        try await clock.sleep(for: .seconds(1))
+                        await dismiss()
+                    } else {
+                        await send(.isInFlightFinish)
+                        await send(.sendToastMessage("보유하신 포인트가 부족해요."))
+                    }
+                }
+                .cancellable(id: CancelID.purchaseButton, cancelInFlight: true)
+            case .isInFlightFinish:
+                state.isInFlight = false
                 return .none
-                
+            case let .sendToastMessage(toastMessage):
+                state.toastMessage = toastMessage
+                return .none
+            case .view(.onFirstAppear):
+                return .run { [noteID = state.note.id] send in
+                    await send(
+                        .reviewListResponse(
+                            try await reviewClient.getReviewList(noteID: noteID)
+                        )
+                    )
+                }
+            case let .reviewListResponse(reviewList):
+                state.reviewList = reviewList
+                return .none
+            case .view(.watchMoreReviewsButtonTapped):
+                state.path.append(
+                    .reviewList(
+                        .init(
+                            note: state.note,
+                            reviewList: state.reviewList
+                        )
+                    )
+                )
+                return .none
+            case .view(.binding):
+                return .none
+            case .path:
+                return .none
             }
         }
+        .forEach(\.path, action: \.path)
     }
 }
 
 @ViewAction(for: MarketNoteDetailFeature.self)
 public struct MarketNoteDetailView: View {
-    public var store: StoreOf<MarketNoteDetailFeature>
+    @Bindable public var store: StoreOf<MarketNoteDetailFeature>
     
     public init(store: StoreOf<MarketNoteDetailFeature>) {
         self.store = store
     }
     
     public var body: some View {
+        NavigationStack(path: $store.scope(state: \.path,
+                                           action: \.path)) {
+            VStack(alignment: .leading, spacing: 0) {
+                NoteInfo()
+                CustomDivider(height: 5)
+                    .padding(.horizontal, -16)
+                WordListView()
+                MainButton(title: "\(store.note.notePrice.description)P으로 지식 구매하기!",
+                           font: .callout,
+                           weight: .heavy,
+                           radius: 20,
+                           height: 50) {
+                    send(.purchaseButtonTapped)
+                }
+            }
+            .padding(.horizontal, 16)
+            .toastMessage(messsage: $store.toastMessage)
+            .isProgressing(store.isInFlight)
+            .onFirstTask {
+                send(.onFirstAppear)
+            }
+            .navigationSetting()
+            .toolbar {
+                TitleToolbarItem(title: "암기장 구매하기")
+                XToolbarItem {
+                    send(.xButtonTapped)
+                }
+            }
+        } destination: { state in
+            switch state.case {
+            case let .reviewList(store):
+                ReviewListView(store: store)
+            }
+        }
+    }
+    
+    private func NoteInfo() -> some View {
         VStack(alignment: .leading, spacing: 0) {
-            Text(store.note.noteCategory)
-                .textStyler(color: .white,
-                            font: .caption,
-                            weight: .black)
-                .border(store.note.noteColor,
-                        backgroundColor: store.note.noteColor,
-                        radius: 30,
-                        verticalPadding: 6,
-                        horizontalPadding: 20)
+            CategoryText(noteCategory: store.note.noteCategory,
+                         noteColor: store.note.noteColor)
                 .padding(.vertical, 12)
+            
             Text(store.note.noteName)
                 .textStyler(font: .title3,
                             weight: .heavy)
+            
             HStack(alignment: .bottom, spacing: 0) {
                 Image(systemName: "star.fill")
                     .textColor(.yellow)
@@ -91,11 +198,50 @@ public struct MarketNoteDetailView: View {
                         font: .footnote)
             .padding(.vertical, 12)
             
-            // TODO: Review List
-            
-            CustomDivider(height: 5)
-                .padding(.horizontal, -16)
-            
+            if !store.reviewList.isEmpty {
+                ScrollView(.horizontal) {
+                    LazyHStack(spacing: 5) {
+                        ForEach(store.reviewList) { review in
+                            ReviewCell(review)
+                        }
+                    }
+                }
+                .scrollIndicators(.never)
+                .frame(height: 100)
+                
+                Button(
+                    action: {
+                        send(.watchMoreReviewsButtonTapped)
+                    }, label: {
+                        Text("후기 더보기 >")
+                            .textStyler(color: .gray2, font: .footnote)
+                            .padding(.vertical, 8)
+                            .frame(maxWidth: .infinity, alignment: .trailing)
+                    }
+                )
+
+            }
+        }
+    }
+    
+    private func ReviewCell(_ review: Review) -> some View {
+        VStack(alignment: .leading, spacing: 8) {
+            ReviewStars(reviewScore: review.starScore,
+                        font: .footnote)
+            Text(review.reviewText)
+                .textStyler(font: .footnote)
+            Text(review.createDate, formatter: dateFormatter)
+                .textStyler(color: .gray4, font: .footnote)
+                .frame(maxWidth: .infinity, alignment: .trailing)
+        }
+        .frame(width: 140, height: 70)
+        .border(.gray5,
+                verticalPadding: 10,
+                horizontalPadding: 12)
+    }
+ 
+    private func WordListView() -> some View {
+        VStack(alignment: .leading, spacing: 0) {
             HStack {
                 Text("미리보기")
                 Spacer()
@@ -133,43 +279,19 @@ public struct MarketNoteDetailView: View {
             }
             .frame(maxWidth: .infinity, alignment: .center)
             .padding(.vertical, 26)
-            
-            MainButton(title: "\(store.note.notePrice.description)P으로 지식 구매하기!",
-                       font: .caption,
-                       weight: .heavy,
-                       radius: 20,
-                       height: 50) {
-                send(.purchaseButtonTapped)
-            }
-        }
-        .padding(.horizontal, 16)
-        .navigationSetting()
-        .toolbar {
-            TitleToolbarItem(title: "암기장 구매하기")
-            XToolbarItem {
-                send(.xButtonTapped)
-            }
         }
     }
-    
-    private var dateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"  // 또는 원하는 형식으로 지정
-        return formatter
-    }()
 }
 
 #Preview {
     @Shared(.currentUser) var currentUser
     currentUser = .mock
-    return NavigationStack {
-        MarketNoteDetailView(
-            store: .init(
-                initialState: .init(note: .mock),
-                reducer: { MarketNoteDetailFeature() }
-            )
+    return MarketNoteDetailView(
+        store: .init(
+            initialState: .init(note: .mock),
+            reducer: { MarketNoteDetailFeature()._printChanges() }
         )
-    }
+    )
 }
 
 
