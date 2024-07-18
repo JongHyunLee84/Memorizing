@@ -3,7 +3,7 @@ import Foundation
 
 public typealias ReviewList = [Review]
 
-public struct Review: Codable, Identifiable {
+public struct Review: Codable, Identifiable, Equatable {
     public var id: String
     public var writer: String
     public var reviewText: String

@@ -82,7 +82,7 @@ public struct MarketNote: Codable, Identifiable, CategoryProtocol, Equatable {
     }
     
     public var reviewScoreAverage: Double {
-        starScoreTotal / Double(reviewCount)
+        (starScoreTotal / Double(reviewCount)) * 10
     }
 
 }
