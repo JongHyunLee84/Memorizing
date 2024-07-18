@@ -155,7 +155,7 @@ public struct MarketFeature {
             uniqueElements: noteList.sorted {
                 switch sortType {
                 case .reviewScore:
-                    return $0.starScoreTotal >= $0.starScoreTotal
+                    return $0.reviewScoreAverage >= $0.reviewScoreAverage
                 case .reviewCount:
                     return $0.reviewCount >= $1.reviewCount
                 case .sellCount:

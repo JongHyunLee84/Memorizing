@@ -79,7 +79,7 @@ public struct MarketNoteDetailView: View {
             HStack(alignment: .bottom, spacing: 0) {
                 Image(systemName: "star.fill")
                     .textColor(.yellow)
-                Text(" \(String(format: "%.1f", store.note.starScoreTotal)) (\(store.note.reviewCount)) | ")
+                Text(" \(String(format: "%.1f", store.note.reviewScoreAverage)) (\(store.note.reviewCount)) | ")
                 Text(store.note.updateDate, formatter: dateFormatter)
                 Spacer()
                 Text(store.note.notePrice.description + "P")
