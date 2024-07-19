@@ -54,8 +54,11 @@ final class MarketNoteDetailFeatureTest: XCTestCase {
         await store.send(\.view.purchaseButtonTapped) {
             $0.isInFlight = true
         }
+        await store.receive(\.isInFlightFinish) {
+            $0.isInFlight = false
+            $0.currentUser?.coin = 0
+        }
         await store.receive(\.sendToastMessage) {
-            $0.currentUser?.coin -= $0.note.notePrice
             $0.toastMessage = "구매가 완료되었어요."
         }
         await clock.advance(by: .seconds(1))

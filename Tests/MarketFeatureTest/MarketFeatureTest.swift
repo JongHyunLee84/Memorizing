@@ -117,4 +117,22 @@ final class MarketFeatureTest: XCTestCase {
         }
         
     }
+    
+    @MainActor
+    func test_noteTapped() async {
+        let store = TestStore(
+            initialState: MarketFeature.State.init(
+                noteList: .mock
+            ),
+            reducer: { MarketFeature() },
+            withDependencies: {
+                $0.uuid = .incrementing
+                $0.date.now = Date(timeIntervalSince1970: 1234567890)
+            }
+        )
+        
+        await store.send(\.view.noteTapped, .mock) {
+            $0.destination = .marketNoteDetail(.init(note: .mock))
+        }
+    }
 }
