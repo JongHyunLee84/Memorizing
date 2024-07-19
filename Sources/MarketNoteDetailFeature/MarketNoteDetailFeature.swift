@@ -11,7 +11,7 @@ import Utilities
 public struct MarketNoteDetailFeature {
     @ObservableState
     public struct State: Equatable {
-        @Shared(.currentUser) var currentUser
+        @Shared(.currentUser) public var currentUser
         public var path: StackState<Path.State>
         public var note: MarketNote
         public var isInFlight: Bool
@@ -69,19 +69,25 @@ public struct MarketNoteDetailFeature {
         BindingReducer(action: \.view)
         Reduce { state, action in
             switch action {
-            case .view(.xButtonTapped):
-                return .run { _ in
-                    await dismiss()
+            case .view(.onFirstAppear):
+                return .run { [noteID = state.note.id] send in
+                    await send(
+                        .reviewListResponse(
+                            try await reviewClient.getReviewList(noteID: noteID)
+                        )
+                    )
                 }
+                
             case .view(.purchaseButtonTapped):
                 guard let userID = state.currentUser?.id else { return .none }
                 state.isInFlight = true
-                return .run { [note = state.note] send in
+                return .run { [note = state.note, currentUser = state.$currentUser] send in
                     let isBuyable = try await marketClient.getIsBuyable(userID: userID,
                                                                         price: note.notePrice)
                     if isBuyable {
                         try await marketClient.buyNote(userID: userID,
                                                        note: note)
+                        await currentUser.withLock { $0?.coin -= note.notePrice }
                         await send(.sendToastMessage("구매가 완료되었어요."))
                         try await clock.sleep(for: .seconds(1))
                         await dismiss()
@@ -91,23 +97,7 @@ public struct MarketNoteDetailFeature {
                     }
                 }
                 .cancellable(id: CancelID.purchaseButton, cancelInFlight: true)
-            case .isInFlightFinish:
-                state.isInFlight = false
-                return .none
-            case let .sendToastMessage(toastMessage):
-                state.toastMessage = toastMessage
-                return .none
-            case .view(.onFirstAppear):
-                return .run { [noteID = state.note.id] send in
-                    await send(
-                        .reviewListResponse(
-                            try await reviewClient.getReviewList(noteID: noteID)
-                        )
-                    )
-                }
-            case let .reviewListResponse(reviewList):
-                state.reviewList = reviewList
-                return .none
+
             case .view(.watchMoreReviewsButtonTapped):
                 state.path.append(
                     .reviewList(
@@ -118,6 +108,24 @@ public struct MarketNoteDetailFeature {
                     )
                 )
                 return .none
+                
+            case .view(.xButtonTapped):
+                return .run { _ in
+                    await dismiss()
+                }
+                
+            case let .reviewListResponse(reviewList):
+                state.reviewList = reviewList
+                return .none
+
+            case .isInFlightFinish:
+                state.isInFlight = false
+                return .none
+                
+            case let .sendToastMessage(toastMessage):
+                state.toastMessage = toastMessage
+                return .none
+
             case .view(.binding):
                 return .none
             case .path:
