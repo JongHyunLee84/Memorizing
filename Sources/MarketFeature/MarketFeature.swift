@@ -3,6 +3,7 @@ import ComposableArchitecture
 import CommonUI
 import Models
 import MarketClient
+import MarketNoteDetailFeature
 import Shared
 import SwiftUI
 
@@ -53,7 +54,7 @@ public struct MarketFeature {
     public enum Destination {
         case alert(AlertState<Alert>)
         case addMarket(AddMarketFeature)
-        
+        case marketNoteDetail(MarketNoteDetailFeature)
         @CasePathable
         public enum Alert {
             case coinButtonTapped
@@ -112,9 +113,12 @@ public struct MarketFeature {
                 state.queriedNoteList = sorting(state.queriedNoteList,
                                                 sortType: state.sortType)
                 return .none
-                
-            case .view(.noteTapped(_)):
-                // TODO: Destination
+            
+                // MARK: MarketNoteDetail
+            case let .view(.noteTapped(note)):
+                state.destination = .marketNoteDetail(
+                    MarketNoteDetailFeature.State(note: note)
+                )
                 return .none
                 
                 // MARK: - AddMarket
@@ -239,6 +243,14 @@ public struct MarketView: View {
             NavigationStack {
                 AddMarketView(store: store)
             }
+        }
+        .fullScreenCover(
+            item: $store.scope(
+                state: \.destination?.marketNoteDetail,
+                action: \.destination.marketNoteDetail
+            )
+        ) { store in
+                MarketNoteDetailView(store: store)
         }
     }
     
