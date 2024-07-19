@@ -87,8 +87,9 @@ public struct MarketNoteDetailFeature {
                     if isBuyable {
                         try await marketClient.buyNote(userID: userID,
                                                        note: note)
-                        await currentUser.withLock { $0?.coin -= note.notePrice }
+                        await send(.isInFlightFinish)
                         await send(.sendToastMessage("구매가 완료되었어요."))
+                        await currentUser.withLock { $0?.coin -= note.notePrice }
                         try await clock.sleep(for: .seconds(1))
                         await dismiss()
                     } else {
