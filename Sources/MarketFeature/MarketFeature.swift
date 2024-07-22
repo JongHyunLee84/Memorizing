@@ -175,7 +175,7 @@ public struct MarketFeature {
 extension AlertState where Action == MarketFeature.Destination.Alert {
     public static let coin = Self(
         title: { TextState("포인트를 얻는 방법") },
-        actions: { 
+        actions: {
             ButtonState(role: .destructive, action: .coinButtonTapped) {
                 TextState("확인")
             }
@@ -195,15 +195,17 @@ extension AlertState where Action == MarketFeature.Destination.Alert {
 public struct MarketView: View {
     @Bindable public var store: StoreOf<MarketFeature>
     
+    public init(store: StoreOf<MarketFeature>) {
+        self.store = store
+    }
+    
     public var body: some View {
-        GeometryReader { proxy in
-            LazyVStack {
-                SearchBar()
-                CategoryList()
-                SortList()
-                NoteList()
-                .frame(height: proxy.size.height - 150)
-            }
+        VStack {
+            SearchBar()
+            CategoryList()
+            SortList()
+            NoteList()
+            Spacer()
         }
         .overlay(alignment: .bottomTrailing) {
             PlusButton {
@@ -250,7 +252,7 @@ public struct MarketView: View {
                 action: \.destination.marketNoteDetail
             )
         ) { store in
-                MarketNoteDetailView(store: store)
+            MarketNoteDetailView(store: store)
         }
     }
     
@@ -321,7 +323,7 @@ public struct MarketView: View {
                     }
             }
         }
-
+        
     }
     
     private func NoteList() -> some View {
@@ -387,6 +389,4 @@ public enum SortType: String, CaseIterable {
                 )
         )
     }
-    
 }
-
