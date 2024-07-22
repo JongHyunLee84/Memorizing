@@ -4,6 +4,7 @@ import SwiftUI
 
 @main
 struct MyNoteFeatureAppApp: App {
+    @Shared(.currentUser) var currentUser = .mock
     var body: some Scene {
         WindowGroup {
             MyNoteView(store:
@@ -12,8 +13,6 @@ struct MyNoteFeatureAppApp: App {
                             reducer: { MyNoteFeature()._printChanges() },
                             withDependencies: {
                                 $0.noteClient = .testValue
-                                @Shared(.currentUser) var currentUser
-                                currentUser = .mock
                             }
                         )
             )
