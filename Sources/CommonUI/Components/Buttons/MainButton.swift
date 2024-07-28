@@ -5,6 +5,7 @@ public struct MainButton: View {
     let title: String
     let textColor: Color
     let backgroundColor: Color
+    let borderColor: Color
     let font: Font
     let weight: Font.Weight
     let radius: CGFloat
@@ -16,6 +17,7 @@ public struct MainButton: View {
         title: String,
         textColor: Color = .white,
         backgroundColor: Color = .mainBlue,
+        borderColor: Color = .mainBlue,
         font: Font = .caption2,
         weight: Font.Weight = .semibold,
         radius: CGFloat = 10,
@@ -26,6 +28,7 @@ public struct MainButton: View {
         self.title = title
         self.textColor = textColor
         self.backgroundColor = backgroundColor
+        self.borderColor = borderColor
         self.font = font
         self.weight = weight
         self.radius = radius
@@ -47,6 +50,12 @@ public struct MainButton: View {
                     .frame(maxWidth: .infinity)
                     .background(backgroundColor)
                     .cornerRadius(radius)
+                    .border(
+                        backgroundColor == .white || backgroundColor == .clear
+                        ? borderColor
+                        : .clear
+                        
+                    )
             }
         )
         .buttonStyle(PlainButtonStyle())
@@ -58,6 +67,9 @@ public struct MainButton: View {
     VStack {
         MainButton(title: "확인",
                    isAvailable: true) {}
+            .frame(width: 200)
+        MainButton(title: "확인",
+                   isAvailable: false) {}
             .frame(width: 200)
         MainButton(title: "확인",
                    isAvailable: false) {}
