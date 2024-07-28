@@ -23,6 +23,7 @@ let package = Package(
         .library(name: "MarketClientLive", targets: ["MarketClientLive"]),
         .library(name: "NoteClient", targets: ["NoteClient"]),
         .library(name: "NoteClientLive", targets: ["NoteClientLive"]),
+        .library(name: "ProfileFeature", targets: ["ProfileFeature"]),
         .library(name: "ReviewClient", targets: ["ReviewClient"]),
         .library(name: "ReviewClientLive", targets: ["ReviewClientLive"]),
         .library(name: "Shared", targets: ["Shared"]),
@@ -170,6 +171,14 @@ let package = Package(
                 "Utilities",
                 "NoteClient",
                 .product(name: "FirebaseFirestore", package: "firebase-ios-sdk"),
+            ]
+        ),
+        .target(
+            name: "ProfileFeature",
+            dependencies: [
+                "CommonUI",
+                "Shared",
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
             ]
         ),
         .target(
