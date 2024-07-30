@@ -13,6 +13,7 @@ let package = Package(
         .library(name: "AuthClient", targets: ["AuthClient"]),
         .library(name: "AuthClientLive", targets: ["AuthClientLive"]),
         .library(name: "CommonUI", targets: ["CommonUI"]),
+        .library(name: "EditProfileFeature", targets: ["EditProfileFeature"]),
         .library(name: "Utilities", targets: ["Utilities"]),
         .library(name: "LoginFeature", targets: ["LoginFeature"]),
         .library(name: "Models", targets: ["Models"]),
@@ -85,6 +86,15 @@ let package = Package(
                 "Models",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
                 .product(name: "PopupView", package: "PopupView"),
+            ]
+        ),
+        .target(
+            name: "EditProfileFeature",
+            dependencies: [
+                "AuthClient",
+                "CommonUI",
+                "Shared",
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
             ]
         ),
         .target(name: "Utilities",
@@ -177,6 +187,7 @@ let package = Package(
             name: "ProfileFeature",
             dependencies: [
                 "CommonUI",
+                "NoteClient",
                 "Shared",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
             ]
