@@ -57,6 +57,7 @@ public struct EditProfileFeature {
                 }
                 
             case .view(.changeButtonTapped):
+                guard !state.nicknameStr.isEmpty else { return .send(.toastMessage("이름을 입력해주세요.")) }
                 return .run { [currentUser = state.$currentUser,
                                nickname = state.nicknameStr] send in
                     try await authClient.changeNickname(nickname)
@@ -74,17 +75,7 @@ public struct EditProfileFeature {
                 return .none
                 
             case .view(.withdrawalButtonTapped):
-                state.alert = AlertState(
-                    title: TextState("탈퇴하기"),
-                    message: TextState("삭제된 회원정보는 복구할 수 없어요!"),
-                    buttons: [
-                        .init(role: .cancel,
-                              label: { TextState("취소") }),
-                        .init(role: .destructive,
-                              action: .confirmWithdrawal,
-                              label: { TextState("탈퇴하기") })
-                    ]
-                )
+                state.alert = .withdrawalAlert
                 return .none
                 
             case .alert(.presented(.confirmWithdrawal)):
@@ -108,6 +99,22 @@ public struct EditProfileFeature {
             }
         }
         .ifLet(\.$alert, action: \.alert)
+    }
+}
+
+extension AlertState where Action == EditProfileFeature.Action.Alert {
+    public static var withdrawalAlert: Self {
+        AlertState(
+            title: TextState("탈퇴하기"),
+            message: TextState("삭제된 회원정보는 복구할 수 없어요!"),
+            buttons: [
+                .init(role: .cancel,
+                      label: { TextState("취소") }),
+                .init(role: .destructive,
+                      action: .confirmWithdrawal,
+                      label: { TextState("탈퇴하기") })
+            ]
+        )
     }
 }
 
