@@ -1,0 +1,81 @@
+{
+  "configurations" : [
+    {
+      "id" : "3366D386-397C-40C8-9094-392682FEDA28",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "AddMarketFeatureTest",
+        "name" : "AddMarketFeatureTest"
+      }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "AddNoteFeatureTest",
+        "name" : "AddNoteFeatureTest"
+      }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "EditProfileFeatureTest",
+        "name" : "EditProfileFeatureTest"
+      }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "LoginFeatureTest",
+        "name" : "LoginFeatureTest"
+      }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "MarketFeatureTest",
+        "name" : "MarketFeatureTest"
+      }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "MarketNoteDetailFeatureTest",
+        "name" : "MarketNoteDetailFeatureTest"
+      }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "MyNoteFeatureTest",
+        "name" : "MyNoteFeatureTest"
+      }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "StudyFeatureTest",
+        "name" : "StudyFeatureTest"
+      }
+    }
+  ],
+  "version" : 1
+}
