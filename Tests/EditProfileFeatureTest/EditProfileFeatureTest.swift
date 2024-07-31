@@ -1,35 +1,110 @@
-//
-//  EditProfileFeatureTest.swift
-//  
-//
-//  Created by 이종현 on 7/31/24.
-//
-
+import ComposableArchitecture
+import EditProfileFeature
+import Shared
 import XCTest
 
 final class EditProfileFeatureTest: XCTestCase {
-
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    
+    @MainActor
+    func test_backButtonTapped() async {
+        let isDismissInvoked: LockIsolated<[Bool]> = .init([])
+        let store = TestStore(
+            initialState: EditProfileFeature.State(),
+            reducer: { EditProfileFeature() },
+            withDependencies: {
+                $0.dismiss = DismissEffect { isDismissInvoked.withValue { $0.append(true) } }
+            }
+        )
+        
+        await store.send(\.view.backButtonTapped)
+        XCTAssertEqual(isDismissInvoked.value, [true])
     }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
-    }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+    
+    @MainActor
+    func test_change_nickname_success() async {
+        @Shared(.currentUser) var currentUser
+        $currentUser.withLock { $0 = .mock }
+        let store = TestStore(
+            initialState: EditProfileFeature.State(),
+            reducer: { EditProfileFeature() }
+        )
+        
+        await store.send(\.view.binding.nicknameStr, "닉네임") {
+            $0.nicknameStr = "닉네임"
+        }
+        await store.send(\.view.changeButtonTapped)
+        await store.receive(\.toastMessage) {
+            $0.toastMessage = "이름이 변경되었어요."
+            $0.currentUser?.nickname = "닉네임"
+        }
+        await store.receive(\.resetNicknameStr) {
+            $0.nicknameStr = ""
         }
     }
-
+    
+    @MainActor
+    func test_change_nickname_fail() async {
+        let store = TestStore(
+            initialState: EditProfileFeature.State(),
+            reducer: { EditProfileFeature() }
+        )
+        await store.send(\.view.changeButtonTapped)
+        await store.receive(\.toastMessage) {
+            $0.toastMessage = "이름을 입력해주세요."
+        }
+    }
+    
+    @MainActor
+    func test_withdrawal_success() async {
+        let isDismissInvoked: LockIsolated<[Bool]> = .init([])
+        @Shared(.currentUser) var currentUser
+        $currentUser.withLock { $0 = .mock }
+        let store = TestStore(
+            initialState: EditProfileFeature.State(),
+            reducer: { EditProfileFeature() },
+            withDependencies: {
+                $0.dismiss = DismissEffect { isDismissInvoked.withValue { $0.append(true) } }
+            }
+        )
+        
+        await store.send(\.view.withdrawalButtonTapped) {
+            $0.alert = .withdrawalAlert
+        }
+        await store.send(\.alert.presented.confirmWithdrawal) {
+            $0.alert = nil
+        }
+        XCTAssertEqual(isDismissInvoked.value, [true])
+        store.assert {
+            $0.currentUser = nil
+        }
+    }
+    
+    @MainActor
+    func test_withdrawal_cancel() async {
+        let store = TestStore(
+            initialState: EditProfileFeature.State(),
+            reducer: { EditProfileFeature() }
+        )
+        
+        await store.send(\.view.withdrawalButtonTapped) {
+            $0.alert = .withdrawalAlert
+        }
+        await store.send(\.alert.dismiss) {
+            $0.alert = nil
+        }
+    }
+    
+    @MainActor
+    func test_nicknameStr_max_length() async {
+        let store = TestStore(
+            initialState: EditProfileFeature.State(),
+            reducer: { EditProfileFeature() }
+        )
+        await store.send(\.view.binding.nicknameStr, "123") {
+            $0.nicknameStr = "123"
+        }
+        await store.send(\.view.binding.nicknameStr, "1234567") {
+            $0.nicknameStr = "12345"
+        }
+    }
 }
