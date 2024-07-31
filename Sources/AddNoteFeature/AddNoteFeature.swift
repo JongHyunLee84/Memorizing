@@ -161,10 +161,9 @@ public struct AddNoteView: View {
                 
                 VStack(alignment: .leading) {
                     Text("암기장 이름")
-                    TextField("암기장 이름을 입력해주세요. (필수)",
-                              text: $store.noteName)
+                    CustomTextEditor(placeholder: "암기장 이름을 입력해주세요. (필수)",
+                                     text: $store.noteName)
                     .font(.caption)
-                    .padding(.leading)
                     .frame(height: 46)
                     .background(Color.gray5.cornerRadius(20))
                 }
@@ -196,11 +195,11 @@ public struct AddNoteView: View {
                     HStack {
                         Text("암기 항목 (단어/질문 등)")
                         Spacer()
-                        Text("\(store.wordName.count)/50 글자") // TODO:
+                        Text("\(store.wordName.count)/50 글자")
                             .font(.caption)
                     }
                     CustomTextEditor(placeholder: "암기해야 할 내용을 단어, 질문 등의 형식으로 자유롭게 입력해보세요 :)",
-                                     text: $store.wordName) // TODO:
+                                     text: $store.wordName)
                     .frame(height: 100)
                     
                     Text("* 하나의 암기장에 암기항목은 최대 50개까지 추가 가능해요.")
@@ -212,11 +211,11 @@ public struct AddNoteView: View {
                     HStack {
                         Text("의미")
                         Spacer()
-                        Text("\(store.wordMeaning.count)/50 글자") // TODO:
+                        Text("\(store.wordMeaning.count)/50 글자")
                             .font(.caption)
                     }
                     CustomTextEditor(placeholder: "해당 암기 내용의 뜻, 의미 등을 입력해주세요.",
-                                     text: $store.wordMeaning) // TODO:
+                                     text: $store.wordMeaning)
                     .frame(height: 100)
                     
                 }
@@ -230,7 +229,7 @@ public struct AddNoteView: View {
                 
                 LazyVStack(alignment: .leading) {
                     let wordNumberText = Text("\(store.wordList.count)").foregroundStyle(Color.mainBlue)
-                    Text("총 \(wordNumberText)개의 단어") // TODO:
+                    Text("총 \(wordNumberText)개의 단어")
                         .font(.footnote)
                         .frame(maxWidth: .infinity, alignment: .trailing)
                     List {
