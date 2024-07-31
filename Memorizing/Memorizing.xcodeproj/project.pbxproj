@@ -46,6 +46,7 @@
 		F27B68002C32FCA10070C49B /* MemorizingApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemorizingApp.swift; sourceTree = "<group>"; };
 		F27B68042C32FCA30070C49B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F27B68072C32FCA30070C49B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		F27E763C2C5A820500D80ECB /* TestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = TestPlan.xctestplan; sourceTree = "<group>"; };
 		F2A2B1272C371FC800C257D7 /* Memorizing.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Memorizing.entitlements; sourceTree = "<group>"; };
 		F2DFD5712C40079C00896072 /* MyNoteFeatureApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyNoteFeatureApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2DFD5732C40079C00896072 /* MyNoteFeatureAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyNoteFeatureAppApp.swift; sourceTree = "<group>"; };
@@ -123,6 +124,7 @@
 		F27B67F42C32FCA10070C49B = {
 			isa = PBXGroup;
 			children = (
+				F27E763C2C5A820500D80ECB /* TestPlan.xctestplan */,
 				F2FC9DA92C345897007D335D /* Memorizing */,
 				F27B67FF2C32FCA10070C49B /* Memorizing */,
 				F20EF7302C370ECD00664611 /* LoginFeatureApp */,

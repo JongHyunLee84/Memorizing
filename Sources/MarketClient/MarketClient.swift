@@ -4,14 +4,14 @@ import Models
 
 @DependencyClient
 public struct MarketClient {
-    public var getSellableNoteList: @Sendable (_ userID: String) async throws -> NoteList
-    public var getMarketList: @Sendable () async throws -> MarketNoteList
-    public var getWordList: @Sendable (_ noteID: String) async throws -> MarketWordList
-    public var postMarketNote: @Sendable (_ note: Note, _ price: Int) async throws -> Void
-    public var postWordList: @Sendable (_ noteID: String, _ wordList: WordList) async throws -> Void
-    public var getIsBuyable: @Sendable (_ userID: String, _ price: Int) async throws -> Bool
-    public var buyNote: @Sendable (_ userID: String, _ note: MarketNote) async throws -> Void
-    public var deleteNote: @Sendable (_ noteID: String) async throws -> Void
+    public var getSellableNoteList: (_ userID: String) async throws -> NoteList
+    public var getMarketList: () async throws -> MarketNoteList
+    public var getWordList: (_ noteID: String) async throws -> MarketWordList
+    public var postMarketNote: (_ note: Note, _ price: Int) async throws -> Void
+    public var postWordList: (_ noteID: String, _ wordList: WordList) async throws -> Void
+    public var getIsBuyable: (_ userID: String, _ price: Int) async throws -> Bool
+    public var buyNote: (_ userID: String, _ note: MarketNote) async throws -> Void
+    public var deleteNote: (_ noteID: String) async throws -> Void
 }
 
 extension DependencyValues {

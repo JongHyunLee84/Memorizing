@@ -4,12 +4,12 @@ import Models
 
 @DependencyClient
 public struct ReviewClient {
-    public var getReviewList: @Sendable (_ noteID: String) async throws -> ReviewList
-    public var getReviewListWithLimit: @Sendable (_ noteID: String, _ limit: Int) async throws -> ReviewList
-    public var postReview: @Sendable (_ noteID: String, _ review: Review) async throws -> Void
+    public var getReviewList: (_ noteID: String) async throws -> ReviewList
+    public var getReviewListWithLimit: (_ noteID: String, _ limit: Int) async throws -> ReviewList
+    public var postReview: (_ noteID: String, _ review: Review) async throws -> Void
     // score, reviewCount
-    public var updateMarketNoteReviewData: @Sendable (_ noteID: String, _ review: Review) async throws -> Void
-    public var deleteReview: @Sendable (_ noteID: String, _ reviewID: String) async throws -> Void
+    public var updateMarketNoteReviewData: (_ noteID: String, _ review: Review) async throws -> Void
+    public var deleteReview: (_ noteID: String, _ reviewID: String) async throws -> Void
 }
 
 extension DependencyValues {

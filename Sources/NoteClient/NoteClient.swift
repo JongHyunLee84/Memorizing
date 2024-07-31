@@ -5,19 +5,19 @@ import Models
 
 @DependencyClient
 public struct NoteClient {
-    public var getNoteList: @Sendable (_ userID: String) async throws -> NoteList
-    public var getWordList: @Sendable (_ userID: String, _ noteID: String) async throws -> WordList
-    public var saveNote: @Sendable (_ userID: String, _ note: Note) async throws -> Void
-    public var saveWord: @Sendable (_ userID: String, _ noteID: String, _ word: Word) async throws -> Void
-    public var saveWordList: @Sendable (_ userID: String, _ noteID: String, _ wordList: WordList) async throws -> Void
-    public var deleteNote: @Sendable (_ userID: String, _ note: Note) async throws -> Void
-    public var deleteWord: @Sendable (_ userID: String, _ noteID: String, _ wordID: String) async throws -> Void
-    public var incrementRepeatCount: @Sendable (_ userID: String, _ noteID: String) async throws -> Void
-    public var setNextStudyDate: @Sendable (_ userID: String, _ noteID: String, _ date: Date) async throws -> Void
-    public var setFirstTestResult: @Sendable (_ userID: String, _ noteID: String, _ result: Double) async throws -> Void
-    public var setLastTestResult: @Sendable (_ userID: String, _ noteID: String, _ result: Double) async throws -> Void
-    public var resetRepeatCount: @Sendable (_ userID: String, _ noteID: String) async throws -> Void
-    public var updateWordLevel: @Sendable (_ userID: String, _ noteID: String, _ wordID: String, _ level: Int) async throws -> Void
+    public var getNoteList: (_ userID: String) async throws -> NoteList
+    public var getWordList: (_ userID: String, _ noteID: String) async throws -> WordList
+    public var saveNote: (_ userID: String, _ note: Note) async throws -> Void
+    public var saveWord: (_ userID: String, _ noteID: String, _ word: Word) async throws -> Void
+    public var saveWordList: (_ userID: String, _ noteID: String, _ wordList: WordList) async throws -> Void
+    public var deleteNote: (_ userID: String, _ note: Note) async throws -> Void
+    public var deleteWord: (_ userID: String, _ noteID: String, _ wordID: String) async throws -> Void
+    public var incrementRepeatCount: (_ userID: String, _ noteID: String) async throws -> Void
+    public var setNextStudyDate: (_ userID: String, _ noteID: String, _ date: Date) async throws -> Void
+    public var setFirstTestResult: (_ userID: String, _ noteID: String, _ result: Double) async throws -> Void
+    public var setLastTestResult: (_ userID: String, _ noteID: String, _ result: Double) async throws -> Void
+    public var resetRepeatCount: (_ userID: String, _ noteID: String) async throws -> Void
+    public var updateWordLevel: (_ userID: String, _ noteID: String, _ wordID: String, _ level: Int) async throws -> Void
 }
 
 extension DependencyValues {
