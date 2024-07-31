@@ -83,26 +83,30 @@ extension View {
             isPresented: Binding.init(item),
             presenting: alertState,
             actions: { alertState in
-                ForEach(alertState.buttons) { button in
-                    Button(role: button.role.map(ButtonRole.init)) {
-                        switch button.action.type {
-                        case let .send(action):
-                            if let action {
-                                store?.send(action)
+                HStack {
+                    ForEach(alertState.buttons) { button in
+                        Button(role: button.role.map(ButtonRole.init)) {
+                            switch button.action.type {
+                            case let .send(action):
+                                if let action {
+                                    store?.send(action)
+                                }
+                            case let .animatedSend(action, animation):
+                                if let action {
+                                    store?.send(action, animation: animation)
+                                }
                             }
-                        case let .animatedSend(action, animation):
-                            if let action {
-                                store?.send(action, animation: animation)
-                            }
+                        } label: {
+                            Text(button.label)
+                                .fontWeight(.semibold)
+                                .foregroundStyle(button.role == .cancel
+                                                 ? Color.gray3 : .white)
+                                .frame(height: 40)
+                                .frame(maxWidth: .infinity)
+                                .background(button.role == .cancel
+                                            ? Color.gray5 : .mainBlue)
+                                .cornerRadius(10)
                         }
-                    } label: {
-                        Text(button.label)
-                            .fontWeight(.semibold)
-                            .foregroundStyle(.white)
-                            .frame(height: 40)
-                            .frame(maxWidth: .infinity)
-                            .background(Color.mainBlue)
-                            .cornerRadius(10)
                     }
                 }
             },
@@ -123,7 +127,8 @@ fileprivate struct AlertReducer {
     enum Action: BindableAction {
         case binding(BindingAction<State>)
         case destination(PresentationAction<Destination.Action>)
-        case buttonTapped
+        case singleButtonTapped
+        case doubleButtonTapped
     }
     
     @Reducer
@@ -132,7 +137,8 @@ fileprivate struct AlertReducer {
         
         @CasePathable
         enum Alert {
-            case buttonTapped
+            case singleAlert
+            case doubleAlert
         }
     }
     
@@ -142,8 +148,11 @@ fileprivate struct AlertReducer {
             switch action {
             case .destination:
                 return .none
-            case .buttonTapped:
-                state.destination = .alert(.alert)
+            case .singleButtonTapped:
+                state.destination = .alert(.singleAlert)
+                return .none
+            case .doubleButtonTapped:
+                state.destination = .alert(.doubleAlert)
                 return .none
             case .binding:
                 return .none
@@ -154,10 +163,28 @@ fileprivate struct AlertReducer {
 }
 
 extension AlertState where Action == AlertReducer.Destination.Alert {
-    fileprivate static let alert = Self(
+    fileprivate static let singleAlert = Self(
         title: { TextState("포인트를 얻는 방법") },
         actions: {
-            ButtonState(role: .destructive, action: .buttonTapped) {
+            ButtonState(role: .destructive, action: .singleAlert) {
+                TextState("확인")
+            }
+        },
+        message: {
+            TextState("""
+1. 4번의 확습을 완료하고 도장을 받아봐요~!
+2. 사람들에게 나만의 암기장을 판매해봐요~!
+3. 구매한 암기장에 리뷰를 작성해봐요~!
+""")
+        }
+    )
+    fileprivate static let doubleAlert = Self(
+        title: { TextState("포인트를 얻는 방법") },
+        actions: {
+            ButtonState(role: .cancel) {
+                TextState("취소")
+            }
+            ButtonState(role: .destructive, action: .doubleAlert) {
                 TextState("확인")
             }
         },
@@ -176,12 +203,16 @@ fileprivate struct AlertSampleView: View {
                                 reducer: { AlertReducer()._printChanges() })
     var body: some View {
         VStack {
-            Button("Alert") {
-                store.send(.buttonTapped)
+            Button("Single Alert") {
+                store.send(.singleButtonTapped)
+            }
+            Button("Double Alert") {
+                store.send(.doubleButtonTapped)
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .customAlert($store.scope(state: \.destination?.alert, action: \.destination.alert))
+        .customAlert($store.scope(state: \.destination?.alert, 
+                                  action: \.destination.alert))
     }
 }
 
