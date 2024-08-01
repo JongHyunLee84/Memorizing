@@ -18,6 +18,8 @@ let package = Package(
         .library(name: "LoginFeature", targets: ["LoginFeature"]),
         .library(name: "Models", targets: ["Models"]),
         .library(name: "MyNoteFeature", targets: ["MyNoteFeature"]),
+        .library(name: "MyReviewClient", targets: ["MyReviewClient"]),
+        .library(name: "MyReviewClientLive", targets: ["MyReviewClientLive"]),
         .library(name: "MarketFeature", targets: ["MarketFeature"]),
         .library(name: "MarketNoteDetailFeature", targets: ["MarketNoteDetailFeature"]),
         .library(name: "MarketClient", targets: ["MarketClient"]),
@@ -27,6 +29,7 @@ let package = Package(
         .library(name: "ProfileFeature", targets: ["ProfileFeature"]),
         .library(name: "ReviewClient", targets: ["ReviewClient"]),
         .library(name: "ReviewClientLive", targets: ["ReviewClientLive"]),
+        .library(name: "ReviewHistoryFeature", targets: ["ReviewHistoryFeature"]),
         .library(name: "Shared", targets: ["Shared"]),
         .library(name: "StudyFeature", targets: ["StudyFeature"]),
     ],
@@ -130,6 +133,21 @@ let package = Package(
             ]
         ),
         .target(
+            name: "MyReviewClient",
+            dependencies: [
+                "Models",
+                .product(name: "Dependencies", package: "swift-dependencies"),
+                .product(name: "DependenciesMacros", package: "swift-dependencies"),
+            ]
+        ),
+        .target(
+            name: "MyReviewClientLive",
+            dependencies: [
+                "MyReviewClient",
+                .product(name: "FirebaseFirestore", package: "firebase-ios-sdk"),
+            ]
+        ),
+        .target(
             name: "MarketFeature",
             dependencies: [
                 "AddMarketFeature",
@@ -206,6 +224,15 @@ let package = Package(
             dependencies: [
                 "ReviewClient",
                 .product(name: "FirebaseFirestore", package: "firebase-ios-sdk"),
+            ]
+        ),
+        .target(
+            name: "ReviewHistoryFeature",
+            dependencies: [
+                "CommonUI",
+                "ReviewClient",
+                "Shared",
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
             ]
         ),
         .target(
