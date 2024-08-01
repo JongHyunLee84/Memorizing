@@ -230,6 +230,7 @@ let package = Package(
             name: "ReviewHistoryFeature",
             dependencies: [
                 "CommonUI",
+                "MyReviewClient",
                 "ReviewClient",
                 "Shared",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
