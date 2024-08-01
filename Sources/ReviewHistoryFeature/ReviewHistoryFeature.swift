@@ -45,6 +45,8 @@ public struct ReviewHistoryFeature {
         }
     }
     
+    public init() {}
+    
     @Dependency(\.myReviewClient) var myReviewClient
     @Dependency(\.reviewClient) var reviewClient
     @Dependency(\.dismiss) var dismiss
