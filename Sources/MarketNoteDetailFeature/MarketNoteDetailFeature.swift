@@ -174,8 +174,8 @@ public struct MarketNoteDetailView: View {
                     send(.xButtonTapped)
                 }
             }
-        } destination: { state in
-            switch state.case {
+        } destination: { store in
+            switch store.case {
             case let .reviewList(store):
                 ReviewListView(store: store)
             }

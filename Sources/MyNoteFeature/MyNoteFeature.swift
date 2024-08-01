@@ -256,8 +256,8 @@ public struct MyNoteView: View {
                 }
             }
             
-        } destination: { state in
-            switch state.case {
+        } destination: { store in
+            switch store.case {
             case let .study(store):
                 StudyView(store: store)
             }
