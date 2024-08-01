@@ -75,6 +75,14 @@
         "identifier" : "StudyFeatureTest",
         "name" : "StudyFeatureTest"
       }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "ReviewHistoryFeatureTest",
+        "name" : "ReviewHistoryFeatureTest"
+      }
     }
   ],
   "version" : 1
