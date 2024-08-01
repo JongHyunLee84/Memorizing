@@ -187,6 +187,7 @@ let package = Package(
             name: "ProfileFeature",
             dependencies: [
                 "CommonUI",
+                "EditProfileFeature",
                 "NoteClient",
                 "Shared",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
