@@ -1,6 +1,8 @@
 import ComposableArchitecture
 import CommonUI
+import EditProfileFeature
 import Models
+import NoteClient
 import SwiftUI
 import Shared
 
@@ -12,17 +14,20 @@ public struct ProfileFeature {
         public var myNoteList: NoteList
         public var versionInfo: String
         @Presents var destination: Destination.State?
+        public var path: StackState<Path.State>
         
         public init(
             myNoteList: NoteList = [],
             versionInfo: String = "",
-            destination: Destination.State? = nil
+            destination: Destination.State? = nil,
+            path: StackState<Path.State> = .init()
         ) {
             self.myNoteList = myNoteList
             self.versionInfo = versionInfo
             self.destination = destination
+            self.path = path
         }
-
+        
         public var myNoteCount: Int {
             myNoteList.count
         }
@@ -35,7 +40,9 @@ public struct ProfileFeature {
     public enum Action: ViewAction {
         case view(View)
         case destination(PresentationAction<Destination.Action>)
-
+        case path(StackActionOf<Path>)
+        case noteListResponse(NoteList)
+        
         @CasePathable
         public enum View {
             case onFirstAppear
@@ -44,7 +51,7 @@ public struct ProfileFeature {
             case myReviewsButtonTapped
             case aboutMemorizingButtonTapped
             case csButtonTapped
-            case termsOfServiceButtonTapped
+            case logoutButtonTapped
             case privacyPolicyButtonTapped
         }
     }
@@ -54,34 +61,87 @@ public struct ProfileFeature {
         
     }
     
-    public init() {}
-    
-    public var body: some ReducerOf<Self> {
-        EmptyReducer()
+    @Reducer(state: .equatable)
+    public enum Path {
+        case editProfile(EditProfileFeature)
     }
     
+    public init() {}
+    
+    @Dependency(\.noteClient) var noteClient
+    
+    public var body: some ReducerOf<Self> {
+        Reduce { state, action in
+            switch action {
+            case .view(.onFirstAppear):
+                return .run { [userID = state.currentUser?.id] send in
+                    guard let userID else { return }
+                    let noteList = try await noteClient.getNoteList(userID: userID)
+                    await send(.noteListResponse(noteList))
+                }
+            case let .noteListResponse(noteList):
+                state.myNoteList = noteList
+                return .none
+            case .view(.editProfileButtonTapped):
+                state.path.append(.editProfile(.init()))
+                return .none
+            case .view(.purchaseHistoryButtonTapped):
+                return .none
+            case .view(.myReviewsButtonTapped):
+                return .none
+            case .view(.aboutMemorizingButtonTapped):
+                return .none
+            case .view(.csButtonTapped):
+                return .none
+            case .view(.logoutButtonTapped):
+                return .none
+            case .view(.privacyPolicyButtonTapped):
+                return .none
+            case .destination:
+                return .none
+            case .path:
+                return .none
+            }
+        }
+        .forEach(\.path, action: \.path)
+    }
+
 }
 
+@ViewAction(for: ProfileFeature.self)
 public struct ProfileView: View {
-    var store: StoreOf<ProfileFeature>
+    @Bindable public var store: StoreOf<ProfileFeature>
     
     public init(store: StoreOf<ProfileFeature>) {
         self.store = store
     }
     
     public var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 0) {
-                UserInfoView()
+        NavigationStack(path: $store.scope(state: \.path,
+                                           action: \.path)) {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 0) {
+                    UserInfoView()
+                    ProfileListView()
+                        .padding(.top, 24)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.horizontal, 16)
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.horizontal, 16)
-        }
-        .scrollIndicators(.never)
-        .navigationSetting()
-        .toolbar {
-            AppLogoToolbarItem(placement: .topBarLeading)
-            TitleToolbarItem(title: "마이페이지")
+            .scrollIndicators(.never)
+            .onFirstTask {
+                send(.onFirstAppear)
+            }
+            .navigationSetting()
+            .toolbar {
+                AppLogoToolbarItem(placement: .topBarLeading)
+                TitleToolbarItem(title: "마이페이지")
+            }
+        } destination: { store in
+            switch store.case {
+            case let .editProfile(store):
+                EditProfileView(store: store)
+            }
         }
     }
     
@@ -103,12 +163,15 @@ public struct ProfileView: View {
                             count: store.myStampCount)
                 Spacer()
                 MainButton(title: "내 정보 수정하기",
+                           textColor: .black,
                            backgroundColor: .white,
+                           borderColor: .mainBlue,
                            font: .footnote,
                            radius: 30,
                            height: 43) {
-                    
+                    send(.editProfileButtonTapped)
                 }
+                           .frame(width: 120)
             }
         }
         .padding(.top, 32)
@@ -132,18 +195,55 @@ public struct ProfileView: View {
                 .frame(width: 1)
         }
     }
+    
+    private func ProfileListView() -> some View {
+        VStack(spacing: 20) {
+            ForEach(profileList, id: \.title) { section in
+                VStack(spacing: 12) {
+                    HStack {
+                        Text(section.title)
+                            .textStyler(color: .gray2, font: .footnote)
+                        Spacer()
+                        Image(systemName: "chevron.right")
+                            .font(.caption)
+                    }
+                    .contentShape(.rect)
+                    .onTapGesture {
+                        send(section.action)
+                    }
+                    CustomDivider()
+                }
+            }
+        }
+    }
+    
+    private var profileList: [ProfileSection] = [
+        .init(title: "마켓 거래내역",
+              action: .purchaseHistoryButtonTapped),
+        .init(title: "메모라이징 소개",
+              action: .aboutMemorizingButtonTapped),
+        .init(title: "1:1 문의하기",
+              action: .csButtonTapped),
+        .init(title: "이용약관 및 개인정보 처리방침",
+              action: .privacyPolicyButtonTapped),
+        .init(title: "로그아웃하기",
+              action: .logoutButtonTapped)
+    ]
+    
+    struct ProfileSection {
+        let title: String
+        let action: ProfileFeature.Action.View
+    }
 }
 
 #Preview {
     @Shared(.currentUser) var currentUser
     currentUser = .mock
     
-    return NavigationStack {
-        ProfileView(
-            store: .init(
-                initialState: .init(),
-                reducer: { ProfileFeature() }
-            )
+    return ProfileView(
+        store: .init(
+            initialState: .init(),
+            reducer: { ProfileFeature()._printChanges() }
         )
-    }
+    )
 }
