@@ -5,8 +5,8 @@ import Models
 
 @DependencyClient
 public struct MyReviewClient {
-    public var getReviewList: (_ userID: String) async throws -> ReviewList
-    public var postReview: (_ userID: String, _ review: Review) async throws -> Void
+    public var getReviewList: (_ userID: String) async throws -> MyReviewList
+    public var postReview: (_ userID: String, _ review: MyReview) async throws -> Void
     public var deleteReview: (_ userID: String, _ reviewID: String) async throws -> Void
 }
 

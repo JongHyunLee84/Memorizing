@@ -8,7 +8,7 @@ extension MyReviewClient: DependencyKey {
         getReviewList: { userID in
             let snapshot = try await getReviewCollection(userID)
                 .getDocuments()
-            return try snapshot.documents.tryMap { try $0.data(as: Review.self) }
+            return try snapshot.documents.tryMap { try $0.data(as: MyReview.self) }
         },
         postReview: { userID, review in
             try getReviewDocument(userID, review.id)
