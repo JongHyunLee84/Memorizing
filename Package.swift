@@ -3,35 +3,112 @@
 
 import PackageDescription
 
+// MARK: - Target Names
+let AddNoteFeature = "AddNoteFeature"
+let AddMarketFeature = "AddMarketFeature"
+let AuthClient = "AuthClient"
+let AuthClientLive = "AuthClientLive"
+let CommonUI = "CommonUI"
+let EditProfileFeature = "EditProfileFeature"
+let Utilities = "Utilities"
+let LoginFeature = "LoginFeature"
+let Models = "Models"
+let MyNoteFeature = "MyNoteFeature"
+let MyReviewClient = "MyReviewClient"
+let MyReviewClientLive = "MyReviewClientLive"
+let MarketFeature = "MarketFeature"
+let MarketNoteDetailFeature = "MarketNoteDetailFeature"
+let MarketClient = "MarketClient"
+let MarketClientLive = "MarketClientLive"
+let NoteClient = "NoteClient"
+let NoteClientLive = "NoteClientLive"
+let ProfileFeature = "ProfileFeature"
+let PurchaseHistoryFeature = "PurchaseHistoryFeature"
+let ReviewClient = "ReviewClient"
+let ReviewClientLive = "ReviewClientLive"
+let ReviewHistoryFeature = "ReviewHistoryFeature"
+let Shared = "Shared"
+let StudyFeature = "StudyFeature"
+
+// MARK: - Target Dependencies
+let AddNoteFeatureTarget: Target.Dependency = .target(name: AddNoteFeature)
+let AddMarketFeatureTarget: Target.Dependency = .target(name: AddMarketFeature)
+let AuthClientTarget: Target.Dependency = .target(name: AuthClient)
+let AuthClientLiveTarget: Target.Dependency = .target(name: AuthClientLive)
+let CommonUITarget: Target.Dependency = .target(name: CommonUI)
+let EditProfileFeatureTarget: Target.Dependency = .target(name: EditProfileFeature)
+let UtilitiesTarget: Target.Dependency = .target(name: Utilities)
+let LoginFeatureTarget: Target.Dependency = .target(name: LoginFeature)
+let ModelsTarget: Target.Dependency = .target(name: Models)
+let MyNoteFeatureTarget: Target.Dependency = .target(name: MyNoteFeature)
+let MyReviewClientTarget: Target.Dependency = .target(name: MyReviewClient)
+let MyReviewClientLiveTarget: Target.Dependency = .target(name: MyReviewClientLive)
+let MarketFeatureTarget: Target.Dependency = .target(name: MarketFeature)
+let MarketNoteDetailFeatureTarget: Target.Dependency = .target(name: MarketNoteDetailFeature)
+let MarketClientTarget: Target.Dependency = .target(name: MarketClient)
+let MarketClientLiveTarget: Target.Dependency = .target(name: MarketClientLive)
+let NoteClientTarget: Target.Dependency = .target(name: NoteClient)
+let NoteClientLiveTarget: Target.Dependency = .target(name: NoteClientLive)
+let ProfileFeatureTarget: Target.Dependency = .target(name: ProfileFeature)
+let PurchaseHistoryFeatureTarget: Target.Dependency = .target(name: PurchaseHistoryFeature)
+let ReviewClientTarget: Target.Dependency = .target(name: ReviewClient)
+let ReviewClientLiveTarget: Target.Dependency = .target(name: ReviewClientLive)
+let ReviewHistoryFeatureTarget: Target.Dependency = .target(name: ReviewHistoryFeature)
+let SharedTarget: Target.Dependency = .target(name: Shared)
+let StudyFeatureTarget: Target.Dependency = .target(name: StudyFeature)
+
+
+// MARK: - External Package Names
+let SwiftComposableArchitecture = "swift-composable-architecture"
+let SwiftDependencies = "swift-dependencies"
+let FirebaseIOSSDK = "firebase-ios-sdk"
+let GoogleSignInIOS = "GoogleSignIn-iOS"
+let KakaoIOSSDK = "kakao-ios-sdk"
+let PopupViewPackage = "PopupView"
+
+// MARK: - External Product Dependencies
+let ComposableArchitectureProduct: Target.Dependency = .product(name: "ComposableArchitecture", package: SwiftComposableArchitecture)
+let DependenciesProduct: Target.Dependency = .product(name: "Dependencies", package: SwiftDependencies)
+let DependenciesMacrosProduct: Target.Dependency = .product(name: "DependenciesMacros", package: SwiftDependencies)
+let FirebaseAuthProduct: Target.Dependency = .product(name: "FirebaseAuth", package: FirebaseIOSSDK)
+let FirebaseFirestoreProduct: Target.Dependency = .product(name: "FirebaseFirestore", package: FirebaseIOSSDK)
+let GoogleSignInProduct: Target.Dependency = .product(name: "GoogleSignIn", package: GoogleSignInIOS)
+let GoogleSignInSwiftProduct: Target.Dependency = .product(name: "GoogleSignInSwift", package: GoogleSignInIOS)
+let KakaoSDKAuthProduct: Target.Dependency = .product(name: "KakaoSDKAuth", package: KakaoIOSSDK)
+let KakaoSDKUserProduct: Target.Dependency = .product(name: "KakaoSDKUser", package: KakaoIOSSDK)
+let PopupViewProduct: Target.Dependency = .product(name: "PopupView", package: PopupViewPackage)
+
+
 let package = Package(
     name: "Memorizing",
     platforms: [.iOS(.v17)],
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
-        .library(name: "AddNoteFeature", targets: ["AddNoteFeature"]),
-        .library(name: "AddMarketFeature", targets: ["AddMarketFeature"]),
-        .library(name: "AuthClient", targets: ["AuthClient"]),
-        .library(name: "AuthClientLive", targets: ["AuthClientLive"]),
-        .library(name: "CommonUI", targets: ["CommonUI"]),
-        .library(name: "EditProfileFeature", targets: ["EditProfileFeature"]),
-        .library(name: "Utilities", targets: ["Utilities"]),
-        .library(name: "LoginFeature", targets: ["LoginFeature"]),
-        .library(name: "Models", targets: ["Models"]),
-        .library(name: "MyNoteFeature", targets: ["MyNoteFeature"]),
-        .library(name: "MyReviewClient", targets: ["MyReviewClient"]),
-        .library(name: "MyReviewClientLive", targets: ["MyReviewClientLive"]),
-        .library(name: "MarketFeature", targets: ["MarketFeature"]),
-        .library(name: "MarketNoteDetailFeature", targets: ["MarketNoteDetailFeature"]),
-        .library(name: "MarketClient", targets: ["MarketClient"]),
-        .library(name: "MarketClientLive", targets: ["MarketClientLive"]),
-        .library(name: "NoteClient", targets: ["NoteClient"]),
-        .library(name: "NoteClientLive", targets: ["NoteClientLive"]),
-        .library(name: "ProfileFeature", targets: ["ProfileFeature"]),
-        .library(name: "ReviewClient", targets: ["ReviewClient"]),
-        .library(name: "ReviewClientLive", targets: ["ReviewClientLive"]),
-        .library(name: "ReviewHistoryFeature", targets: ["ReviewHistoryFeature"]),
-        .library(name: "Shared", targets: ["Shared"]),
-        .library(name: "StudyFeature", targets: ["StudyFeature"]),
+        .library(name: AddNoteFeature, targets: [AddNoteFeature]),
+        .library(name: AddMarketFeature, targets: [AddMarketFeature]),
+        .library(name: AuthClient, targets: [AuthClient]),
+        .library(name: AuthClientLive, targets: [AuthClientLive]),
+        .library(name: CommonUI, targets: [CommonUI]),
+        .library(name: EditProfileFeature, targets: [EditProfileFeature]),
+        .library(name: Utilities, targets: [Utilities]),
+        .library(name: LoginFeature, targets: [LoginFeature]),
+        .library(name: Models, targets: [Models]),
+        .library(name: MyNoteFeature, targets: [MyNoteFeature]),
+        .library(name: MyReviewClient, targets: [MyReviewClient]),
+        .library(name: MyReviewClientLive, targets: [MyReviewClientLive]),
+        .library(name: MarketFeature, targets: [MarketFeature]),
+        .library(name: MarketNoteDetailFeature, targets: [MarketNoteDetailFeature]),
+        .library(name: MarketClient, targets: [MarketClient]),
+        .library(name: MarketClientLive, targets: [MarketClientLive]),
+        .library(name: NoteClient, targets: [NoteClient]),
+        .library(name: NoteClientLive, targets: [NoteClientLive]),
+        .library(name: ProfileFeature, targets: [ProfileFeature]),
+        .library(name: PurchaseHistoryFeature, targets: [PurchaseHistoryFeature]),
+        .library(name: ReviewClient, targets: [ReviewClient]),
+        .library(name: ReviewClientLive, targets: [ReviewClientLive]),
+        .library(name: ReviewHistoryFeature, targets: [ReviewHistoryFeature]),
+        .library(name: Shared, targets: [Shared]),
+        .library(name: StudyFeature, targets: [StudyFeature]),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -47,265 +124,281 @@ let package = Package(
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
         .target(
-            name: "AddNoteFeature",
+            name: AddNoteFeature,
             dependencies: [
-                "CommonUI",
-                "Shared",
-                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+                CommonUITarget,
+                SharedTarget,
+                ComposableArchitectureProduct,
             ]
         ),
         .target(
-            name: "AddMarketFeature",
+            name: AddMarketFeature,
             dependencies: [
-                "CommonUI",
-                "MarketClient",
-                "Shared",
-                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+                CommonUITarget,
+                MarketClientTarget,
+                SharedTarget,
+                ComposableArchitectureProduct,
             ]
         ),
         .target(
-            name: "AuthClient",
+            name: AuthClient,
             dependencies: [
-                "Models",
-                .product(name: "Dependencies", package: "swift-dependencies"),
-                .product(name: "DependenciesMacros", package: "swift-dependencies"),
+                ModelsTarget,
+                DependenciesProduct,
+                DependenciesMacrosProduct,
             ]
         ),
         .target(
-            name: "AuthClientLive",
+            name: AuthClientLive,
             dependencies: [
-                "AuthClient",
-                .product(name: "FirebaseAuth", package: "firebase-ios-sdk"),
-                .product(name: "FirebaseFirestore", package: "firebase-ios-sdk"),
-                .product(name: "GoogleSignIn", package: "GoogleSignIn-iOS"),
-                .product(name: "GoogleSignInSwift", package: "GoogleSignIn-iOS"),
-                .product(name: "KakaoSDKAuth", package: "kakao-ios-sdk"),
-                .product(name: "KakaoSDKUser", package: "kakao-ios-sdk"),
+                AuthClientTarget,
+                FirebaseAuthProduct,
+                FirebaseFirestoreProduct,
+                GoogleSignInProduct,
+                GoogleSignInSwiftProduct,
+                KakaoSDKAuthProduct,
+                KakaoSDKUserProduct,
             ]
         ),
         .target(
-            name: "CommonUI",
+            name: CommonUI,
             dependencies: [
-                "Models",
-                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
-                .product(name: "PopupView", package: "PopupView"),
+                ModelsTarget,
+                ComposableArchitectureProduct,
+                PopupViewProduct,
             ]
         ),
         .target(
-            name: "EditProfileFeature",
+            name: EditProfileFeature,
             dependencies: [
-                "AuthClient",
-                "CommonUI",
-                "Shared",
-                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+                AuthClientTarget,
+                CommonUITarget,
+                SharedTarget,
+                ComposableArchitectureProduct,
             ]
         ),
-        .target(name: "Utilities",
+        .target(name: Utilities,
                 dependencies: [
-                    .product(name: "Dependencies", package: "swift-dependencies"),            
+                    DependenciesProduct,
                 ]
                ),
         .target(
-            name: "LoginFeature",
+            name: LoginFeature,
             dependencies: [
-                "AuthClient",
-                "CommonUI",
-                "Shared",
-                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+                AuthClientTarget,
+                CommonUITarget,
+                SharedTarget,
+                ComposableArchitectureProduct,
             ]
         ),
         .target(
-            name: "Models",
+            name: Models,
             dependencies: [
-                "Utilities",
-                .product(name: "Dependencies", package: "swift-dependencies"),
+                UtilitiesTarget,
+                DependenciesProduct,
             ]
         ),
         .target(
-            name: "MyNoteFeature",
+            name: MyNoteFeature,
             dependencies: [
-                "AddNoteFeature",
-                "CommonUI",
-                "NoteClient",
-                "StudyFeature",
-                "Shared",
-                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+                AddNoteFeatureTarget,
+                CommonUITarget,
+                NoteClientTarget,
+                StudyFeatureTarget,
+                SharedTarget,
+                ComposableArchitectureProduct,
             ]
         ),
         .target(
-            name: "MyReviewClient",
+            name: MyReviewClient,
             dependencies: [
-                "Models",
-                .product(name: "Dependencies", package: "swift-dependencies"),
-                .product(name: "DependenciesMacros", package: "swift-dependencies"),
+                ModelsTarget,
+                DependenciesProduct,
+                DependenciesMacrosProduct,
             ]
         ),
         .target(
-            name: "MyReviewClientLive",
+            name: MyReviewClientLive,
             dependencies: [
-                "MyReviewClient",
-                .product(name: "FirebaseFirestore", package: "firebase-ios-sdk"),
+                MyReviewClientTarget,
+                FirebaseFirestoreProduct,
             ]
         ),
         .target(
-            name: "MarketFeature",
+            name: MarketFeature,
             dependencies: [
-                "AddMarketFeature",
-                "CommonUI",
-                "MarketClient",
-                "MarketNoteDetailFeature",
-                "Shared",
-                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+                AddMarketFeatureTarget,
+                CommonUITarget,
+                MarketClientTarget,
+                MarketNoteDetailFeatureTarget,
+                SharedTarget,
+                ComposableArchitectureProduct,
             ]
         ),
         .target(
-            name: "MarketNoteDetailFeature",
+            name: MarketNoteDetailFeature,
             dependencies: [
-                "CommonUI",
-                "MarketClient",
-                "ReviewClient",
-                "Shared",
-                "Utilities",
-                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+                CommonUITarget,
+                MarketClientTarget,
+                ReviewClientTarget,
+                SharedTarget,
+                UtilitiesTarget,
+                ComposableArchitectureProduct,
             ]
         ),
         .target(
-            name: "MarketClient",
+            name: MarketClient,
             dependencies: [
-                "Models",
-                .product(name: "Dependencies", package: "swift-dependencies"),
-                .product(name: "DependenciesMacros", package: "swift-dependencies"),         
+                ModelsTarget,
+                DependenciesProduct,
+                DependenciesMacrosProduct,
             ]
         ),
         .target(
-            name: "MarketClientLive",
+            name: MarketClientLive,
             dependencies: [
-                "Utilities",
-                "MarketClient",
-                .product(name: "FirebaseFirestore", package: "firebase-ios-sdk"),
+                UtilitiesTarget,
+                MarketClientTarget,
+                FirebaseFirestoreProduct,
             ]
         ),
         .target(
-            name: "NoteClient",
+            name: NoteClient,
             dependencies: [
-                "Models",
-                .product(name: "Dependencies", package: "swift-dependencies"),
-                .product(name: "DependenciesMacros", package: "swift-dependencies"),
+                ModelsTarget,
+                DependenciesProduct,
+                DependenciesMacrosProduct,
             ]
         ),
         .target(
-            name: "NoteClientLive",
+            name: NoteClientLive,
             dependencies: [
-                "Utilities",
-                "NoteClient",
-                .product(name: "FirebaseFirestore", package: "firebase-ios-sdk"),
+                UtilitiesTarget,
+                NoteClientTarget,
+                FirebaseFirestoreProduct,
             ]
         ),
         .target(
-            name: "ProfileFeature",
+            name: ProfileFeature,
             dependencies: [
-                "CommonUI",
-                "EditProfileFeature",
-                "NoteClient",
-                "ReviewHistoryFeature",
-                "Shared",
-                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+                CommonUITarget,
+                EditProfileFeatureTarget,
+                NoteClientTarget,
+                ReviewHistoryFeatureTarget,
+                SharedTarget,
+                ComposableArchitectureProduct,
             ]
         ),
         .target(
-            name: "ReviewClient",
+            name: PurchaseHistoryFeature,
             dependencies: [
-                "Models",
-                .product(name: "Dependencies", package: "swift-dependencies"),
-                .product(name: "DependenciesMacros", package: "swift-dependencies"),
+                CommonUITarget,
+                MyReviewClientTarget,
+                MarketClientTarget,
+                SharedTarget,
+                ComposableArchitectureProduct,
             ]
         ),
         .target(
-            name: "ReviewClientLive",
+            name: ReviewClient,
             dependencies: [
-                "ReviewClient",
-                .product(name: "FirebaseFirestore", package: "firebase-ios-sdk"),
+                ModelsTarget,
+                DependenciesProduct,
+                DependenciesMacrosProduct,
             ]
         ),
         .target(
-            name: "ReviewHistoryFeature",
+            name: ReviewClientLive,
             dependencies: [
-                "CommonUI",
-                "MyReviewClient",
-                "ReviewClient",
-                "Shared",
-                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+                ReviewClientTarget,
+                FirebaseFirestoreProduct,
             ]
         ),
         .target(
-            name: "Shared",
+            name: ReviewHistoryFeature,
             dependencies: [
-                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
-                "Models",
+                CommonUITarget,
+                MyReviewClientTarget,
+                ReviewClientTarget,
+                SharedTarget,
+                ComposableArchitectureProduct,
             ]
         ),
         .target(
-            name: "StudyFeature",
+            name: Shared,
             dependencies: [
-                "CommonUI",
-                "Utilities",
-                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+                ComposableArchitectureProduct,
+                ModelsTarget,
+            ]
+        ),
+        .target(
+            name: StudyFeature,
+            dependencies: [
+                CommonUITarget,
+                UtilitiesTarget,
+                ComposableArchitectureProduct,
             ]
         ),
         // MARK: - Test Target
         .testTarget(
             name: "AddMarketFeatureTest",
             dependencies: [
-                "AddMarketFeature",
+                AddMarketFeatureTarget,
             ]
         ),
         .testTarget(
             name: "AddNoteFeatureTest",
             dependencies: [
-                "AddNoteFeature",
+                AddNoteFeatureTarget,
             ]
         ),
         .testTarget(
             name: "EditProfileFeatureTest",
             dependencies: [
-                "EditProfileFeature",
+                EditProfileFeatureTarget,
             ]
         ),
         .testTarget(
             name: "LoginFeatureTest",
             dependencies: [
-                "LoginFeature",
+                LoginFeatureTarget,
             ]
         ),
         .testTarget(
             name: "MyNoteFeatureTest",
             dependencies: [
-                "Utilities",
-                "MyNoteFeature",
+                UtilitiesTarget,
+                MyNoteFeatureTarget,
             ]
         ),
         .testTarget(
             name: "MarketFeatureTest",
             dependencies: [
-                "MarketFeature",
+                MarketFeatureTarget,
             ]
         ),
         .testTarget(
             name: "MarketNoteDetailFeatureTest",
             dependencies: [
-                "MarketNoteDetailFeature",
+                MarketNoteDetailFeatureTarget,
+            ]
+        ),
+        .testTarget(
+            name: "PurchaseHistoryFeatureTest",
+            dependencies: [
+                PurchaseHistoryFeatureTarget,
             ]
         ),
         .testTarget(
             name: "ReviewHistoryFeatureTest",
             dependencies: [
-                "ReviewHistoryFeature",
+                ReviewHistoryFeatureTarget,
             ]
         ),
         .testTarget(
             name: "StudyFeatureTest",
             dependencies: [
-                "StudyFeature",
+                StudyFeatureTarget,
             ]
         ),
     ]
