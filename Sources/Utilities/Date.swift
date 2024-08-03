@@ -1,7 +1,17 @@
 import Foundation
 
-public var dateFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.dateFormat = "yyyy-MM-dd"  // 또는 원하는 형식으로 지정
-    return formatter
-}()
+extension FormatStyle where Self == Date.FormatStyle {
+    public static var yearMonthDay: Date.FormatStyle {
+        Date.FormatStyle()
+            .year(.defaultDigits)
+            .month(.twoDigits)
+            .day(.twoDigits)
+    }
+}
+
+extension Date {
+    public static var random: Date {
+        let randomTime = TimeInterval(Int32.random(in: 0...Int32.max))
+        return Date(timeIntervalSince1970: randomTime)
+    }
+}
