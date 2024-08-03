@@ -79,7 +79,7 @@ public struct MarketFeature {
             case .marketNoteRequest:
                 return .run { send in
                     await send(.marketNoteListResponse(
-                        try await marketClient.getMarketList()
+                        try await marketClient.getMarketNoteList()
                     ))
                 }
 
