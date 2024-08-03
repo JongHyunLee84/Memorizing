@@ -207,6 +207,7 @@ let package = Package(
                 "CommonUI",
                 "EditProfileFeature",
                 "NoteClient",
+                "ReviewHistoryFeature",
                 "Shared",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
             ]
