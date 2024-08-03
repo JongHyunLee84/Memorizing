@@ -28,7 +28,7 @@ extension MarketClient: DependencyKey {
                 return noteList.filter { $0.wordList.count >= 20 }
             }
         },
-        getMarketList: {
+        getMarketNoteList: {
             let snapshot = try await marketCollection.getDocuments()
             return try await withThrowingTaskGroup(of: MarketNote.self) { group in
                 var marketNoteList: MarketNoteList = []
@@ -37,6 +37,23 @@ extension MarketClient: DependencyKey {
                         var marketNote = try document.data(as: MarketNote.self)
                         marketNote.wordList = try await _getWordList(document.documentID)
                         return marketNote
+                    }
+                }
+                
+                for try await marketNote in group {
+                    marketNoteList.append(marketNote)
+                }
+                
+                return marketNoteList
+            }
+        },
+        getMarketNoteListWith: { noteIDList in
+            return try await withThrowingTaskGroup(of: MarketNote.self) { group in
+                var marketNoteList: MarketNoteList = []
+                noteIDList.forEach { id in
+                    group.addTask {
+                        try await marketCollection.document(id)
+                            .getDocument(as: MarketNote.self)
                     }
                 }
                 

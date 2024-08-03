@@ -5,7 +5,8 @@ import Models
 @DependencyClient
 public struct MarketClient {
     public var getSellableNoteList: (_ userID: String) async throws -> NoteList
-    public var getMarketList: () async throws -> MarketNoteList
+    public var getMarketNoteList: () async throws -> MarketNoteList
+    public var getMarketNoteListWith: (_ noteIDList: [String]) async throws -> MarketNoteList
     public var getWordList: (_ noteID: String) async throws -> MarketWordList
     public var postMarketNote: (_ note: Note, _ price: Int) async throws -> Void
     public var postWordList: (_ noteID: String, _ wordList: WordList) async throws -> Void
@@ -24,7 +25,8 @@ extension DependencyValues {
 extension MarketClient: TestDependencyKey {
     public static var testValue = Self(
         getSellableNoteList: { _ in .mock },
-        getMarketList: { .mock },
+        getMarketNoteList: { .mock },
+        getMarketNoteListWith: { _ in .mock },
         getWordList: { _ in .mock },
         postMarketNote: { _, _ in },
         postWordList: { _, _ in },
