@@ -100,13 +100,13 @@ public struct PurchaseHistoryFeature {
                 state.purchaseHistoryNoteList = .init(uniqueElements: list)
                 return .none
                 
-            case .view(.writeReviewButtonTapped):
-                return .none
-                
             case .view(.backButtonTapped):
                 return .run { _ in
                     await dismiss()
                 }
+                
+            case .view(.writeReviewButtonTapped):
+                return .none
             }
         }
     }
