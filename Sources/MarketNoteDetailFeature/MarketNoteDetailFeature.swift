@@ -196,7 +196,7 @@ public struct MarketNoteDetailView: View {
                 Image(systemName: "star.fill")
                     .textColor(.yellow)
                 Text(" \(String(format: "%.1f", store.note.reviewScoreAverage)) (\(store.note.reviewCount)) | ")
-                Text(store.note.updateDate, formatter: dateFormatter)
+                Text(store.note.updateDate, format: .yearMonthDay)
                 Spacer()
                 Text(store.note.notePrice.description + "P")
                     .textStyler(color: .mainDarkBlue,
@@ -239,7 +239,7 @@ public struct MarketNoteDetailView: View {
                         font: .footnote)
             Text(review.reviewText)
                 .textStyler(font: .footnote)
-            Text(review.createDate, formatter: dateFormatter)
+            Text(review.createDate, format: .yearMonthDay)
                 .textStyler(color: .gray4, font: .footnote)
                 .frame(maxWidth: .infinity, alignment: .trailing)
         }

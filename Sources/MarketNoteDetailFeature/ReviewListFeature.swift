@@ -57,7 +57,7 @@ struct ReviewListView: View {
                 Text(store.note.noteName)
                     .textStyler(font: .title2,
                                 weight: .bold)
-                Text(store.note.updateDate, formatter: dateFormatter)
+                Text(store.note.updateDate, format: .yearMonthDay)
                     .textStyler(color: .gray2,
                                 font: .footnote)
                     .frame(maxWidth: .infinity, alignment: .trailing)
@@ -99,7 +99,7 @@ struct ReviewListView: View {
             Text(review.reviewText)
                 .textStyler(font: .body,
                             weight: .semibold)
-            Text(review.createDate, formatter: dateFormatter)
+            Text(review.createDate, format: .yearMonthDay)
                 .textStyler(color: .gray4, font: .footnote)
                 .frame(maxWidth: .infinity, alignment: .trailing)
             CustomDivider()

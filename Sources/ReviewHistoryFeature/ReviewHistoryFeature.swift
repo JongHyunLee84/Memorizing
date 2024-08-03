@@ -172,7 +172,7 @@ public struct ReviewHistoryView: View {
                     .textStyler(color: .gray2,
                                 font: .footnote)
                 Text(review.createDate,
-                     formatter: dateFormatter)
+                     format: .yearMonthDay)
                 .textStyler(color: .gray3,
                             font: .footnote)
                 Spacer()
