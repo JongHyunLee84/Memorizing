@@ -29,6 +29,7 @@ let ReviewClientLive = "ReviewClientLive"
 let ReviewHistoryFeature = "ReviewHistoryFeature"
 let Shared = "Shared"
 let StudyFeature = "StudyFeature"
+let WriteReviewFeature = "WriteReviewFeature"
 
 // MARK: - Target Dependencies
 let AddNoteFeatureTarget: Target.Dependency = .target(name: AddNoteFeature)
@@ -56,6 +57,7 @@ let ReviewClientLiveTarget: Target.Dependency = .target(name: ReviewClientLive)
 let ReviewHistoryFeatureTarget: Target.Dependency = .target(name: ReviewHistoryFeature)
 let SharedTarget: Target.Dependency = .target(name: Shared)
 let StudyFeatureTarget: Target.Dependency = .target(name: StudyFeature)
+let WriteReviewFeatureTarget: Target.Dependency = .target(name: WriteReviewFeature)
 
 
 // MARK: - External Package Names
@@ -109,6 +111,7 @@ let package = Package(
         .library(name: ReviewHistoryFeature, targets: [ReviewHistoryFeature]),
         .library(name: Shared, targets: [Shared]),
         .library(name: StudyFeature, targets: [StudyFeature]),
+        .library(name: WriteReviewFeature, targets: [WriteReviewFeature]),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -177,11 +180,6 @@ let package = Package(
                 ComposableArchitectureProduct,
             ]
         ),
-        .target(name: Utilities,
-                dependencies: [
-                    DependenciesProduct,
-                ]
-               ),
         .target(
             name: LoginFeature,
             dependencies: [
@@ -284,6 +282,7 @@ let package = Package(
                 CommonUITarget,
                 EditProfileFeatureTarget,
                 NoteClientTarget,
+                PurchaseHistoryFeatureTarget,
                 ReviewHistoryFeatureTarget,
                 SharedTarget,
                 ComposableArchitectureProduct,
@@ -337,6 +336,21 @@ let package = Package(
                 CommonUITarget,
                 UtilitiesTarget,
                 ComposableArchitectureProduct,
+            ]
+        ),
+        .target(name: Utilities,
+                dependencies: [
+                    DependenciesProduct,
+                ]
+               ),
+        .target(
+            name: WriteReviewFeature,
+            dependencies: [
+                CommonUITarget,
+                ComposableArchitectureProduct,
+                MyReviewClientTarget,
+                ReviewClientTarget,
+                SharedTarget,
             ]
         ),
         // MARK: - Test Target
