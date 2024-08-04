@@ -34,6 +34,27 @@ public struct MyReview: Codable, Identifiable, Equatable {
     }
     
     public init(
+        marketNote: MarketNote,
+        reviewText: String,
+        starScore: Double
+    ) {
+        @Dependency(\.uuid) var uuid
+        @Dependency(\.date.now) var now
+        
+        self.init(id: uuid().uuidString,
+                  noteID: marketNote.id,
+                  noteOwner: marketNote.enrollmentUser,
+                  noteTitle: marketNote.noteName,
+                  noteCategory: marketNote.noteCategory,
+                  reviewText: reviewText,
+                  createDate: now,
+                  starScore: starScore
+        )
+    }
+}
+
+extension MyReview {
+    public init(
         reviewText: String,
         starScore: Double,
         noteTitle: String,
@@ -50,9 +71,7 @@ public struct MyReview: Codable, Identifiable, Equatable {
         self.createDate = now
         self.starScore = starScore
     }
-}
-
-extension MyReview {
+    
     public static var mock = Self(
         reviewText: "일본에서 실제로 적용해보니 너무 좋았어요",
         starScore: 5,

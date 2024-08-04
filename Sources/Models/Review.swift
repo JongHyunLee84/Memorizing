@@ -47,6 +47,19 @@ public struct Review: Codable, Identifiable, Equatable {
         self.noteTitle = noteTitle
         self.noteCategory = noteCategory
     }
+    
+    public init(
+        marketNote: MarketNote,
+        reivewText: String,
+        starScore: Double
+    ) {
+        self.init(writer: marketNote.enrollmentUser,
+                  reviewText: reivewText,
+                  starScore: starScore,
+                  noteTitle: marketNote.noteName,
+                  noteCategory: marketNote.noteCategory
+        )
+    }
 }
 
 extension Review {
