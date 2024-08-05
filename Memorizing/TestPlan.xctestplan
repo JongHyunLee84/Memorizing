@@ -91,6 +91,13 @@
         "identifier" : "PurchaseHistoryFeatureTest",
         "name" : "PurchaseHistoryFeatureTest"
       }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "WriteReviewFeatureTest",
+        "name" : "WriteReviewFeatureTest"
+      }
     }
   ],
   "version" : 1
