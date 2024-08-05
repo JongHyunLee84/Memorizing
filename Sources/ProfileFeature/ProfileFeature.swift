@@ -1,10 +1,15 @@
+import AuthClient
 import ComposableArchitecture
 import CommonUI
 import EditProfileFeature
 import Models
 import NoteClient
+import PurchaseHistoryFeature
+import ReviewHistoryFeature
 import SwiftUI
 import Shared
+import URLClient
+import WriteReviewFeature
 
 @Reducer
 public struct ProfileFeature {
@@ -13,8 +18,11 @@ public struct ProfileFeature {
         @Shared(.currentUser) public var currentUser
         public var myNoteList: NoteList
         public var versionInfo: String
-        @Presents var destination: Destination.State?
+        @Presents public var destination: Destination.State?
         public var path: StackState<Path.State>
+        public var introduceURL: URL?
+        public var privacyPolicyURL: URL?
+        public var csURL: URL?
         
         public init(
             myNoteList: NoteList = [],
@@ -39,9 +47,10 @@ public struct ProfileFeature {
     
     public enum Action: ViewAction {
         case view(View)
-        case destination(PresentationAction<Destination.Action>)
         case path(StackActionOf<Path>)
+        case destination(PresentationAction<Destination.Action>)
         case noteListResponse(NoteList)
+        case webviewURLResponse((intro: URL?, privacy: URL?, cs: URL?))
         
         @CasePathable
         public enum View {
@@ -50,25 +59,38 @@ public struct ProfileFeature {
             case purchaseHistoryButtonTapped
             case myReviewsButtonTapped
             case aboutMemorizingButtonTapped
+            case privacyPolicyButtonTapped
             case csButtonTapped
             case logoutButtonTapped
-            case privacyPolicyButtonTapped
         }
     }
     
     @Reducer(state: .equatable)
-    public enum Destination {
+    public enum Destination: Equatable {
+        case aboutMemorizing
+        case cs
+        case privacyPolicy
+        case alert(AlertState<Alert>)
         
+        @CasePathable
+        public enum Alert {
+            case logout
+        }
     }
     
     @Reducer(state: .equatable)
     public enum Path {
         case editProfile(EditProfileFeature)
+        case purchaseHistory(PurchaseHistoryFeature)
+        case reviewHistory(ReviewHistoryFeature)
+        case writeReview(WriteReviewFeature)
     }
     
     public init() {}
     
     @Dependency(\.noteClient) var noteClient
+    @Dependency(\.urlClient) var urlClient
+    @Dependency(\.authClient) var authClient
     
     public var body: some ReducerOf<Self> {
         Reduce { state, action in
@@ -78,35 +100,92 @@ public struct ProfileFeature {
                     guard let userID else { return }
                     let noteList = try await noteClient.getNoteList(userID: userID)
                     await send(.noteListResponse(noteList))
+                    async let introduce = urlClient.getIntroduceURL()
+                    async let privacy = urlClient.getPrivacyPolicyURL()
+                    async let cs = urlClient.getCSURL()
+                    await send(.webviewURLResponse((intro: introduce,
+                                                    privacy: privacy,
+                                                    cs: cs)))
                 }
             case let .noteListResponse(noteList):
                 state.myNoteList = noteList
                 return .none
+                
+            case .webviewURLResponse(let urls):
+                state.introduceURL = urls.intro
+                state.privacyPolicyURL = urls.privacy
+                state.csURL = urls.cs
+                return .none
+                
             case .view(.editProfileButtonTapped):
                 state.path.append(.editProfile(.init()))
                 return .none
+                
             case .view(.purchaseHistoryButtonTapped):
+                state.path.append(.purchaseHistory(.init(noteList: state.myNoteList)))
                 return .none
+                
+            case let .path(.element(id: id, action: .purchaseHistory(.view(.writeReviewButtonTapped(noteID))))):
+                guard let note = state.path[id: id]?.purchaseHistory?.purchaseHistoryNoteList[id: noteID]?.note else {
+                    return .none
+                }
+                state.path.append(.writeReview(.init(note: note)))
+                return .none
+                
             case .view(.myReviewsButtonTapped):
+                state.path.append(.reviewHistory(.init()))
                 return .none
+                
             case .view(.aboutMemorizingButtonTapped):
+                state.destination = .aboutMemorizing
                 return .none
+                
             case .view(.csButtonTapped):
+                state.destination = .cs
                 return .none
-            case .view(.logoutButtonTapped):
-                return .none
+                
             case .view(.privacyPolicyButtonTapped):
+                state.destination = .privacyPolicy
                 return .none
-            case .destination:
+                
+            case .view(.logoutButtonTapped):
+                state.destination = .alert(.logout)
                 return .none
+                
+            case .destination(.presented(.alert(.logout))):
+                state.currentUser = nil
+                return .run { _ in
+                    try await authClient.signOut()
+                }
+                
             case .path:
+                return .none
+                
+            case .destination:
                 return .none
             }
         }
+        .ifLet(\.$destination, action: \.destination)
         .forEach(\.path, action: \.path)
     }
-
 }
+
+extension AlertState where Action == ProfileFeature.Destination.Alert {
+    public static let logout = Self(
+        title: { TextState("로그아웃") },
+        actions: {
+            ButtonState(role: .cancel) {
+                TextState("취소")
+            }
+            ButtonState(role: .destructive,
+                        action: .logout) {
+                TextState("확인")
+            }
+        },
+        message: { TextState("정말 로그아웃 하시겠습니까?") }
+    )
+}
+
 
 @ViewAction(for: ProfileFeature.self)
 public struct ProfileView: View {
@@ -128,6 +207,26 @@ public struct ProfileView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.horizontal, 16)
             }
+            .customAlert($store.scope(state: \.destination?.alert,
+                                      action: \.destination.alert))
+            .sheet(item: $store.scope(state: \.destination?.aboutMemorizing,
+                                      action: \.destination.aboutMemorizing)) { _ in
+                if let introduceURL = store.introduceURL {
+                    SheetWebView(introduceURL)
+                }
+            }
+            .sheet(item: $store.scope(state: \.destination?.cs,
+                                      action: \.destination.cs)) { _ in
+                if let csURL = store.csURL {
+                    SheetWebView(csURL)
+                }
+            }
+            .sheet(item: $store.scope(state: \.destination?.privacyPolicy,
+                                      action: \.destination.privacyPolicy)) { _ in
+                if let privacyPolicyURL = store.privacyPolicyURL {
+                    SheetWebView(privacyPolicyURL)
+                }
+            }
             .scrollIndicators(.never)
             .onFirstTask {
                 send(.onFirstAppear)
@@ -139,8 +238,17 @@ public struct ProfileView: View {
             }
         } destination: { store in
             switch store.case {
-            case let .editProfile(store):
+            case .editProfile(let store):
                 EditProfileView(store: store)
+                
+            case .purchaseHistory(let store):
+                PurchaseHistoryView(store: store)
+                
+            case .reviewHistory(let store):
+                ReviewHistoryView(store: store)
+                
+            case .writeReview(let store):
+                WriteReviewView(store: store)
             }
         }
     }
@@ -220,6 +328,8 @@ public struct ProfileView: View {
     private var profileList: [ProfileSection] = [
         .init(title: "마켓 거래내역",
               action: .purchaseHistoryButtonTapped),
+        .init(title: "내가 작성한 리뷰",
+              action: .myReviewsButtonTapped),
         .init(title: "메모라이징 소개",
               action: .aboutMemorizingButtonTapped),
         .init(title: "1:1 문의하기",
@@ -233,6 +343,12 @@ public struct ProfileView: View {
     struct ProfileSection {
         let title: String
         let action: ProfileFeature.Action.View
+    }
+    
+    private func SheetWebView(_ url: URL) -> some View {
+        SafariWebView(url: url)
+            .ignoresSafeArea()
+            .presentationDetents([.fraction(0.95)])
     }
 }
 
