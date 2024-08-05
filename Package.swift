@@ -3,23 +3,22 @@
 
 import PackageDescription
 
-// MARK: - Target Names
-let AddNoteFeature = "AddNoteFeature"
+// MARK: - Target Names**
 let AddMarketFeature = "AddMarketFeature"
+let AddNoteFeature = "AddNoteFeature"
 let AuthClient = "AuthClient"
 let AuthClientLive = "AuthClientLive"
 let CommonUI = "CommonUI"
 let EditProfileFeature = "EditProfileFeature"
-let Utilities = "Utilities"
 let LoginFeature = "LoginFeature"
+let MarketClient = "MarketClient"
+let MarketClientLive = "MarketClientLive"
+let MarketFeature = "MarketFeature"
+let MarketNoteDetailFeature = "MarketNoteDetailFeature"
 let Models = "Models"
 let MyNoteFeature = "MyNoteFeature"
 let MyReviewClient = "MyReviewClient"
 let MyReviewClientLive = "MyReviewClientLive"
-let MarketFeature = "MarketFeature"
-let MarketNoteDetailFeature = "MarketNoteDetailFeature"
-let MarketClient = "MarketClient"
-let MarketClientLive = "MarketClientLive"
 let NoteClient = "NoteClient"
 let NoteClientLive = "NoteClientLive"
 let ProfileFeature = "ProfileFeature"
@@ -29,44 +28,49 @@ let ReviewClientLive = "ReviewClientLive"
 let ReviewHistoryFeature = "ReviewHistoryFeature"
 let Shared = "Shared"
 let StudyFeature = "StudyFeature"
+let URLClient = "URLClient"
+let URLClientLive = "URLClientLive"
+let Utilities = "Utilities"
 let WriteReviewFeature = "WriteReviewFeature"
 
-// MARK: - Target Dependencies
-let AddNoteFeatureTarget: Target.Dependency = .target(name: AddNoteFeature)
+// MARK: - Target Dependencies**
 let AddMarketFeatureTarget: Target.Dependency = .target(name: AddMarketFeature)
-let AuthClientTarget: Target.Dependency = .target(name: AuthClient)
+let AddNoteFeatureTarget: Target.Dependency = .target(name: AddNoteFeature)
 let AuthClientLiveTarget: Target.Dependency = .target(name: AuthClientLive)
+let AuthClientTarget: Target.Dependency = .target(name: AuthClient)
 let CommonUITarget: Target.Dependency = .target(name: CommonUI)
 let EditProfileFeatureTarget: Target.Dependency = .target(name: EditProfileFeature)
-let UtilitiesTarget: Target.Dependency = .target(name: Utilities)
 let LoginFeatureTarget: Target.Dependency = .target(name: LoginFeature)
-let ModelsTarget: Target.Dependency = .target(name: Models)
-let MyNoteFeatureTarget: Target.Dependency = .target(name: MyNoteFeature)
-let MyReviewClientTarget: Target.Dependency = .target(name: MyReviewClient)
-let MyReviewClientLiveTarget: Target.Dependency = .target(name: MyReviewClientLive)
+let MarketClientLiveTarget: Target.Dependency = .target(name: MarketClientLive)
+let MarketClientTarget: Target.Dependency = .target(name: MarketClient)
 let MarketFeatureTarget: Target.Dependency = .target(name: MarketFeature)
 let MarketNoteDetailFeatureTarget: Target.Dependency = .target(name: MarketNoteDetailFeature)
-let MarketClientTarget: Target.Dependency = .target(name: MarketClient)
-let MarketClientLiveTarget: Target.Dependency = .target(name: MarketClientLive)
-let NoteClientTarget: Target.Dependency = .target(name: NoteClient)
+let ModelsTarget: Target.Dependency = .target(name: Models)
+let MyNoteFeatureTarget: Target.Dependency = .target(name: MyNoteFeature)
+let MyReviewClientLiveTarget: Target.Dependency = .target(name: MyReviewClientLive)
+let MyReviewClientTarget: Target.Dependency = .target(name: MyReviewClient)
 let NoteClientLiveTarget: Target.Dependency = .target(name: NoteClientLive)
+let NoteClientTarget: Target.Dependency = .target(name: NoteClient)
 let ProfileFeatureTarget: Target.Dependency = .target(name: ProfileFeature)
 let PurchaseHistoryFeatureTarget: Target.Dependency = .target(name: PurchaseHistoryFeature)
-let ReviewClientTarget: Target.Dependency = .target(name: ReviewClient)
 let ReviewClientLiveTarget: Target.Dependency = .target(name: ReviewClientLive)
+let ReviewClientTarget: Target.Dependency = .target(name: ReviewClient)
 let ReviewHistoryFeatureTarget: Target.Dependency = .target(name: ReviewHistoryFeature)
 let SharedTarget: Target.Dependency = .target(name: Shared)
 let StudyFeatureTarget: Target.Dependency = .target(name: StudyFeature)
+let URLClientTarget: Target.Dependency = .target(name: URLClient)
+let URLClientLiveTarget: Target.Dependency = .target(name: URLClientLive)
+let UtilitiesTarget: Target.Dependency = .target(name: Utilities)
 let WriteReviewFeatureTarget: Target.Dependency = .target(name: WriteReviewFeature)
 
 
 // MARK: - External Package Names
-let SwiftComposableArchitecture = "swift-composable-architecture"
-let SwiftDependencies = "swift-dependencies"
 let FirebaseIOSSDK = "firebase-ios-sdk"
 let GoogleSignInIOS = "GoogleSignIn-iOS"
 let KakaoIOSSDK = "kakao-ios-sdk"
 let PopupViewPackage = "PopupView"
+let SwiftComposableArchitecture = "swift-composable-architecture"
+let SwiftDependencies = "swift-dependencies"
 
 // MARK: - External Product Dependencies
 let ComposableArchitectureProduct: Target.Dependency = .product(name: "ComposableArchitecture", package: SwiftComposableArchitecture)
@@ -78,6 +82,7 @@ let GoogleSignInProduct: Target.Dependency = .product(name: "GoogleSignIn", pack
 let GoogleSignInSwiftProduct: Target.Dependency = .product(name: "GoogleSignInSwift", package: GoogleSignInIOS)
 let KakaoSDKAuthProduct: Target.Dependency = .product(name: "KakaoSDKAuth", package: KakaoIOSSDK)
 let KakaoSDKUserProduct: Target.Dependency = .product(name: "KakaoSDKUser", package: KakaoIOSSDK)
+let KakaoSDKTalkProduct: Target.Dependency = .product(name: "KakaoSDKTalk", package: KakaoIOSSDK)
 let PopupViewProduct: Target.Dependency = .product(name: "PopupView", package: PopupViewPackage)
 
 
@@ -92,7 +97,6 @@ let package = Package(
         .library(name: AuthClientLive, targets: [AuthClientLive]),
         .library(name: CommonUI, targets: [CommonUI]),
         .library(name: EditProfileFeature, targets: [EditProfileFeature]),
-        .library(name: Utilities, targets: [Utilities]),
         .library(name: LoginFeature, targets: [LoginFeature]),
         .library(name: Models, targets: [Models]),
         .library(name: MyNoteFeature, targets: [MyNoteFeature]),
@@ -111,6 +115,9 @@ let package = Package(
         .library(name: ReviewHistoryFeature, targets: [ReviewHistoryFeature]),
         .library(name: Shared, targets: [Shared]),
         .library(name: StudyFeature, targets: [StudyFeature]),
+        .library(name: URLClient, targets: [URLClient]),
+        .library(name: URLClientLive, targets: [URLClientLive]),
+        .library(name: Utilities, targets: [Utilities]),
         .library(name: WriteReviewFeature, targets: [WriteReviewFeature]),
     ],
     dependencies: [
@@ -279,6 +286,7 @@ let package = Package(
         .target(
             name: ProfileFeature,
             dependencies: [
+                AuthClientTarget,
                 CommonUITarget,
                 ComposableArchitectureProduct,
                 EditProfileFeatureTarget,
@@ -286,6 +294,7 @@ let package = Package(
                 PurchaseHistoryFeatureTarget,
                 ReviewHistoryFeatureTarget,
                 SharedTarget,
+                URLClientTarget,
                 WriteReviewFeatureTarget,
             ]
         ),
@@ -337,6 +346,27 @@ let package = Package(
                 CommonUITarget,
                 UtilitiesTarget,
                 ComposableArchitectureProduct,
+            ]
+        ),
+        .target(
+            name: URLClient,
+            dependencies: [
+                DependenciesProduct,
+                DependenciesMacrosProduct,
+                KakaoSDKTalkProduct,
+            ]
+        ),
+        .target(
+            name: URLClientLive,
+            dependencies: [
+                URLClientTarget,
+                KakaoSDKTalkProduct,
+            ],
+            exclude: [
+                "Secrets/secrets.json.sample"
+            ],
+            resources: [
+                .copy("Secrets/secrets.json"),
             ]
         ),
         .target(name: Utilities,
