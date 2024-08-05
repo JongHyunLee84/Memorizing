@@ -58,12 +58,13 @@ K --> A
 
 ## Prerequisite
 
-* 아래 2가지 파일에 대한 설정은 Main App을 실행하기 위해 필요합니다.
+* 아래 대한 설정들은 Main App을 실행하기 위해 필요합니다.
 ```
 - Info.plist에 'KAKAO_APP_KEY' Property 추가
 - Firebase의 'GoogleService-Info' 파일 추가
+- URLClient의 Secret 폴더 secret.json 파일 추가 (secret.json.sample 참고)
 ```
-
+[secret.json.sample](https://github.com/JongHyunLee84/Memorizing/blob/main/Sources/URLClientLive/Secrets/secrets.json.sample)
 ## License
 
 Apache License
