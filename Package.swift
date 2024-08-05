@@ -280,12 +280,13 @@ let package = Package(
             name: ProfileFeature,
             dependencies: [
                 CommonUITarget,
+                ComposableArchitectureProduct,
                 EditProfileFeatureTarget,
                 NoteClientTarget,
                 PurchaseHistoryFeatureTarget,
                 ReviewHistoryFeatureTarget,
                 SharedTarget,
-                ComposableArchitectureProduct,
+                WriteReviewFeatureTarget,
             ]
         ),
         .target(
@@ -413,6 +414,12 @@ let package = Package(
             name: "StudyFeatureTest",
             dependencies: [
                 StudyFeatureTarget,
+            ]
+        ),
+        .testTarget(
+            name: "WriteReviewFeatureTest",
+            dependencies: [
+                WriteReviewFeatureTarget,
             ]
         ),
     ]
