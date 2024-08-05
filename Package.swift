@@ -429,6 +429,12 @@ let package = Package(
             ]
         ),
         .testTarget(
+            name: "ProfileFeatureTest",
+            dependencies: [
+                ProfileFeatureTarget,
+            ]
+        ),
+        .testTarget(
             name: "PurchaseHistoryFeatureTest",
             dependencies: [
                 PurchaseHistoryFeatureTarget,
