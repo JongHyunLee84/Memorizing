@@ -29,9 +29,12 @@ struct CustomAlertModifier<A, M, T>: ViewModifier where A : View, M : View  {
                 if isPresented {
                     Color.black.opacity(0.3)
                         .ignoresSafeArea()
+                        .onTapGesture {
+                            isPresented = false
+                        }
                 }
             }
-            .popup(isPresented: $isPresented) {
+            .popup(isPresented: .constant($isPresented.wrappedValue)) {
                     VStack(spacing: 12) {
                         title
                             .textStyler(font: .title3,
@@ -48,10 +51,6 @@ struct CustomAlertModifier<A, M, T>: ViewModifier where A : View, M : View  {
                 } customize: {
                     $0
                         .appearFrom(.centerScale)
-                        .closeOnTapOutside(true)
-                        .isOpaque(true) // Navbar 덮기
-                    // MARK: - 이상한 잔상 남는 버그
-//                        .backgroundColor(.black.opacity(0.3))
             }
     }
 }
