@@ -153,9 +153,9 @@ public struct ProfileFeature {
                 return .none
                 
             case .destination(.presented(.alert(.logout))):
-                state.currentUser = nil
-                return .run { _ in
+                return .run { [currentUser = state.$currentUser] _ in
                     try await authClient.signOut()
+                    await currentUser.withLock { $0 = nil }
                 }
                 
             case .path:
@@ -186,6 +186,7 @@ extension AlertState where Action == ProfileFeature.Destination.Alert {
     )
 }
 
+// MARK: - View
 
 @ViewAction(for: ProfileFeature.self)
 public struct ProfileView: View {
