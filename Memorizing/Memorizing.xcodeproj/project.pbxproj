@@ -14,13 +14,6 @@
 		F20EF7422C37109E00664611 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F20EF7402C37109E00664611 /* GoogleService-Info.plist */; };
 		F20EF7462C37110A00664611 /* LoginFeature in Frameworks */ = {isa = PBXBuildFile; productRef = F20EF7452C37110A00664611 /* LoginFeature */; };
 		F20EF7522C3714D500664611 /* AuthClientLive in Frameworks */ = {isa = PBXBuildFile; productRef = F20EF7512C3714D500664611 /* AuthClientLive */; };
-		F20EF7542C3714DE00664611 /* LoginFeature in Frameworks */ = {isa = PBXBuildFile; productRef = F20EF7532C3714DE00664611 /* LoginFeature */; };
-		F20EF7572C37155000664611 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = F20EF7562C37155000664611 /* ComposableArchitecture */; };
-		F22154FF2C36C34300600C48 /* KakaoSDKUser in Frameworks */ = {isa = PBXBuildFile; productRef = F22154FE2C36C34300600C48 /* KakaoSDKUser */; };
-		F22155012C36C34D00600C48 /* KakaoSDKAuth in Frameworks */ = {isa = PBXBuildFile; productRef = F22155002C36C34D00600C48 /* KakaoSDKAuth */; };
-		F22155032C36C35300600C48 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = F22155022C36C35300600C48 /* GoogleSignInSwift */; };
-		F24449792C3599FF0054F265 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = F24449782C3599FF0054F265 /* GoogleSignIn */; };
-		F25ED5A12C34621E00AE5484 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = F25ED5A02C34621E00AE5484 /* FirebaseFirestore */; };
 		F27B68012C32FCA10070C49B /* MemorizingApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27B68002C32FCA10070C49B /* MemorizingApp.swift */; };
 		F2809E462C61281100F3369A /* ProfileFeatureAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2809E452C61281100F3369A /* ProfileFeatureAppApp.swift */; };
 		F2809E4A2C61281500F3369A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F2809E492C61281500F3369A /* Assets.xcassets */; };
@@ -37,6 +30,12 @@
 		F2ED65FF2C63110100E6439E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F2ED65FE2C63110100E6439E /* Assets.xcassets */; };
 		F2ED66022C63110100E6439E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F2ED66012C63110100E6439E /* Preview Assets.xcassets */; };
 		F2ED66072C63112900E6439E /* CoreApp in Frameworks */ = {isa = PBXBuildFile; productRef = F2ED66062C63112900E6439E /* CoreApp */; };
+		F2ED66092C634FBF00E6439E /* MarketClientLive in Frameworks */ = {isa = PBXBuildFile; productRef = F2ED66082C634FBF00E6439E /* MarketClientLive */; };
+		F2ED660B2C634FBF00E6439E /* MyReviewClientLive in Frameworks */ = {isa = PBXBuildFile; productRef = F2ED660A2C634FBF00E6439E /* MyReviewClientLive */; };
+		F2ED660D2C634FBF00E6439E /* NoteClientLive in Frameworks */ = {isa = PBXBuildFile; productRef = F2ED660C2C634FBF00E6439E /* NoteClientLive */; };
+		F2ED660F2C634FBF00E6439E /* ReviewClientLive in Frameworks */ = {isa = PBXBuildFile; productRef = F2ED660E2C634FBF00E6439E /* ReviewClientLive */; };
+		F2ED66112C634FBF00E6439E /* URLClientLive in Frameworks */ = {isa = PBXBuildFile; productRef = F2ED66102C634FBF00E6439E /* URLClientLive */; };
+		F2ED66132C634FCA00E6439E /* CoreApp in Frameworks */ = {isa = PBXBuildFile; productRef = F2ED66122C634FCA00E6439E /* CoreApp */; };
 		F2EE90352C4A52DF008FE6EA /* MarketFeatureAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2EE90342C4A52DF008FE6EA /* MarketFeatureAppApp.swift */; };
 		F2EE90392C4A52E1008FE6EA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F2EE90382C4A52E1008FE6EA /* Assets.xcassets */; };
 		F2EE903C2C4A52E1008FE6EA /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F2EE903B2C4A52E1008FE6EA /* Preview Assets.xcassets */; };
@@ -89,14 +88,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F20EF7542C3714DE00664611 /* LoginFeature in Frameworks */,
-				F22155032C36C35300600C48 /* GoogleSignInSwift in Frameworks */,
-				F22154FF2C36C34300600C48 /* KakaoSDKUser in Frameworks */,
-				F25ED5A12C34621E00AE5484 /* FirebaseFirestore in Frameworks */,
-				F24449792C3599FF0054F265 /* GoogleSignIn in Frameworks */,
-				F22155012C36C34D00600C48 /* KakaoSDKAuth in Frameworks */,
-				F20EF7572C37155000664611 /* ComposableArchitecture in Frameworks */,
 				F20EF7522C3714D500664611 /* AuthClientLive in Frameworks */,
+				F2ED660F2C634FBF00E6439E /* ReviewClientLive in Frameworks */,
+				F2ED66132C634FCA00E6439E /* CoreApp in Frameworks */,
+				F2ED660B2C634FBF00E6439E /* MyReviewClientLive in Frameworks */,
+				F2ED66092C634FBF00E6439E /* MarketClientLive in Frameworks */,
+				F2ED660D2C634FBF00E6439E /* NoteClientLive in Frameworks */,
+				F2ED66112C634FBF00E6439E /* URLClientLive in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -320,14 +318,13 @@
 			);
 			name = Memorizing;
 			packageProductDependencies = (
-				F25ED5A02C34621E00AE5484 /* FirebaseFirestore */,
-				F24449782C3599FF0054F265 /* GoogleSignIn */,
-				F22154FE2C36C34300600C48 /* KakaoSDKUser */,
-				F22155002C36C34D00600C48 /* KakaoSDKAuth */,
-				F22155022C36C35300600C48 /* GoogleSignInSwift */,
 				F20EF7512C3714D500664611 /* AuthClientLive */,
-				F20EF7532C3714DE00664611 /* LoginFeature */,
-				F20EF7562C37155000664611 /* ComposableArchitecture */,
+				F2ED66082C634FBF00E6439E /* MarketClientLive */,
+				F2ED660A2C634FBF00E6439E /* MyReviewClientLive */,
+				F2ED660C2C634FBF00E6439E /* NoteClientLive */,
+				F2ED660E2C634FBF00E6439E /* ReviewClientLive */,
+				F2ED66102C634FBF00E6439E /* URLClientLive */,
+				F2ED66122C634FCA00E6439E /* CoreApp */,
 			);
 			productName = Memorizing;
 			productReference = F27B67FD2C32FCA10070C49B /* Memorizing.app */;
@@ -1231,40 +1228,6 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = AuthClientLive;
 		};
-		F20EF7532C3714DE00664611 /* LoginFeature */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = LoginFeature;
-		};
-		F20EF7562C37155000664611 /* ComposableArchitecture */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = F20EF7552C37155000664611 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
-			productName = ComposableArchitecture;
-		};
-		F22154FE2C36C34300600C48 /* KakaoSDKUser */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = F22154F12C36C2A000600C48 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
-			productName = KakaoSDKUser;
-		};
-		F22155002C36C34D00600C48 /* KakaoSDKAuth */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = F22154F12C36C2A000600C48 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
-			productName = KakaoSDKAuth;
-		};
-		F22155022C36C35300600C48 /* GoogleSignInSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = F24449772C3599FF0054F265 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
-			productName = GoogleSignInSwift;
-		};
-		F24449782C3599FF0054F265 /* GoogleSignIn */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = F24449772C3599FF0054F265 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
-			productName = GoogleSignIn;
-		};
-		F25ED5A02C34621E00AE5484 /* FirebaseFirestore */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = F2FC9D9D2C33C4FD007D335D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseFirestore;
-		};
 		F2809E512C61282E00F3369A /* ProfileFeature */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = ProfileFeature;
@@ -1274,6 +1237,30 @@
 			productName = MyNoteFeature;
 		};
 		F2ED66062C63112900E6439E /* CoreApp */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = CoreApp;
+		};
+		F2ED66082C634FBF00E6439E /* MarketClientLive */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MarketClientLive;
+		};
+		F2ED660A2C634FBF00E6439E /* MyReviewClientLive */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MyReviewClientLive;
+		};
+		F2ED660C2C634FBF00E6439E /* NoteClientLive */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = NoteClientLive;
+		};
+		F2ED660E2C634FBF00E6439E /* ReviewClientLive */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ReviewClientLive;
+		};
+		F2ED66102C634FBF00E6439E /* URLClientLive */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = URLClientLive;
+		};
+		F2ED66122C634FCA00E6439E /* CoreApp */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = CoreApp;
 		};
