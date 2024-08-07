@@ -3,12 +3,13 @@
 
 import PackageDescription
 
-// MARK: - Target Names**
+// MARK: - Target Names
 let AddMarketFeature = "AddMarketFeature"
 let AddNoteFeature = "AddNoteFeature"
 let AuthClient = "AuthClient"
 let AuthClientLive = "AuthClientLive"
 let CommonUI = "CommonUI"
+let CoreApp = "CoreApp"
 let EditProfileFeature = "EditProfileFeature"
 let LoginFeature = "LoginFeature"
 let MarketClient = "MarketClient"
@@ -33,12 +34,13 @@ let URLClientLive = "URLClientLive"
 let Utilities = "Utilities"
 let WriteReviewFeature = "WriteReviewFeature"
 
-// MARK: - Target Dependencies**
+// MARK: - Target Dependencies
 let AddMarketFeatureTarget: Target.Dependency = .target(name: AddMarketFeature)
 let AddNoteFeatureTarget: Target.Dependency = .target(name: AddNoteFeature)
 let AuthClientLiveTarget: Target.Dependency = .target(name: AuthClientLive)
 let AuthClientTarget: Target.Dependency = .target(name: AuthClient)
 let CommonUITarget: Target.Dependency = .target(name: CommonUI)
+let CoreAppTarget: Target.Dependency = .target(name: CoreApp)
 let EditProfileFeatureTarget: Target.Dependency = .target(name: EditProfileFeature)
 let LoginFeatureTarget: Target.Dependency = .target(name: LoginFeature)
 let MarketClientLiveTarget: Target.Dependency = .target(name: MarketClientLive)
@@ -96,6 +98,7 @@ let package = Package(
         .library(name: AuthClient, targets: [AuthClient]),
         .library(name: AuthClientLive, targets: [AuthClientLive]),
         .library(name: CommonUI, targets: [CommonUI]),
+        .library(name: CoreApp, targets: [CoreApp]),
         .library(name: EditProfileFeature, targets: [EditProfileFeature]),
         .library(name: LoginFeature, targets: [LoginFeature]),
         .library(name: Models, targets: [Models]),
@@ -176,6 +179,15 @@ let package = Package(
                 ModelsTarget,
                 ComposableArchitectureProduct,
                 PopupViewProduct,
+            ]
+        ),
+        .target(
+            name: CoreApp,
+            dependencies: [
+                LoginFeatureTarget,
+                MyNoteFeatureTarget,
+                MarketFeatureTarget,
+                ProfileFeatureTarget,
             ]
         ),
         .target(
