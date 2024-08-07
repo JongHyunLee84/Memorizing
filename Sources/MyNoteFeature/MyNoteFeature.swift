@@ -196,6 +196,8 @@ public struct MyNoteFeature {
     }
 }
 
+// MARK: - View
+
 @ViewAction(for: MyNoteFeature.self)
 public struct MyNoteView: View {
     @Bindable public var store: StoreOf<MyNoteFeature>

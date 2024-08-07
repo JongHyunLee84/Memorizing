@@ -191,6 +191,8 @@ extension AlertState where Action == MarketFeature.Destination.Alert {
     )
 }
 
+// MARK: - View
+
 @ViewAction(for: MarketFeature.self)
 public struct MarketView: View {
     @Bindable public var store: StoreOf<MarketFeature>
