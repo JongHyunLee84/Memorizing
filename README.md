@@ -28,7 +28,7 @@
 > 5. Swift Concurrency : Swift 가장 최신의 비동기 및 병렬 코드 사용
 
 ## Dependency Graph
-> 해당 프로젝트는 Test App과 Live App을 독립적으로 분리하고 각각에 맞는 Dependency 구조를 설계하여 개발 시 더 효울적인 구조를 유지합니다. [Full Package Dependency](https://github.com/JongHyunLee84/Memorizing/blob/main/Package.swift)
+> 해당 프로젝트는 Test App과 Core App을 독립적으로 분리하고 각각에 맞는 Dependency 구조를 설계하여 개발 시 더 효울적인 구조를 유지합니다. [Full Package Dependency](https://github.com/JongHyunLee84/Memorizing/blob/main/Package.swift)
 
 - `Dependency Example`
 ```mermaid
