@@ -18,7 +18,7 @@
 
 
 ## Description
-> 해당 레포지토리는 [TCA(The Composable Architecture)](https://github.com/pointfreeco/swift-composable-architecture) 그리고 SwiftUI를 기반으로 한 암기장 앱에 대한 전체 소스코드를 포함하고 있습니다.
+> 해당 레포지토리는 [TCA(The Composable Architecture)](https://github.com/pointfreeco/swift-composable-architecture) 그리고 SwiftUI를 기반으로 개발된 암기장 앱 '메모라이징'에 대한 전체 소스코드를 포함하고 있습니다.
 
 #### Main Goals
 > 1. Unidirectial Data Flow : 단방향 상태관리로 유지보수가 편리한 구조
